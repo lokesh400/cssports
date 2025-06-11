@@ -23,18 +23,14 @@
                 <label class="font-semibold block mb-1">Categories</label>
                 <select id="categorySelect" class="border p-2 rounded w-full md:w-auto">
                     <option value="">All Categories</option>
-                    <% categories.forEach(cat => { %>
-                        <option value="<%= cat %>"><%= cat %></option>
-                    <% }); %>
+                    
                 </select>
             </div>
             <div class="w-full md:w-auto">
                 <label class="font-semibold block mb-1">Made For</label>
                 <select id="madeForSelect" class="border p-2 rounded w-full md:w-auto">
                     <option value="">All</option>
-                    <% madeForValues.forEach(made => { %>
-                        <option value="<%= made %>"><%= made %></option>
-                    <% }); %>
+                   
                 </select>
             </div>
             <div class="w-full md:w-auto">
@@ -54,16 +50,15 @@
             <% products.forEach(product => { %>
                 <div class="product-card bg-white p-4 rounded-lg shadow-md relative" 
                      data-category="<%= product.category %>" 
-                     data-madefor="<%= product.madeFor %>" 
                      data-price="<%= product.price %>" 
                      data-date="<%= product.createdAt.getTime() %>">
                     <span class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs rounded">50% OFF</span>
-                    <a href="/this/product/<%= product._id %>" >
-                        <img src="<%= product.coverPhoto || 'https://via.placeholder.com/150' %>" class="w-full h-90 object-cover rounded-lg">
+                    <a href="/show/this/product/<%= product._id %>" >
+                        <img src="<%= product.images[0] || 'https://via.placeholder.com/150' %>" class="w-full h-90 object-cover rounded-lg">
                     </a>
                     
                     <h3 class="text-lg font-semibold mt-2"><%= product.name %></h3>
-                    <p class="text-gray-600">₹<%= product.price %></p>
+                    <p class="text-gray-600">₹<%= product.sizes[0].price %></p>
                 </div>
             <% }); %>
         </div>

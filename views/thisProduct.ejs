@@ -1,412 +1,1095 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="icon" type="image/png" href="/images/logo.png">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= product.name %></title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
-    <script
-        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <title>Premium Omega-3 Fish Oil - VitaBoost Supplements</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="medium"></script>
     <script>
-        let currentImageIndex = 0;
-        const images = ['#id-44', '#id-46', '#id-48', '#id-50'];
-        function previousImage() {
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            updateMainImage();
-        }
-        function nextImage() {
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            updateMainImage();
-        }
-        function updateMainImage() {
-            const mainImg = document.querySelector('#id-41');
-            const thumbnailImg = document.querySelector(images[currentImageIndex]);
-            mainImg.src = thumbnailImg.src;
-        }
-        document.querySelectorAll('#id-42 button').forEach((btn, index) => {
-            btn.onclick = () => {
-                currentImageIndex = index; updateMainImage();
-
-            };
-        });
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#4f46e5", secondary: "#10b981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
     <style>
-        /* Custom Scrollbar */
-        .overflow-x-auto::-webkit-scrollbar {
-            height: 8px;
-            /* Thin scrollbar */
-        }
-
-        .overflow-x-auto::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            /* Light grey background */
-            border-radius: 10px;
-        }
-
-        .overflow-x-auto::-webkit-scrollbar-thumb {
-            background: #888;
-            /* Darker grey scrollbar */
-            border-radius: 10px;
-        }
-
-        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-            background: #555;
-            /* Even darker on hover */
-        }
-
-        /* Hide scrollbar but keep functionality */
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .toast {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            position: relative;
-            transform: translateX(150%);
-            /* Change from -150% to 150% */
-            opacity: 0;
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-        }
-
-        /* Slide In */
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        /* Slide Out */
-        .toast.hide {
-            transform: translateX(150%);
-            /* Change from -150% to 150% */
-            opacity: 0;
-            transition: transform 0.5s ease-in, opacity 0.5s ease-in;
-        }
-
-        /* Loader Bar (Inside Toast) */
-        .toast .loader {
-            height: 4px;
-            width: 100%;
-            background-color: white;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            animation: load 3s linear forwards;
-        }
-
-        /* Loader Animation */
-        @keyframes load {
-            from {
-                width: 100%;
-            }
-
-            to {
-                width: 0%;
-            }
-        }
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Inter', sans-serif;
+      }
+      .toast {
+      visibility: hidden;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s ease;
+      }
+      .toast.show {
+      visibility: visible;
+      opacity: 1;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      input[type="number"] {
+      -moz-appearance: textfield;
+      }
+      .size-option:hover {
+      border-color: #4f46e5;
+      }
+      .size-option.selected {
+      border-color: #4f46e5;
+      background-color: rgba(79, 70, 229, 0.05);
+      }
+      .gallery-thumbnail {
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+      }
+      .gallery-thumbnail.active {
+      opacity: 1;
+      border: 2px solid #4f46e5;
+      }
+      .product-description h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      font-size: 1.125rem;
+      }
+      .product-description ul {
+      list-style-type: disc;
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+      }
+      .product-description p {
+      margin-bottom: 1rem;
+      }
     </style>
-    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
-        data-border-radius="medium"></script>
-</head>
+  </head>
+  <body class="bg-gray-50">
+   
+    <%- include('./components/navbar.ejs') %>
 
-<body class="bg-gray-50">
-    <div id="toast-container"></div>
-
-    <header class="fixed top-0 left-0 w-full z-50">
-        <%- include('components/navbar.ejs') %>
-    </header>
-
-    <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style="margin-top: 50px;">
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div class="space-y-4">
-                <div class="aspect-w-4 aspect-h-3 bg-gray-100 rounded-lg overflow-hidden relative">
-                    <img src="<%= product.coverPhoto %>" alt="Premium Leather Jacket" class="object-cover" />
-                </div>
-                <div class="grid grid-cols-4 gap-4">
-
-                    <%for(let i=0 ; i< product.images.length; i++ ){%>
-                        <button
-                            class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-custom focus:outline-none">
-                            <img src="<%= product.images[i] %>" alt="Detail 1" class="object-cover" />
-                        </button>
-                        <%}%>
-
-                </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Product Image Gallery Section -->
+        <div class="lg:w-1/2">
+          <div class="relative bg-white rounded-lg shadow-sm overflow-hidden">
+            <div id="main-image-container" class="h-[450px] relative">
+              <img
+                id="main-product-image"
+                src="<%= product.images[0] %>"
+                alt="Premium Omega-3 Fish Oil"
+                class="w-full h-full object-cover object-top"
+              />
+              <div
+                class="absolute bottom-4 right-4 bg-white bg-opacity-75 px-3 py-1 rounded-full text-sm text-gray-700"
+              >
+                <span id="current-image">1</span>/<span id="total-images"
+                  >5</span
+                >
+              </div>
             </div>
-            <div class="space-y-6">
-                <div>
-                    <h1 class="text-3xl font-bold text-custom">
-                        <%= product.name %>
-                    </h1>
-                    <div class="mt-4 flex items-center">
-                        <div class="flex text-yellow-400">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="ml-2 text-sm text-gray-500">(128 reviews)</span>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <p class="text-2xl font-bold text-custom">
-                        <%= product.price %>
-                    </p>
-                    <p class="text-sm text-gray-500">Free shipping on orders over Rs 1000/-</p>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Size</label>
-                        <div class="mt-2 grid grid-cols-4 gap-2">
-
-                            <% for(let i=0; i < product.sizes.length; i++) { %>
-                                <button
-                                    class="!rounded-button py-2 px-4 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 size-button"
-                                    data-size="<%= product.sizes[i] %>">
-                                    <%= product.sizes[i] %>
-                                </button>
-                                <% } %>
-                                    <!-- hidden input -->
-                                    <input type="hidden" id="selectedSizeInput" name="selectedSize">
-
-                        </div>
-                    </div>
-                    <button
-                        class="!rounded-button w-full bg-custom text-white py-3 px-4 font-medium hover:bg-opacity-90"
-                        onclick="addToCart('<%= product._id %>')">
-                        Add to Cart
-                    </button>
-                    <div class="flex space-x-4">
-                        <button
-                            class="!rounded-button flex-1 border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            <i class="fas fa-heart mr-2"></i>
-                            Save
-                        </button>
-                        <button
-                            class="!rounded-button flex-1 border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                            onclick="shareProduct()">
-                            <i class="fas fa-share-alt mr-2"></i>
-                            Share
-                        </button>
-                    </div>
-                </div>
-                <div class="prose prose-sm max-w-none">
-                    <h3 class="text-lg font-medium text-custom">Product Description</h3>
-                    <p>
-                        <%= product.description %>
-                    </p>
-
-                    <h4 class="text-base font-medium text-custom mt-4">Key Features</h4>
-                    <ul>
-                        <li>100% genuine Product</li>
-                        <li>Original KeshVibe Product</li>
-                        <li>High Quality Fabric</li>
-                        <li>High detailed designs</li>
-                        <li>Premium colors</li>
-                    </ul>
-                    <h4 class="text-base font-medium text-custom mt-4">Care Instructions</h4>
-                    <ul>
-                        <li>Do not wash with other clothes.</li>
-                        <li>Store in a cool, dry place</li>
-                        <li>Use good quality of detergent.</li>
-                    </ul>
-                </div>
+            <div class="absolute top-1/2 left-4 transform -translate-y-1/2">
+              <button
+                id="prev-image"
+                class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap"
+              >
+                <i class="ri-arrow-left-s-line ri-lg"></i>
+              </button>
             </div>
+            <div class="absolute top-1/2 right-4 transform -translate-y-1/2">
+              <button
+                id="next-image"
+                class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap"
+              >
+                <i class="ri-arrow-right-s-line ri-lg"></i>
+              </button>
+            </div>
+          </div>
+          <div class="mt-4 flex space-x-2 overflow-x-auto pb-2">
+           
+            <% for(let i =0 ; i< product.images.length; i++) {%>
+                 <div
+              class="gallery-thumbnail active h-20 w-20 flex-shrink-0 cursor-pointer rounded-md overflow-hidden"
+            >
+              <img
+                src="<%= product.images[i] %>"
+                alt="Product thumbnail 1"
+                class="h-full w-full object-cover object-top"
+                data-index="1"
+              />
+            </div>
+            <%}%>
+
+          </div>
+        </div>
+        <!-- Product Information Section -->
+        <div class="lg:w-1/2">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="flex items-center">
+                <span class="text-sm text-gray-500">By</span>
+                <h6 href="#" class="ml-1 text-sm font-medium text-primary"
+                  ><%= product.brand %></h6
+                >
+              </div>
+              <h1 class="text-3xl font-bold text-gray-900 mt-1">
+                <%= product.name %>
+              </h1>
+            </div>
+            <button
+              class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-primary !rounded-button whitespace-nowrap"
+            >
+              <i class="ri-share-line ri-lg"></i>
+            </button>
+          </div>
+          <div class="flex items-center mt-3">
+            <div class="flex">
+              <i class="ri-star-fill ri-sm text-yellow-400"></i>
+              <i class="ri-star-fill ri-sm text-yellow-400"></i>
+              <i class="ri-star-fill ri-sm text-yellow-400"></i>
+              <i class="ri-star-fill ri-sm text-yellow-400"></i>
+              <i class="ri-star-half-fill ri-sm text-yellow-400"></i>
+            </div>
+            <span class="ml-2 text-sm text-gray-600">4.7 (386 reviews)</span>
+          </div>
+          <div class="mt-6">
+            <h2 class="text-lg font-semibold text-gray-900">Select Size</h2>
+            <p class="text-sm text-gray-500 mt-1">
+              Choose your preferred bottle size
+            </p>
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <% for(let i=0 ; i<product.sizes.length; i++) {%>
+                    <div
+                class="size-option border rounded-lg p-4 cursor-pointer"
+                data-size="6<%= product.sizes[i].size %>"
+                data-price="<%= product.sizes[i].price %>"
+                data-stock="in-stock"
+              >
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-semibold text-gray-900"><%= product.sizes[i].size %></h3>
+                  </div>
+                  <div
+                    class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full"
+                  >
+                    In Stock
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <span class="text-xl font-bold text-gray-900">Rs-<%= product.sizes[i].price%></span>
+                </div>
+              </div>
+                <%}%>    
+            </div>
+          </div>
+
+          <div class="mt-8 bg-white rounded-lg p-6 shadow-sm">
+            <h2 class="text-lg font-semibold text-gray-900">Quick Purchase</h2>
+            <div class="mt-4 flex items-center">
+              <div class="mr-4">
+                <label
+                  for="quantity"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Quantity</label
+                >
+                <div class="flex items-center border rounded-lg">
+                  <button
+                    id="decrease-quantity"
+                    class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-primary !rounded-button whitespace-nowrap"
+                  >
+                    <i class="ri-subtract-line"></i>
+                  </button>
+                  <input
+                    type="number"
+                    id="quantity"
+                    class="w-12 text-center border-none focus:ring-0 text-gray-900"
+                    value="1"
+                    min="1"
+                  />
+                  <button
+                    id="increase-quantity"
+                    class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-primary !rounded-button whitespace-nowrap"
+                  >
+                    <i class="ri-add-line"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="flex-1">
+                <button
+                  id="add-to-cart-main"
+                  class="w-full bg-primary text-white py-3 rounded-button font-medium hover:bg-primary/90 whitespace-nowrap"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center justify-between text-sm">
+              <div class="flex items-center text-gray-500">
+                <i class="ri-truck-line ri-lg mr-2"></i>
+                <span>Free shipping on orders over $50</span>
+              </div>
+              <div class="flex items-center text-gray-500">
+                <i class="ri-shield-check-line ri-lg mr-2"></i>
+                <span>30-day money back guarantee</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
+              <i class="ri-leaf-line ri-sm mr-1 text-green-600"></i>
+              <span class="text-xs text-gray-700">Natural</span>
+            </div>
+            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
+              <i class="ri-test-tube-line ri-sm mr-1 text-blue-600"></i>
+              <span class="text-xs text-gray-700">Lab Tested</span>
+            </div>
+            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
+              <i class="ri-heart-line ri-sm mr-1 text-red-600"></i>
+              <span class="text-xs text-gray-700">Heart Health</span>
+            </div>
+            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
+              <i class="ri-brain-line ri-sm mr-1 text-purple-600"></i>
+              <span class="text-xs text-gray-700">Brain Function</span>
+            </div>
+            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
+              <i class="ri-medicine-bottle-line ri-sm mr-1 text-yellow-600"></i>
+              <span class="text-xs text-gray-700">Non-GMO</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Product Details Section -->
+      <div class="mt-12">
+        <div class="border-b border-gray-200">
+          <div class="flex overflow-x-auto">
+            <button
+              class="tab-button py-4 px-6 border-b-2 border-primary text-primary font-medium whitespace-nowrap"
+              data-tab="description"
+            >
+              Description
+            </button>
+            <button
+              class="tab-button py-4 px-6 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap"
+              data-tab="reviews"
+            >
+              Reviews
+            </button>
+          </div>
         </div>
 
-        <section class="mt-16">
-            <h2 class="text-2xl font-bold text-custom mb-8">Customer Reviews</h2>
-            <div class="overflow-x-auto">
-                <div class="flex space-x-6 w-max p-4">
-                    <% if (reviews.length> 0) { %>
-                        <% reviews.forEach(review=> { %>
-                            <div class="w-80 md:w-96 shrink-0 bg-white p-6 rounded-lg shadow-sm">
-                                <div class="flex items-center mb-4">
-                                    <div class="ml-4">
-                                        <h4 class="font-medium text-custom">
-                                            <%= review.user.name %>
-                                        </h4>
-                                        <div class="flex text-yellow-400 text-sm">
-                                            <% for(let i=0; i < review.rating; i++) { %>
-                                                <i class="fas fa-star"></i>
-                                                <% } %>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="text-gray-600">
-                                    <%= review.comment %>
-                                </p>
-                                <p class="text-sm text-gray-500">
-                                    <%= new Date(review.createdAt).toLocaleString() %>
-                                </p>
-                            </div>
-                            <% }) %>
-                                <% } else { %>
-                                    <div style="display: block;" >
-                                        <div>
-                                            <p class="text-gray-600">No reviews yet. Be the first to review this product!</p>
-                                        </div>
-                                        <br>
-                                        <div>
-                                            <a href="add/review/<%= product._id %>">
-                                                <button
-                                                    class="!rounded-button bg-custom text-white py-3 px-4 font-medium hover:bg-opacity-90">
-                                                    Add Review
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                <% } %>
+        <div class="mt-8">
+          <div id="description-tab" class="tab-content product-description">
+            <p class="text-gray-700">
+             <%= product.description %>
+            </p>
+          </div>
+
+          <div id="reviews-tab" class="tab-content hidden">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-lg font-semibold text-gray-900">
+                Customer Reviews (386)
+              </h3>
+              <button
+                class="bg-primary text-white px-4 py-2 rounded-button text-sm font-medium hover:bg-primary/90 whitespace-nowrap"
+              >
+                Write a Review
+              </button>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 mb-8">
+              <div class="md:w-1/3 bg-white rounded-lg shadow-sm p-6">
+                <div class="text-center">
+                  <div class="text-5xl font-bold text-gray-900">4.7</div>
+                  <div class="flex justify-center mt-2">
+                    <i class="ri-star-fill ri-lg text-yellow-400"></i>
+                    <i class="ri-star-fill ri-lg text-yellow-400"></i>
+                    <i class="ri-star-fill ri-lg text-yellow-400"></i>
+                    <i class="ri-star-fill ri-lg text-yellow-400"></i>
+                    <i class="ri-star-half-fill ri-lg text-yellow-400"></i>
+                  </div>
+                  <p class="text-sm text-gray-500 mt-2">Based on 386 reviews</p>
                 </div>
-            </div>
-
-        </section>
-
-        <section class="mt-16">
-            <h2 class="text-2xl font-bold text-custom mb-4">You May Also Like</h2>
-
-            <!-- Scrollable Container -->
-            <div class="flex space-x-6 overflow-x-auto scrollbar-hide md:grid md:grid-cols-4 md:gap-6">
-                <% if (relatedProducts.length> 0) { %>
-                    <% relatedProducts.forEach(product=> { %>
-                        <div class="min-w-[250px] sm:min-w-[300px] md:min-w-0 bg-white p-4 rounded-lg shadow-sm">
-                            <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden">
-                                <a href="/this/product/<%= product._id %>">
-                                    <img src="<%= product.coverPhoto %>" alt="<%= product.name %>"
-                                        class="object-cover w-full h-full group-hover:opacity-75" />
-                                </a>
-                            </div>
-                            <h3 class="mt-4 text-sm text-custom">
-                                <%= product.name %>
-                            </h3>
-                            <p class="mt-1 text-lg font-medium text-custom">$<%= product.price %>
-                            </p>
+                <div class="mt-6 space-y-3">
+                  <div class="flex items-center">
+                    <div class="w-24 text-sm text-gray-600">5 stars</div>
+                    <div
+                      class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-yellow-400 h-full rounded-full"
+                        style="width: 78%"
+                      ></div>
+                    </div>
+                    <div class="w-12 text-right text-sm text-gray-600">78%</div>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="w-24 text-sm text-gray-600">4 stars</div>
+                    <div
+                      class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-yellow-400 h-full rounded-full"
+                        style="width: 15%"
+                      ></div>
+                    </div>
+                    <div class="w-12 text-right text-sm text-gray-600">15%</div>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="w-24 text-sm text-gray-600">3 stars</div>
+                    <div
+                      class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-yellow-400 h-full rounded-full"
+                        style="width: 5%"
+                      ></div>
+                    </div>
+                    <div class="w-12 text-right text-sm text-gray-600">5%</div>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="w-24 text-sm text-gray-600">2 stars</div>
+                    <div
+                      class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-yellow-400 h-full rounded-full"
+                        style="width: 1%"
+                      ></div>
+                    </div>
+                    <div class="w-12 text-right text-sm text-gray-600">1%</div>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="w-24 text-sm text-gray-600">1 star</div>
+                    <div
+                      class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden"
+                    >
+                      <div
+                        class="bg-yellow-400 h-full rounded-full"
+                        style="width: 1%"
+                      ></div>
+                    </div>
+                    <div class="w-12 text-right text-sm text-gray-600">1%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="md:w-2/3">
+                <div class="space-y-6">
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <div class="flex items-center">
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
                         </div>
-                        <% }) %>
-                            <% } else { %>
-                                <p class="text-gray-600">No related products found.</p>
-                            <% } %>
+                        <h4 class="font-medium text-gray-900 mt-2">
+                          Noticeable improvement in joint pain
+                        </h4>
+                      </div>
+                      <span class="text-sm text-gray-500">June 2, 2025</span>
+                    </div>
+                    <p class="text-gray-700 mt-3">
+                      I've been taking this omega-3 supplement for about 3
+                      months now, and I've noticed a significant reduction in my
+                      knee pain. As someone who enjoys hiking on weekends, this
+                      has been a game-changer for me. The capsules are easy to
+                      swallow and don't have that fishy aftertaste that many
+                      other brands do. Highly recommend!
+                    </p>
+                    <div class="mt-4 flex items-center">
+                      <span class="text-sm font-medium text-gray-900"
+                        >Rebecca Thompson</span
+                      >
+                      <span class="mx-2 text-gray-300">|</span>
+                      <span class="text-sm text-gray-500"
+                        >Verified Purchaser</span
+                      >
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <div class="flex items-center">
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-gray-300"></i>
+                        </div>
+                        <h4 class="font-medium text-gray-900 mt-2">
+                          Good quality, but pricey
+                        </h4>
+                      </div>
+                      <span class="text-sm text-gray-500">May 28, 2025</span>
+                    </div>
+                    <p class="text-gray-700 mt-3">
+                      The quality of this fish oil is excellent - no fishy burps
+                      and my cholesterol numbers have improved since I started
+                      taking it. My only complaint is the price point is a bit
+                      high compared to other brands. I do appreciate the purity
+                      testing and transparency about sourcing, which somewhat
+                      justifies the cost. I'll continue using it but will watch
+                      for sales.
+                    </p>
+                    <div class="mt-4 flex items-center">
+                      <span class="text-sm font-medium text-gray-900"
+                        >Michael Rodriguez</span
+                      >
+                      <span class="mx-2 text-gray-300">|</span>
+                      <span class="text-sm text-gray-500"
+                        >Verified Purchaser</span
+                      >
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <div class="flex items-center">
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                          <i class="ri-star-fill text-yellow-400"></i>
+                        </div>
+                        <h4 class="font-medium text-gray-900 mt-2">
+                          Best fish oil I've tried
+                        </h4>
+                      </div>
+                      <span class="text-sm text-gray-500">May 15, 2025</span>
+                    </div>
+                    <p class="text-gray-700 mt-3">
+                      After trying several different omega-3 supplements over
+                      the years, this is by far the best. My doctor recommended
+                      increasing my omega-3 intake for heart health, and after 6
+                      months of taking this product, my triglyceride levels have
+                      decreased significantly. The lemon flavor helps prevent
+                      any fishy aftertaste, and I appreciate that they're
+                      sustainably sourced. Will definitely continue purchasing.
+                    </p>
+                    <div class="mt-4 flex items-center">
+                      <span class="text-sm font-medium text-gray-900"
+                        >Jennifer Wilson</span
+                      >
+                      <span class="mx-2 text-gray-300">|</span>
+                      <span class="text-sm text-gray-500"
+                        >Verified Purchaser</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-6 text-center">
+                  <button
+                    class="text-primary font-medium hover:text-primary/80 whitespace-nowrap"
+                  >
+                    Load More Reviews
+                  </button>
+                </div>
+              </div>
             </div>
-        </section>
-
-
+          </div>
+        </div>
+      </div>
+      <!-- Trust Badges Section -->
+      <div class="mt-16 bg-white rounded-lg shadow-sm p-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="flex flex-col items-center text-center">
+            <div
+              class="w-12 h-12 flex items-center justify-center text-primary mb-3"
+            >
+              <i class="ri-truck-line ri-2x"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900">Free Shipping</h3>
+            <p class="text-sm text-gray-500 mt-1">On orders over $50</p>
+          </div>
+          <div class="flex flex-col items-center text-center">
+            <div
+              class="w-12 h-12 flex items-center justify-center text-primary mb-3"
+            >
+              <i class="ri-shield-check-line ri-2x"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900">Money-Back Guarantee</h3>
+            <p class="text-sm text-gray-500 mt-1">
+              30-day satisfaction guarantee
+            </p>
+          </div>
+          <div class="flex flex-col items-center text-center">
+            <div
+              class="w-12 h-12 flex items-center justify-center text-primary mb-3"
+            >
+              <i class="ri-secure-payment-line ri-2x"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900">Secure Payment</h3>
+            <p class="text-sm text-gray-500 mt-1">Your data is protected</p>
+          </div>
+          <div class="flex flex-col items-center text-center">
+            <div
+              class="w-12 h-12 flex items-center justify-center text-primary mb-3"
+            >
+              <i class="ri-customer-service-2-line ri-2x"></i>
+            </div>
+            <h3 class="font-semibold text-gray-900">24/7 Support</h3>
+            <p class="text-sm text-gray-500 mt-1">Call or email us anytime</p>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <div class="flex flex-wrap justify-center gap-6">
+            <div
+              class="w-12 h-8 flex items-center justify-center text-gray-400"
+            >
+              <i class="ri-visa-fill ri-2x"></i>
+            </div>
+            <div
+              class="w-12 h-8 flex items-center justify-center text-gray-400"
+            >
+              <i class="ri-mastercard-fill ri-2x"></i>
+            </div>
+            <div
+              class="w-12 h-8 flex items-center justify-center text-gray-400"
+            >
+              <i class="ri-paypal-fill ri-2x"></i>
+            </div>
+            <div
+              class="w-12 h-8 flex items-center justify-center text-gray-400"
+            >
+              <i class="ri-apple-fill ri-2x"></i>
+            </div>
+            <div
+              class="w-12 h-8 flex items-center justify-center text-gray-400"
+            >
+              <i class="ri-amazon-fill ri-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Related Products Section -->
+      <div class="mt-16">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">You May Also Like</h2>
+        <div class="relative">
+          <div class="flex overflow-x-auto pb-4 space-x-4 scrollbar-hide">
+            <div class="flex-shrink-0 w-64">
+              <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="h-48 relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20vitamin%20D3%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20orange%20label%20design.%20The%20image%20shows%20the%20bottle%20at%20an%20angle%20with%20some%20capsules%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=6&orientation=landscape"
+                    alt="Vitamin D3 Supplement"
+                    class="w-full h-full object-cover object-top"
+                  />
+                  <div
+                    class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full"
+                  >
+                    Bestseller
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gray-900">Vitamin D3 5000 IU</h3>
+                  <div class="flex items-center mt-1">
+                    <div class="flex">
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                    </div>
+                    <span class="ml-1 text-xs text-gray-500">(245)</span>
+                  </div>
+                  <div class="mt-2 flex justify-between items-center">
+                    <span class="font-bold text-gray-900">$19.99</span>
+                    <button
+                      class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap"
+                    >
+                      <i class="ri-shopping-cart-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0 w-64">
+              <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="h-48 relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20magnesium%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20purple%20label%20design.%20The%20image%20shows%20the%20bottle%20standing%20upright%20with%20some%20tablets%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=7&orientation=landscape"
+                    alt="Magnesium Glycinate"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gray-900">Magnesium Glycinate</h3>
+                  <div class="flex items-center mt-1">
+                    <div class="flex">
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-half-fill ri-xs text-yellow-400"></i>
+                    </div>
+                    <span class="ml-1 text-xs text-gray-500">(187)</span>
+                  </div>
+                  <div class="mt-2 flex justify-between items-center">
+                    <span class="font-bold text-gray-900">$24.99</span>
+                    <button
+                      class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap"
+                    >
+                      <i class="ri-shopping-cart-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0 w-64">
+              <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="h-48 relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20probiotics%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20green%20label%20design.%20The%20image%20shows%20the%20bottle%20at%20an%20angle%20with%20some%20capsules%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=8&orientation=landscape"
+                    alt="Probiotic Complex"
+                    class="w-full h-full object-cover object-top"
+                  />
+                  <div
+                    class="absolute top-2 right-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full"
+                  >
+                    New
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gray-900">Probiotic Complex</h3>
+                  <div class="flex items-center mt-1">
+                    <div class="flex">
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-line ri-xs text-yellow-400"></i>
+                    </div>
+                    <span class="ml-1 text-xs text-gray-500">(98)</span>
+                  </div>
+                  <div class="mt-2 flex justify-between items-center">
+                    <span class="font-bold text-gray-900">$29.99</span>
+                    <button
+                      class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap"
+                    >
+                      <i class="ri-shopping-cart-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0 w-64">
+              <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="h-48 relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20turmeric%20curcumin%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20yellow%2Forange%20label%20design.%20The%20image%20shows%20the%20bottle%20standing%20upright%20with%20some%20capsules%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=9&orientation=landscape"
+                    alt="Turmeric Curcumin"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gray-900">Turmeric Curcumin</h3>
+                  <div class="flex items-center mt-1">
+                    <div class="flex">
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-half-fill ri-xs text-yellow-400"></i>
+                    </div>
+                    <span class="ml-1 text-xs text-gray-500">(156)</span>
+                  </div>
+                  <div class="mt-2 flex justify-between items-center">
+                    <span class="font-bold text-gray-900">$21.99</span>
+                    <button
+                      class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap"
+                    >
+                      <i class="ri-shopping-cart-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-shrink-0 w-64">
+              <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="h-48 relative">
+                  <img
+                    src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20multivitamin%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20multicolored%20label%20design.%20The%20image%20shows%20the%20bottle%20at%20an%20angle%20with%20some%20tablets%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=10&orientation=landscape"
+                    alt="Daily Multivitamin"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gray-900">Daily Multivitamin</h3>
+                  <div class="flex items-center mt-1">
+                    <div class="flex">
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                      <i class="ri-star-fill ri-xs text-yellow-400"></i>
+                    </div>
+                    <span class="ml-1 text-xs text-gray-500">(312)</span>
+                  </div>
+                  <div class="mt-2 flex justify-between items-center">
+                    <span class="font-bold text-gray-900">$26.99</span>
+                    <button
+                      class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap"
+                    >
+                      <i class="ri-shopping-cart-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="absolute top-1/2 -left-4 transform -translate-y-1/2">
+            <button
+              id="prev-product"
+              class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap"
+            >
+              <i class="ri-arrow-left-s-line ri-lg"></i>
+            </button>
+          </div>
+          <div class="absolute top-1/2 -right-4 transform -translate-y-1/2">
+            <button
+              id="next-product"
+              class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap"
+            >
+              <i class="ri-arrow-right-s-line ri-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
-    <script src="/js/security.js" ></script>
-    <script>
+    <footer class="bg-gray-900 text-white mt-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <a href="#" class="text-2xl font-['Pacifico'] text-white">logo</a>
+            <p class="mt-4 text-gray-400">
+              Premium quality supplements for your health and wellness journey.
+            </p>
+            <div class="mt-6 flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white"
+              >
+                <i class="ri-twitter-x-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white"
+              >
+                <i class="ri-pinterest-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Shop</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white"
+                  >All Products</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Omega-3</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Vitamins</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Minerals</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white"
+                  >Probiotics</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white"
+                  >Specialty Supplements</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Company</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">About Us</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Blog</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Careers</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white">Press</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-white"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Subscribe</h3>
+            <p class="text-gray-400 mb-4">
+              Get 10% off your first order and stay updated on new products and
+              special offers.
+            </p>
+            <form class="flex">
+              <input
+                type="email"
+                placeholder="Your email"
+                class="flex-1 px-4 py-2 rounded-l-button focus:outline-none focus:ring-2 focus:ring-primary text-gray-900"
+              />
+              <button
+                type="submit"
+                class="bg-primary text-white px-4 py-2 rounded-r-button hover:bg-primary/90 whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <div
+          class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm">
+            &copy; 2025 VitaBoost Supplements. All rights reserved.
+          </p>
+          <div class="mt-4 md:mt-0 flex flex-wrap gap-4">
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Privacy Policy</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Terms of Service</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Shipping Policy</a
+            >
+            <a href="#" class="text-gray-400 hover:text-white text-sm"
+              >Refund Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div id="toast" class="toast flex items-center">
+      <i class="ri-checkbox-circle-line text-green-500 ri-lg mr-2"></i>
+      <span id="toast-message"></span>
+    </div>
+    <script id="toast-script">
+      function showToast(message, duration = 3000) {
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+        toastMessage.textContent = message;
+        toast.classList.add("show");
 
-        function shareProduct() {
-            const currentURL = window.location.href; // Get the current page link
-            const productTitle = document.title;
-
-            if (navigator.share) {
-                navigator.share({
-                    title: productTitle || "Check out this product!",
-                    url: currentURL
-                }).then(() => console.log("Shared successfully!"))
-                    .catch((error) => {
-                        console.error("Sharing failed:", error);
-                        alert("Sharing is not supported or failed.");
-                    });
-            } else {
-                navigator.clipboard.writeText(currentURL).then(() => {
-                    alert("🔗 Link copied to clipboard!");
-                }).catch(err => {
-                    console.error("Error copying link:", err);
-                    alert("Failed to copy link to clipboard.");
-                });
-            }
-        }
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const sizeButtons = document.querySelectorAll(".size-button");
-            sizeButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    sizeButtons.forEach(btn => btn.classList.remove("bg-black", "text-white"));
-                    this.classList.add("bg-black", "text-white");
-                    document.getElementById("selectedSizeInput").value = this.getAttribute("data-size");
-                });
-            });
-        });
-
-        async function addToCart(productId) {
-            const userId = "<%= currUser._id %>"; // Replace with actual user 
-            const size = document.getElementById("selectedSizeInput").value;
-            try {
-                if (size) {
-                    const response = await fetch("/add-to-cart", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            userId: userId,
-                            productId: productId,
-                            quantity: 1,
-                            size,
-                        })
-                    });
-                    const data = await response.json();
-                    if (response.ok) {
-                        showToast("Item added to cart ✅");
-                    } else {
-                        showToast("Failed to add to cart ❌");
-                        console.error(data.message);
-                    }
-                } else {
-                    showToast("Please select a valid size ❌");
-                }
-
-            } catch (error) {
-                console.error("Error adding to cart:", error);
-                showToast("Something went wrong ❌");
-            }
-        }
-
-        function showToast(message) {
-            // Create Toast Element
-            const toast = document.createElement("div");
-            toast.className = "toast";
-            toast.innerHTML = `
-        <span>${message}</span>
-        <div class="loader"></div>
-    `;
-
-            // Append to Toast Container
-            document.getElementById("toast-container").appendChild(toast);
-
-            // Show Toast (Add .show Class)
-            setTimeout(() => {
-                toast.classList.add("show");
-            }, 100);
-
-            // Hide Toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.add("hide");
-                setTimeout(() => toast.remove(), 500); // Remove from DOM after animation
-            }, 3000);
-        }
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, duration);
+      }
     </script>
-</body>
-
+    <script id="gallery-script">
+      document.addEventListener("DOMContentLoaded", function () {
+        const mainImage = document.getElementById("main-product-image");
+        const currentImageNum = document.getElementById("current-image");
+        const totalImages = document.getElementById("total-images");
+        const thumbnails = document.querySelectorAll(".gallery-thumbnail");
+        const prevButton = document.getElementById("prev-image");
+        const nextButton = document.getElementById("next-image");
+        let currentIndex = 0;
+        const imageCount = thumbnails.length;
+        totalImages.textContent = imageCount;
+        function updateMainImage(index) {
+          thumbnails.forEach((thumb) => thumb.classList.remove("active"));
+          thumbnails[index].classList.add("active");
+          const imgSrc = thumbnails[index].querySelector("img").src;
+          mainImage.src = imgSrc;
+          currentImageNum.textContent = index + 1;
+          currentIndex = index;
+        }
+        thumbnails.forEach((thumbnail, index) => {
+          thumbnail.addEventListener("click", () => {
+            updateMainImage(index);
+          });
+        });
+        prevButton.addEventListener("click", () => {
+          let newIndex = currentIndex - 1;
+          if (newIndex < 0) newIndex = imageCount - 1;
+          updateMainImage(newIndex);
+        });
+        nextButton.addEventListener("click", () => {
+          let newIndex = currentIndex + 1;
+          if (newIndex >= imageCount) newIndex = 0;
+          updateMainImage(newIndex);
+        });
+      });
+    </script>
+    <script id="size-selection-script">
+      document.addEventListener("DOMContentLoaded", function () {
+        const sizeOptions = document.querySelectorAll(".size-option");
+        const addToCartMainButton = document.getElementById("add-to-cart-main");
+        const addToCartButtons = document.querySelectorAll(".size-option button");
+        addToCartButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const sizeOption = button.closest(".size-option");
+            const size = sizeOption.getAttribute("data-size");
+            const price = sizeOption.getAttribute("data-price");
+            showToast(`Added ${size} capsules to cart - $${price}`);
+          });
+        });
+        addToCartMainButton.addEventListener("click", () => {
+          const selectedSize = document.querySelector(".size-option.selected");
+          const size = selectedSize.getAttribute("data-size");
+          const quantity = document.getElementById("quantity").value;
+          const price = (
+            parseFloat(selectedSize.getAttribute("data-price")) * parseInt(quantity)
+          ).toFixed(2);
+          showToast(`Added ${quantity} × ${size} capsules to cart - $${price}`);
+        });
+        sizeOptions.forEach((option) => {
+          option.addEventListener("click", () => {
+            // Remove selected class from all options
+            sizeOptions.forEach((opt) => opt.classList.remove("selected"));
+            // Add selected class to clicked option
+            option.classList.add("selected");
+            // Update main add to cart button price
+            const price = option.getAttribute("data-price");
+            const quantity = document.getElementById("quantity").value;
+            const totalPrice = (parseFloat(price) * parseInt(quantity)).toFixed(2);
+            addToCartMainButton.textContent = `Add to Cart - $${totalPrice}`;
+          });
+        });
+      });
+    </script>
+    <script id="quantity-script">
+      document.addEventListener("DOMContentLoaded", function () {
+        const quantityInput = document.getElementById("quantity");
+        const decreaseButton = document.getElementById("decrease-quantity");
+        const increaseButton = document.getElementById("increase-quantity");
+        const addToCartMainButton = document.getElementById("add-to-cart-main");
+        function updateTotalPrice() {
+          const selectedSize = document.querySelector(".size-option.selected");
+          const price = selectedSize.getAttribute("data-price");
+          const quantity = parseInt(quantityInput.value);
+          const totalPrice = (parseFloat(price) * quantity).toFixed(2);
+          addToCartMainButton.textContent = `Add to Cart - $${totalPrice}`;
+        }
+        decreaseButton.addEventListener("click", () => {
+          const currentValue = parseInt(quantityInput.value);
+          if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+            updateTotalPrice();
+          }
+        });
+        increaseButton.addEventListener("click", () => {
+          const currentValue = parseInt(quantityInput.value);
+          quantityInput.value = currentValue + 1;
+          updateTotalPrice();
+        });
+        quantityInput.addEventListener("change", () => {
+          if (parseInt(quantityInput.value) < 1) {
+            quantityInput.value = 1;
+          }
+          updateTotalPrice();
+        });
+      });
+    </script>
+    <script id="tab-script">
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Remove active class from all buttons
+            tabButtons.forEach((btn) => {
+              btn.classList.remove("border-primary", "text-primary");
+              btn.classList.add("border-transparent", "text-gray-500");
+            });
+            // Add active class to clicked button
+            button.classList.remove("border-transparent", "text-gray-500");
+            button.classList.add("border-primary", "text-primary");
+            // Hide all tab contents
+            tabContents.forEach((content) => {
+              content.classList.add("hidden");
+            });
+            // Show selected tab content
+            const tabId = button.getAttribute("data-tab");
+            document.getElementById(`${tabId}-tab`).classList.remove("hidden");
+          });
+        });
+      });
+    </script>
+    <script id="related-products-script">
+      document.addEventListener("DOMContentLoaded", function () {
+        const productsContainer = document.querySelector(".flex.overflow-x-auto");
+        const prevButton = document.getElementById("prev-product");
+        const nextButton = document.getElementById("next-product");
+        prevButton.addEventListener("click", () => {
+          productsContainer.scrollBy({ left: -280, behavior: "smooth" });
+        });
+        nextButton.addEventListener("click", () => {
+          productsContainer.scrollBy({ left: 280, behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -369,14 +369,13 @@ router.post("/admin/delete/:id",isLoggedIn,isAdmin, async (req, res) => {
 });
 
 // Route to display product form
-router.get("/add/new/product",isLoggedIn,isAdmin, (req, res) => {
+router.get("/add/new/product", (req, res) => {
   res.render("admin/addProduct.ejs"); // Renders views/index.ejs
 });
 
-router.post("/add-product",isLoggedIn,isAdmin, upload.single("file"), async (req, res) => {
+router.post("/add/new/product", upload.single("file"), async (req, res) => {
   try {
-    const { name, price, stock, description, category, sizes, madeFor, keywords } = req.body;
-    const sizesArray = sizes ? sizes.split(",").map((size) => size.trim()) : [];
+    const { name, description, brand, keywords, category, sizes } = req.body;
     const keywordsArray = keywords ? keywords.split(",").map((keyword) => keyword.trim()) : [];
     const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
     const imageUrl = result.secure_url;
@@ -389,18 +388,17 @@ router.post("/add-product",isLoggedIn,isAdmin, upload.single("file"), async (req
     });
     const newProduct = new Product({
       name,
-      price,
-      stock,
       description,
-      category,
-      sizes: sizesArray,
-      madeFor,
+      brand,
       keywords: keywordsArray,
-      coverPhoto: imageUrl,
+      category,
+      images: [imageUrl],
+      sizes: Object.values(sizes)
     });
+    
     await newProduct.save();
     req.flash("succes_msg", "New Product Added Successfully !");
-    res.redirect("/admin");
+    res.redirect("/add/new/product");
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Upload failed: " + error.message });

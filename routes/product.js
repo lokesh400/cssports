@@ -53,68 +53,51 @@ const Upload = {
 };
 
 // // // show all products
-router.get("/all/products",isLoggedIn, async (req, res) => {
+router.get("/all/products", async (req, res) => {
   try {
-    let { sort, category, madeFor } = req.query;
-    let filter = {};
-    if (category) filter.category = category;
-    if (madeFor) filter.madeFor = madeFor;
-
-    let products = await Product.find(filter).sort(
-      sort === "price" ? { price: 1 } : sort === "newest" ? { createdAt: -1 } : {}
-    );
-
-    const categories = await Product.distinct("category");
-    const madeForValues = await Product.distinct("madeFor");
-
-    res.render("allProducts.ejs", { products, categories, madeForValues, sort, category, madeFor });
+    const products = await Product.find();
+    res.render("allProducts.ejs", { products });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// router.get("/products", async (req, res) => {
-//     try {
-//         let { page = 1, limit = 10, sort = "asc", madeFor, category, sortBy } = req.query;
-//         page = parseInt(page);
-//         limit = parseInt(limit);
-//         let filter = {};
-//         if (madeFor) filter.madeFor = madeFor; // Filter by gender
-//         if (category) filter.category = category; // Filter by category (T-shirts, Hoodies, etc.)
-//         let sortOption = {}; // Sorting logic
-//         if (sortBy === "price") {
-//             sortOption.price = sort === "asc" ? 1 : -1;
-//         } else if (sortBy === "newest") {
-//             sortOption.createdAt = -1;
-//         }
-//         // Fetch products
-//         let products = await Product.find(filter)
-//             .sort(sortOption)
-//             .skip((page - 1) * limit)
-//             .limit(limit)
-//             .lean();
-//         // Fetch reviews for popularity sorting
-//         if (sortBy === "popularity") {
-//             const productIds = products.map((product) => product._id);
-//             const reviews = await Review.aggregate([
-//                 { $match: { productId: { $in: productIds } } },
-//                 { $group: { _id: "$productId", avgRating: { $avg: "$rating" } } }
-//             ]);
-//             const reviewMap = {};
-//             reviews.forEach((r) => {
-//                 reviewMap[r._id] = r.avgRating || 0;
-//             });
-//             products.forEach((p) => {
-//                 p.avgRating = reviewMap[p._id] || 0;
-//             });
-//             products.sort((a, b) => b.avgRating - a.avgRating); // Sort by highest rating
-//         }
-//         res.json(products);
-//     } catch (error) {
-//         console.error("Error fetching products:", error);
-//         res.status(500).json({ message: "Failed to load products" });
-//     }
-// });
+router.get('/debug/products', async (req, res) => {
+  const products = await Product.find();
+  console.log(products);
+  res.json(products);
+});
+
+
+router.get('/search/products', async (req, res) => {
+  try {
+    const query = (req.query.query || '').trim();
+
+    if (!query) {
+      return res.status(400).json({ message: 'Query is required.' });
+    }
+
+    const regex = new RegExp(query, 'i'); // case-insensitive
+
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: regex } },
+        { description: { $regex: regex } },
+        { brand: { $regex: regex } },
+        { category: { $regex: regex } },
+        { keywords: { $elemMatch: { $regex: regex } } } // ✅ works with partial matches in arrays
+      ]
+    });
+
+    console.log('Search query:', query);
+    console.log('Matched products:', products.length);
+    res.render('allProducts.ejs', { products });
+  } catch (err) {
+    console.error('Search error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 //to filter categories
 router.get('/api/category/products', isLoggedIn,async (req,res)=>{
@@ -154,55 +137,17 @@ router.get("/search-error",isLoggedIn, (req,res)=>{
   res.render("searchError.ejs");
 })
 
-//by madefor
-router.get("/madefor/category/products",isLoggedIn, async (req, res) => {
-  try {
-    const Query = req.query.query || ""; // Ensure it's at least an empty string
-    const query = Query.toLowerCase(); // Convert to lowercase
-
-      let filter = {};
-      const products = await Product.find({
-        $or: [
-            { name: { $regex: query, $options: "i" } },
-            { madefor: { $regex: query, $options: "i" } },
-        ]
-    });
-      res.render("search", { products });
-  } catch (error) {
-      console.error("Error fetching products:", error);
-      res.status(500).json({ error: "Server error" });
-  }
-});
-
-//sho[ by category 
-router.get('/madefor/category/products/category/:men',isLoggedIn, async (req,res)=>{
-  const products = await Product.find({madeFor:"Men"});
-  res.render("search", { products });
-})
-
-router.get('/madefor/category/products/category/:women',isLoggedIn, async (req,res)=>{
-  const products = await Product.find({madeFor:"women"});
-  res.render("search", { products });
-})
-
-router.get('/madefor/category/products/category/this/:kids',isLoggedIn, async (req,res)=>{
-  res.render("error/comingSoon.ejs")
-})
-
 //all products
 router.get("/product/management",isLoggedIn, async (req, res) => {
   const products = await Product.find();
   res.render("admin/allProducts.ejs", { products });
 });
 
-router.get("/getUniqueMadeFor",isLoggedIn, async (req, res) => {
-    try {
-        const uniqueMadeFor = await Product.distinct("madeFor");
-        res.json(uniqueMadeFor);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching 'Made For' values" });
-    }
-});
+//render particular product
+router.get("/show/this/product/:id", async(req,res)=>{
+  const product = await Product.findById(req.params.id);
+  res.render('thisProduct.ejs',{product});
+})
 
 //related products 
 router.get("/related/:productId",isLoggedIn, async (req, res) => {
