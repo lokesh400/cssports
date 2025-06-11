@@ -1,519 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kesh Vibe</title>
-    <link rel="icon" type="image/png" href="images/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css" rel="stylesheet" />
-    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/toast.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
-    <script
-        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1">
-        </script>
-    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
-        data-border-radius="medium">
-        </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <style>
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        .scroll-container {
-            overflow: hidden;
-            white-space: nowrap;
-            background-color: #E5E2DD; /* Light grey like in reference */
-            transform: rotate(-3deg); /* Slight rotation like in the image */
-        }
-
-        .scroll-text {
-            display: flex;
-            gap: 30px;
-            animation: scroll 10s linear infinite;
-        }
-        /* Hide scrollbar but allow scrolling */
-        .px-4.overflow-x-auto {
-            -ms-overflow-style: none;
-            /* IE & Edge */
-            scrollbar-width: none;
-            /* Firefox */
-            overflow-x: auto;
-        }
-
-        .px-4.overflow-x-auto::-webkit-scrollbar {
-            display: none;
-            /* Chrome, Safari */
-        }
-
-        /* Category Button Styles */
-        .category-btn {
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .category-btn.active {
-            background: black !important;
-            color: white !important;
-        }
-
-        .toast {
-            background-color: #323232;
-            color: white;
-            padding: 12px 18px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .toast.hide {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-
-        /* Loader Animation */
-        .loader {
-            width: 30px;
-            height: 4px;
-            background: white;
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loader::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #4CAF50;
-            animation: loading 3s linear forwards;
-        }
-
-        @keyframes loading {
-            from {
-                width: 100%;
-            }
-
-            to {
-                width: 0%;
-            }
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .animate-spin {
-            animation: spin 1s linear infinite;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitaBoost - Premium Supplements</title>
+<script src="https://cdn.tailwindcss.com/3.4.16">
+</script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: { primary: "#4f46e5", secondary: "#10b981" },
+      borderRadius: {
+        none: "0px",
+        sm: "4px",
+        DEFAULT: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "20px",
+        "2xl": "24px",
+        "3xl": "32px",
+        full: "9999px",
+        button: "8px",
+      },
+    },
+  },
+};
+</script>
+<link rel="stylesheet" href="/styles/index.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
 </head>
+<body class="bg-white">
+<!-- Header -->
 
-<body class="font-[Inter] bg-gray-50">
+<%- include('components/navbar.ejs') %>
 
-    <div id="toast-container" class="fixed top-5 right-5 z-[9999] flex flex-col space-y-2"></div>
+<%- include('components/carousel.ejs') %>
 
-    <header class="sticky top-0 z-50">
-        <%- include('components/navbar.ejs') %>
-    </header>
+<%- include('components/categories.ejs') %>
 
-    <main>
+<%- include('components/featured.ejs') %>
 
-        <section class="relative min-h-screen flex items-center justify-center bg-[#F5F5F5]">
-            <div class="max-w-8xl mx-auto w-full p-6 sm:p-12 relative">
-                <div class="absolute inset-0 bg-black/10 rounded-xl"></div>
-                <div
-                    class="backdrop-blur-3xl relative grid grid-cols-1 md:grid-cols-2 min-h-[60vh] bg-white/10 border border-white/30 shadow-lg rounded-xl overflow-hidden">
-                    <div data-aos="fade-right" data-aos-delay="200" class="flex flex-col justify-center px-4 sm:px-6 lg:px-8 z-10">
-                        <h1 class="text-6xl md:text-7xl font-bold leading-tight tracking-tighter mb-8">
-                            GET<br />YOURSELF<br />INTO THE<br />RIGHT GEAR
-                        </h1>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 text-lg font-medium hover:text-[#C49F6B] transition-colors duration-200 group w-fit">
-                            <span>VIEW SUMMER COLLECTIONS</span>
-                            <i
-                                class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform duration-200"></i>
-                        </a>
-                    </div>
-                        <img data-aos="fade-left" data-aos-delay="200" src="/images/hero-1.jpg" alt="Fashion Model"
-                            class="w-full h-full object-cover object-top" />
-                    </div>
+<%- include('components/whyUs.ejs') %>
 
-                </div>
-            </div>
-        </section>
+<%- include('components/reviews.ejs') %>
 
-        <section class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-bold">Featured Products</h2>
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <select
-                            class="appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-4 pr-8 focus:outline-none focus:ring-2 focus:ring-custom">
-                            <option>Sort by: Featured</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Customer Rating</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-                            <i class="fas fa-chevron-down text-gray-400"></i>
-                        </div>
-                    </div>
-                    <div class="flex space-x-2">
-                        <button class="p-2 text-gray-400 hover:text-custom">
-                            <i class="fas fa-th-large"></i>
-                        </button>
-                        <button class="p-2 text-gray-400 hover:text-custom">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+<%- include('components/newsletter.ejs') %>
 
-            <div class="px-4 overflow-x-auto whitespace-nowrap pb-3">
-                <div class="inline-flex gap-2">
-                    <button class="category-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-sm !rounded-button"
-                        onclick="filterCategory('')">
-                        All
-                    </button>
-                    <% let categories=[...new Set(products.map(p=> p.category))]; %>
-                        <% categories.forEach(category=> { %>
-                            <button class="category-btn px-4 py-1.5 bg-gray-100 text-gray-600 text-sm !rounded-button"
-                                onclick="filterCategory('<%= category %>')">
-                                <%= category %>
-                            </button>
-                            <% }); %>
-                </div>
-            </div>
+<%- include('components/footer.ejs') %>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1" id="product-list">
-                <% products.forEach(product=> { %>
-                    <div class="group product-card">
-                        <div
-                            class="relative overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow">
-                            <div class="relative">
-                                <a href="/this/product/<%= product._id %>">
-                                    <img src="<%= product.coverPhoto %>" class="w-full h-90 object-cover"
-                                        alt="<%= product.name %>" />
-                                </a>
-                                <button class="absolute top-4 right-4 text-gray-400 hover:text-custom">
-                                    <i class="far fa-heart text-xl"></i>
-                                </button>
-                                <div class="absolute top-4 left-4">
-                                    <span class="bg-custom text-white text-xs font-bold px-2 py-1 rounded">SALE</span>
-                                </div>
-                            </div>
-                            <div class="p-4">
-                                <h3 class="font-medium text-gray-900">
-                                    <%= product.name %>
-                                </h3>
-                                <div class="mt-2 flex items-center">
-                                    <span class="text-custom font-medium">₹ <%= product.price %> /-</span>
-                                    <span class="ml-2 text-sm line-through" style="color: red;">₹ <%= 2*product.price %>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <% }) %>
-            </div>
+<button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+<i class="ri-arrow-up-line ri-lg"></i>
+</button>
 
-            <!-- Show More Button -->
-            <a href="/all/products">
-                <div class="text-center mt-6">
-                    <button id="show-more-btn"
-                        class="px-6 py-2 bg-custom text-white text-sm rounded-lg hover:bg-custom/90">
-                        Show More
-                    </button>
-                </div>
-            </a>
-
-        </section>
-
-        <section class="max-w-7xl mx-auto py-10 px-4">
-            <div class="grid grid-cols-1 md:grid-cols-5 lg:gap-10 gap-5">
-
-                <a href="/search/products?query=tshirt">
-                    <div data-aos="fade-up" data-aos-delay="200" class="relative group overflow-hidden">
-                        <img src="/images/tshirts.jpg"
-                             alt="T-Shirts" 
-                             class="w-full h-full object-cover transition duration-500 filter blur-md group-hover:blur-none">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-white text-3xl font-bold transform rotate-90 group-hover:rotate-0 transition duration-500">T-Shirts</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="/search/products?query=hoodie">
-                    <div data-aos="fade-up" data-aos-delay="300" class="relative group overflow-hidden">
-                        <img src="/images/hoodies.jpg" 
-                             alt="Hoodies" 
-                             class="w-full h-full object-cover transition duration-500 filter blur-md group-hover:blur-none">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-white text-3xl font-bold transform rotate-90 group-hover:rotate-0 transition duration-500">Hoodies</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/search/products?query=sweatshirt">
-                    <div data-aos="fade-up" data-aos-delay="400" class="relative group overflow-hidden">
-                        <img src="/images/sweatshirts.jpg"
-                             alt="Sweatshirts" 
-                             class="w-full h-full object-cover transition duration-500 filter blur-md group-hover:blur-none">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-white text-3xl font-bold transform rotate-90 group-hover:rotate-0 transition duration-500">Sweatshirts</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/search/products?query=jacket">
-                    <div data-aos="fade-up" data-aos-delay="500" class="relative group overflow-hidden sm:height-[50px]">
-                        <img src="/images/jackets.jpg" 
-                             alt="Jackets" 
-                             class="w-full h-full object-cover transition duration-500 filter blur-md group-hover:blur-none">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-white text-3xl font-bold transform rotate-90 group-hover:rotate-0 transition duration-500">Jackets</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/search/products?query=accessory">
-                    <div data-aos="fade-up" data-aos-delay="600" class="relative group overflow-hidden">
-                        <img src="/images/hoodies.jpg"
-                             alt="Other" 
-                             class="w-full h-full object-cover transition duration-500 filter blur-md group-hover:blur-none">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span class="text-white text-3xl font-bold transform rotate-90 group-hover:rotate-0 transition duration-500">Accessories</span>
-                        </div>
-                    </div>
-                </a>
-    
-            </div>
-        </section>
-
-
-        <!-- Shop by Category Section -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-16">
-            <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">Shop by Category</h2>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Women Category -->
-                <a href="/madefor/category/products/category/women" class="group block">
-                    <div class="relative overflow-hidden rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105">
-                        <img src="/images/wc.jpg" class="w-full h-64 object-cover" alt="Women" />
-                        <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="p-6 text-center">
-                            <h3 class="text-xl font-semibold text-gray-900 group-hover:text-custom transition-colors">Women</h3>
-                        </div>
-                    </div>
-                </a>
-        
-                <!-- Men Category -->
-                <a href="/madefor/category/products/category/men" class="group block">
-                    <div class="relative overflow-hidden rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105">
-                        <img src="/images/mc.jpg" class="w-full h-64 object-cover" alt="Men" />
-                        <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="p-6 text-center">
-                            <h3 class="text-xl font-semibold text-gray-900 group-hover:text-custom transition-colors">Men</h3>
-                        </div>
-                    </div>
-                </a>
-        
-                <!-- Kids Category -->
-                <a href="/madefor/category/products/category/unisex" class="group block">
-                    <div class="relative overflow-hidden rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105">
-                        <img src="/images/kc.jpg" class="w-full h-64 object-cover" alt="Kids" />
-                        <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="p-6 text-center">
-                            <h3 class="text-xl font-semibold text-gray-900 group-hover:text-custom transition-colors">Kids</h3>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </section>
-        
-        <%- include('components/toast.ejs') %>
-
-            <div class="bg-[#111] relative w-full w-full text-center p-12">
-                <h1 class="text-4xl sm:text-5xl leading-tight max-w-2xl mx-auto relative z-10" style="color: white;">
-                    Put your hands first at our <br> premium and limited products
-                </h1>
-
-                <div class="mt-8 relative z-10 w-full max-w-md mx-auto">
-                    <p class="text-gray-400 mb-3">Subscribe to our newsletter.</p>
-                    <div class="flex flex-col space-y-3">
-                       <form action="/user/subscribe/to/newsletter" method="POST">
-                        <input type="email" placeholder="E-mail" class="w-full p-4 bg-gray-900 text-white rounded-md outline-none">
-
-                        <button class="w-full p-4 bg-white text-black font-semibold flex items-center justify-center space-x-2 rounded-md mt-6">
-                            <span>SUBSCRIBE</span>
-                        </button>
-                       </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="scroll-container w-full py-4 mb-10">
-                <div class="scroll-text flex text-black text-4xl font-semibold">
-                    <span>KESHVIBE</span> <span>⬛</span> 
-                    <span>KESHVIBE</span> <span>⬛</span> 
-                    <span>KESHVIBE</span> <span>⬛</span> 
-                    <span>KESHVIBE</span> <span>⬛</span> 
-                    <span>KESHVIBE</span> <span>⬛</span> 
-                    <span>KESHVIBE</span> <span>⬛</span> 
-                </div>
-            </div>
-
-
-            <footer class="grid grid-cols-1 md:grid-cols-2 h-[500px] bg-[#111] text-white">
-               
-                <div class="relative h-full" data-aos="fade-right" data-aos-delay="100">
-                    <img src="/images/footer.jpg" alt="Clothing Store" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center px-10">
-                        <div class="border border-white w-12 h-12 flex items-center justify-center mb-6">
-                            <span class="text-white text-lg font-semibold">M</span>
-                        </div>
-                        <h2 class="text-3xl font-light mb-4">Find out about the sales at your local shop</h2>
-                    </div>
-                </div>
-        
-               
-                <div class="bg-[#111] flex flex-col justify-center p-10">
-                    <div class="grid grid-cols-3 gap-6">
-                        <!-- Categories -->
-                        <div>
-                            <h3 class="text-white font-semibold mb-4">CATEGORIES</h3>
-                            <ul class="text-gray-400 space-y-2">
-                                <li data-aos="fade-left" data-aos-delay="200" >Hoodies</li>
-                                <li data-aos="fade-left" data-aos-delay="400">Sweatshirts</li>
-                                <li data-aos="fade-left" data-aos-delay="600">Shirts</li>
-                                <li data-aos="fade-left" data-aos-delay="800">T-Shirts</li>
-                                <li data-aos="fade-left" data-aos-delay="1000">Jackets</li>
-                            </ul>
-                        </div>
-                        <!-- Company -->
-                        <div>
-                            <h3 class="text-white font-semibold mb-4">COMPANY</h3>
-                            <ul class="text-gray-400 space-y-2">
-                                <li data-aos="fade-left" data-aos-delay="200">About</li>
-                                <li data-aos="fade-left" data-aos-delay="400">Blog</li>
-                                <li data-aos="fade-left" data-aos-delay="600">Contact</li>
-                                <li data-aos="fade-left" data-aos-delay="800">Guarantee</li>
-                                <li data-aos="fade-left" data-aos-delay="1000">Shipping</li>
-                            </ul>
-                        </div>
-                        <!-- Support -->
-                        <div>
-                            <h3 class="text-white font-semibold mb-4">SUPPORT</h3>
-                            <ul class="text-gray-400 space-y-2">
-                                <li data-aos="fade-left" data-aos-delay="200">Style Guide</li>
-                                <li data-aos="fade-left" data-aos-delay="400">Licensing</li>
-                                <li data-aos="fade-left" data-aos-delay="600">Change log</li>
-                                <li data-aos="fade-left" data-aos-delay="800">Instructions</li>
-                            </ul>
-                            <!-- Social Icons -->
-                            <div class="flex space-x-4 mt-4 text-gray-400 text-xl">
-                                <a data-aos="fade-left" data-aos-delay="200" href="#" class="hover:text-white"><i class="fa-brands fa-facebook"></i></a>
-                                <a data-aos="fade-left" data-aos-delay="400" href="#" class="hover:text-white"><i class="fa-brands fa-twitter"></i></a>
-                                <a data-aos="fade-left" data-aos-delay="600" href="#" class="hover:text-white"><i class="fa-brands fa-youtube"></i></a>
-                                <a data-aos="fade-left" data-aos-delay="800" href="https://www.instagram.com/keshvibe.in" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
-                            </div>
-                        </div>
-                    </div>
-        
-                </div>
-            </footer>
-    </main>
-    
-    <script src="/js/security.js"></script>
-    <script src="js/toast.js"></script>
-    <script>
-
-
-        AOS.init({
-            duration: 1000, // Animation duration in ms
-            once: false      // Run animation only once
-        });
-
-
-        let page = 2; // Start loading from page 2 since page 1 is already loaded
-        function filterCategory(category) {
-            document.querySelectorAll(".product-card").forEach(card => {
-                card.style.display = card.getAttribute("data-category") === category || category === "" ? "block" : "none";
-            });
-            document.querySelectorAll(".category-btn").forEach(btn => btn.classList.remove("active"));
-            event.target.classList.add("active");
+<script id="carousel-navigation">
+document.addEventListener("DOMContentLoaded", function () {
+  const carousels = document.querySelectorAll(".carousel");
+  const prevButtons = document.querySelectorAll(
+    ".carousel + button:first-of-type",
+  );
+  const nextButtons = document.querySelectorAll(".carousel + button + button");
+  carousels.forEach((carousel, index) => {
+    const items = carousel.querySelectorAll(".carousel-item");
+    const itemWidth = items[0].offsetWidth + 24; // width + gap
+    if (prevButtons[index] && nextButtons[index]) {
+      prevButtons[index].addEventListener("click", () => {
+        carousel.scrollBy({ left: -itemWidth, behavior: "smooth" });
+      });
+      nextButtons[index].addEventListener("click", () => {
+        carousel.scrollBy({ left: itemWidth, behavior: "smooth" });
+      });
+    }
+  });
+});
+</script>
+<script id="back-to-top">
+document.addEventListener("DOMContentLoaded", function () {
+  const backToTopButton = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 300) {
+      backToTopButton.classList.remove("opacity-0", "invisible");
+      backToTopButton.classList.add("opacity-100", "visible");
+    } else {
+      backToTopButton.classList.remove("opacity-100", "visible");
+      backToTopButton.classList.add("opacity-0", "invisible");
+    }
+  });
+  backToTopButton.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+</script>
+<script id="hero-carousel">
+document.addEventListener("DOMContentLoaded", function () {
+  const track = document.querySelector(".carousel-track");
+  const slides = document.querySelectorAll(".carousel-slide");
+  const dots = document.querySelectorAll("[data-slide]");
+  const prevButton = track.parentElement.querySelector(
+    ".ri-arrow-left-s-line",
+  ).parentElement;
+  const nextButton = track.parentElement.querySelector(
+    ".ri-arrow-right-s-line",
+  ).parentElement;
+  let currentSlide = 0;
+  const slideCount = slides.length;
+  function updateCarousel() {
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("bg-white", index === currentSlide);
+      dot.classList.toggle("bg-white/50", index !== currentSlide);
+    });
+  }
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slideCount;
+    updateCarousel();
+  }
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+    updateCarousel();
+  }
+  nextButton.addEventListener("click", nextSlide);
+  prevButton.addEventListener("click", prevSlide);
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      currentSlide = index;
+      updateCarousel();
+    });
+  });
+  let autoplayInterval = setInterval(nextSlide, 5000);
+  const carouselContainer = track.parentElement;
+  carouselContainer.addEventListener("mouseenter", () => {
+    clearInterval(autoplayInterval);
+  });
+  carouselContainer.addEventListener("mouseleave", () => {
+    autoplayInterval = setInterval(nextSlide, 5000);
+  });
+  updateCarousel();
+});
+</script>
+<script id="scroll-animations">
+document.addEventListener("DOMContentLoaded", function () {
+  const animateElements = document.querySelectorAll(
+    ".benefit-card, .product-card, .category-card, .testimonial-card",
+  );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("slide-in");
+          observer.unobserve(entry.target);
         }
-
-        function toggleWishlist(icon) {
-            icon.classList.toggle("active");
-        }
-
-        document.getElementById("search").addEventListener("input", function () {
-            let query = this.value.toLowerCase();
-            document.querySelectorAll(".product-card").forEach(card => {
-                let name = card.querySelector("h4").innerText.toLowerCase() || card.querySelector("h3").innerText.toLowerCase();
-                card.style.display = name.includes(query) ? "block" : "none";
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchForm = document.querySelector("form[action='/search/products']");
-            searchForm.addEventListener("submit", function (event) {
-                const query = searchForm.querySelector("input[name='query']").value.trim();
-                if (query === "") {
-                    event.preventDefault(); // Stop form submission
-                    window.location.href = "/search-error"; // Redirect to error page
-                }
-            });
-        });
-
-        new Glide('.glide', {
-            type: 'carousel',
-            startAt: 0,
-            perView: 1,
-            autoplay: 5000,
-            hoverpause: true,
-            animationDuration: 800,
-            animationTimingFunc: 'ease-in-out',
-            gap: 0
-        }).mount();
-
-        const form = document.getElementById('newsletterForm');
-        const subscribeButton = document.getElementById('subscribeButton');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-
-        // Add submit event listener to the form
-        form.addEventListener('submit', function (event) {
-            // Show the loading spinner
-            loadingSpinner.classList.remove('hidden');
-            subscribeButton.disabled = true;
-            subscribeButton.textContent = "Submitting...";
-        });
-    </script>
+      });
+    },
+    { threshold: 0.1 },
+  );
+  animateElements.forEach((element) => {
+    observer.observe(element);
+  });
+});
+</script>
 </body>
-
 </html>

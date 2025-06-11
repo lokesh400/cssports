@@ -1,0 +1,212 @@
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Poppins', sans-serif;
+scroll-behavior: smooth;
+}
+.hero-bg {
+background-image: url('https://readdy.ai/api/search-image?query=premium%20supplements%20store%20with%20natural%20ingredients%2C%20high-end%20fitness%20products%2C%20bottles%20and%20capsules%20arranged%20on%20a%20modern%20shelf%2C%20clean%20bright%20gradient%20background%20fading%20from%20light%20blue%20to%20white%20on%20the%20left%20side%2C%20professional%20product%20photography%20style%2C%20bright%20and%20airy&width=1600&height=800&seq=12345&orientation=landscape');
+background-size: cover;
+background-position: right center;
+}
+.product-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+.category-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.category-card:hover {
+transform: scale(1.05);
+}
+.benefit-card {
+transition: transform 0.3s ease;
+}
+.benefit-card:hover {
+transform: translateY(-5px);
+}
+.pulse {
+animation: pulse 2s infinite;
+}
+@keyframes pulse {
+0% {
+transform: scale(1);
+}
+50% {
+transform: scale(1.05);
+}
+100% {
+transform: scale(1);
+}
+}
+.float {
+animation: float 3s infinite ease-in-out;
+}
+@keyframes float {
+0% {
+transform: translateY(0px);
+}
+50% {
+transform: translateY(-10px);
+}
+100% {
+transform: translateY(0px);
+}
+}
+.slide-in {
+animation: slideIn 0.5s forwards;
+}
+@keyframes slideIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.ripple {
+position: relative;
+overflow: hidden;
+}
+.ripple:after {
+content: "";
+display: block;
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+pointer-events: none;
+background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+background-repeat: no-repeat;
+background-position: 50%;
+transform: scale(10, 10);
+opacity: 0;
+transition: transform .5s, opacity 1s;
+}
+.ripple:active:after {
+transform: scale(0, 0);
+opacity: .3;
+transition: 0s;
+}
+.search-input {
+transition: width 0.3s ease;
+width: 200px;
+}
+.search-input:focus {
+width: 300px;
+}
+input[type="range"] {
+-webkit-appearance: none;
+width: 100%;
+height: 8px;
+border-radius: 5px;
+background: #e5e7eb;
+outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background: #4f46e5;
+cursor: pointer;
+}
+.custom-checkbox {
+display: none;
+}
+.checkbox-label {
+position: relative;
+padding-left: 30px;
+cursor: pointer;
+}
+.checkbox-label:before {
+content: '';
+position: absolute;
+left: 0;
+top: 0;
+width: 20px;
+height: 20px;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+background-color: white;
+transition: all 0.3s ease;
+}
+.custom-checkbox:checked + .checkbox-label:before {
+background-color: #4f46e5;
+border-color: #4f46e5;
+}
+.custom-checkbox:checked + .checkbox-label:after {
+content: '';
+position: absolute;
+left: 7px;
+top: 3px;
+width: 6px;
+height: 12px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e5e7eb;
+transition: .4s;
+border-radius: 34px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background-color: #4f46e5;
+}
+input:checked + .slider:before {
+transform: translateX(26px);
+}
+.carousel {
+scroll-snap-type: x mandatory;
+scroll-behavior: smooth;
+}
+.carousel-item {
+scroll-snap-align: start;
+}
+.testimonial-card {
+transition: transform 0.3s ease;
+}
+.testimonial-card:hover {
+transform: scale(1.02);
+}
+.star {
+transition: transform 0.3s ease;
+}
+.star:hover {
+transform: scale(1.2);
+}

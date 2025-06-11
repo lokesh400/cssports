@@ -127,7 +127,7 @@ router.get('/api/category/products', isLoggedIn,async (req,res)=>{
 })
 
 //search products
-router.get("/search/products",isLoggedIn, async (req, res) => {
+router.get("/search/products", async (req, res) => {
   try {
     const query = req.query.query; // Get search term from URL
     if (!query || query.trim() === "") {
