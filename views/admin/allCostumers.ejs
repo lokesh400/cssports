@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Customers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1">
+        </script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
+        data-border-radius="medium">
+        </script>
+</head>
+<body>
+    
+    <%- include('../components/sidebar.ejs') %>
+
+    <div class="mx-auto p-6" style=" margin-left: 254px; width: calc(100% - 254px);">
+        <h2 class="text-2xl font-semibold mb-4">Customers List</h2>
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 text-left">Name</th>
+                        <th class="p-2 text-left">Email</th>
+                        <th class="p-2 text-left">Phone</th>
+                        <th class="p-2 text-left">Registered Date</th>
+                        <th class="p-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTable">
+                    <% customers.forEach(customer => { %>
+                        <tr class="border-t">
+                            <td class="p-2"><%= customer.name %></td>
+                            <td class="p-2"><%= customer.email %></td>
+                            <td class="p-2"><%= customer.phone %></td>
+                            <td class="p-2"><%= new Date(customer.createdAt).toLocaleDateString() %></td>
+                            <td class="p-2">
+                                <a href="/admin/orders?customerId=<%= customer._id %>" class="bg-blue-500 text-white px-4 py-2 rounded">View Orders</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= product.name %></title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script>
+        let currentImageIndex = 0;
+        const images = ['#id-44', '#id-46', '#id-48', '#id-50'];
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateMainImage();
+        }
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateMainImage();
+        }
+        function updateMainImage() {
+            const mainImg = document.querySelector('#id-41');
+            const thumbnailImg = document.querySelector(images[currentImageIndex]);
+            mainImg.src = thumbnailImg.src;
+        }
+        document.querySelectorAll('#id-42 button').forEach((btn, index) => {
+            btn.onclick = () => {
+                currentImageIndex = index; updateMainImage();
+
+            };
+        });
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+            /* Thin scrollbar */
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            /* Light grey background */
+            border-radius: 10px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            /* Darker grey scrollbar */
+            border-radius: 10px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            /* Even darker on hover */
+        }
+
+        /* Hide scrollbar but keep functionality */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transform: translateX(150%);
+            /* Change from -150% to 150% */
+            opacity: 0;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        /* Slide In */
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Slide Out */
+        .toast.hide {
+            transform: translateX(150%);
+            /* Change from -150% to 150% */
+            opacity: 0;
+            transition: transform 0.5s ease-in, opacity 0.5s ease-in;
+        }
+
+        /* Loader Bar (Inside Toast) */
+        .toast .loader {
+            height: 4px;
+            width: 100%;
+            background-color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            animation: load 3s linear forwards;
+        }
+
+        /* Loader Animation */
+        @keyframes load {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+    </style>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
+        data-border-radius="medium"></script>
+</head>
+
+<body class="bg-gray-50">
+    <div id="toast-container"></div>
+
+    <header class="fixed top-0 left-0 w-full z-50">
+        <%- include('components/navbar.ejs') %>
+    </header>
+
+    <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style="margin-top: 50px;">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="space-y-4">
+                <div class="aspect-w-4 aspect-h-3 bg-gray-100 rounded-lg overflow-hidden relative">
+                    <img src="<%= product.coverPhoto %>" alt="Premium Leather Jacket" class="object-cover" />
+                </div>
+                <div class="grid grid-cols-4 gap-4">
+
+                    <%for(let i=0 ; i< product.images.length; i++ ){%>
+                        <button
+                            class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-custom focus:outline-none">
+                            <img src="<%= product.images[i] %>" alt="Detail 1" class="object-cover" />
+                        </button>
+                        <%}%>
+
+                </div>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-custom">
+                        <%= product.name %>
+                    </h1>
+                    <div class="mt-4 flex items-center">
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-500">(128 reviews)</span>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <p class="text-2xl font-bold text-custom">
+                        <%= product.price %>
+                    </p>
+                    <p class="text-sm text-gray-500">Free shipping on orders over Rs 1000/-</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Size</label>
+                        <div class="mt-2 grid grid-cols-4 gap-2">
+
+                            <% for(let i=0; i < product.sizes.length; i++) { %>
+                                <button
+                                    class="!rounded-button py-2 px-4 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 size-button"
+                                    data-size="<%= product.sizes[i] %>">
+                                    <%= product.sizes[i] %>
+                                </button>
+                                <% } %>
+                                    <!-- hidden input -->
+                                    <input type="hidden" id="selectedSizeInput" name="selectedSize">
+
+                        </div>
+                    </div>
+                    <button
+                        class="!rounded-button w-full bg-custom text-white py-3 px-4 font-medium hover:bg-opacity-90"
+                        onclick="addToCart('<%= product._id %>')">
+                        Add to Cart
+                    </button>
+                    <div class="flex space-x-4">
+                        <button
+                            class="!rounded-button flex-1 border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <i class="fas fa-heart mr-2"></i>
+                            Save
+                        </button>
+                        <button
+                            class="!rounded-button flex-1 border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            onclick="shareProduct()">
+                            <i class="fas fa-share-alt mr-2"></i>
+                            Share
+                        </button>
+                    </div>
+                </div>
+                <div class="prose prose-sm max-w-none">
+                    <h3 class="text-lg font-medium text-custom">Product Description</h3>
+                    <p>
+                        <%= product.description %>
+                    </p>
+
+                    <h4 class="text-base font-medium text-custom mt-4">Key Features</h4>
+                    <ul>
+                        <li>100% genuine Product</li>
+                        <li>Original KeshVibe Product</li>
+                        <li>High Quality Fabric</li>
+                        <li>High detailed designs</li>
+                        <li>Premium colors</li>
+                    </ul>
+                    <h4 class="text-base font-medium text-custom mt-4">Care Instructions</h4>
+                    <ul>
+                        <li>Do not wash with other clothes.</li>
+                        <li>Store in a cool, dry place</li>
+                        <li>Use good quality of detergent.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-16">
+            <h2 class="text-2xl font-bold text-custom mb-8">Customer Reviews</h2>
+            <div class="overflow-x-auto">
+                <div class="flex space-x-6 w-max p-4">
+                    <% if (reviews.length> 0) { %>
+                        <% reviews.forEach(review=> { %>
+                            <div class="w-80 md:w-96 shrink-0 bg-white p-6 rounded-lg shadow-sm">
+                                <div class="flex items-center mb-4">
+                                    <div class="ml-4">
+                                        <h4 class="font-medium text-custom">
+                                            <%= review.user.name %>
+                                        </h4>
+                                        <div class="flex text-yellow-400 text-sm">
+                                            <% for(let i=0; i < review.rating; i++) { %>
+                                                <i class="fas fa-star"></i>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600">
+                                    <%= review.comment %>
+                                </p>
+                                <p class="text-sm text-gray-500">
+                                    <%= new Date(review.createdAt).toLocaleString() %>
+                                </p>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <div style="display: block;" >
+                                        <div>
+                                            <p class="text-gray-600">No reviews yet. Be the first to review this product!</p>
+                                        </div>
+                                        <br>
+                                        <div>
+                                            <a href="add/review/<%= product._id %>">
+                                                <button
+                                                    class="!rounded-button bg-custom text-white py-3 px-4 font-medium hover:bg-opacity-90">
+                                                    Add Review
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% } %>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="mt-16">
+            <h2 class="text-2xl font-bold text-custom mb-4">You May Also Like</h2>
+
+            <!-- Scrollable Container -->
+            <div class="flex space-x-6 overflow-x-auto scrollbar-hide md:grid md:grid-cols-4 md:gap-6">
+                <% if (relatedProducts.length> 0) { %>
+                    <% relatedProducts.forEach(product=> { %>
+                        <div class="min-w-[250px] sm:min-w-[300px] md:min-w-0 bg-white p-4 rounded-lg shadow-sm">
+                            <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden">
+                                <a href="/this/product/<%= product._id %>">
+                                    <img src="<%= product.coverPhoto %>" alt="<%= product.name %>"
+                                        class="object-cover w-full h-full group-hover:opacity-75" />
+                                </a>
+                            </div>
+                            <h3 class="mt-4 text-sm text-custom">
+                                <%= product.name %>
+                            </h3>
+                            <p class="mt-1 text-lg font-medium text-custom">$<%= product.price %>
+                            </p>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <p class="text-gray-600">No related products found.</p>
+                            <% } %>
+            </div>
+        </section>
+
+
+    </main>
+    <script src="/js/security.js" ></script>
+    <script>
+
+        function shareProduct() {
+            const currentURL = window.location.href; // Get the current page link
+            const productTitle = document.title;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: productTitle || "Check out this product!",
+                    url: currentURL
+                }).then(() => console.log("Shared successfully!"))
+                    .catch((error) => {
+                        console.error("Sharing failed:", error);
+                        alert("Sharing is not supported or failed.");
+                    });
+            } else {
+                navigator.clipboard.writeText(currentURL).then(() => {
+                    alert("🔗 Link copied to clipboard!");
+                }).catch(err => {
+                    console.error("Error copying link:", err);
+                    alert("Failed to copy link to clipboard.");
+                });
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sizeButtons = document.querySelectorAll(".size-button");
+            sizeButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    sizeButtons.forEach(btn => btn.classList.remove("bg-black", "text-white"));
+                    this.classList.add("bg-black", "text-white");
+                    document.getElementById("selectedSizeInput").value = this.getAttribute("data-size");
+                });
+            });
+        });
+
+        async function addToCart(productId) {
+            const userId = "<%= currUser._id %>"; // Replace with actual user 
+            const size = document.getElementById("selectedSizeInput").value;
+            try {
+                if (size) {
+                    const response = await fetch("/add-to-cart", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            userId: userId,
+                            productId: productId,
+                            quantity: 1,
+                            size,
+                        })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        showToast("Item added to cart ✅");
+                    } else {
+                        showToast("Failed to add to cart ❌");
+                        console.error(data.message);
+                    }
+                } else {
+                    showToast("Please select a valid size ❌");
+                }
+
+            } catch (error) {
+                console.error("Error adding to cart:", error);
+                showToast("Something went wrong ❌");
+            }
+        }
+
+        function showToast(message) {
+            // Create Toast Element
+            const toast = document.createElement("div");
+            toast.className = "toast";
+            toast.innerHTML = `
+        <span>${message}</span>
+        <div class="loader"></div>
+    `;
+
+            // Append to Toast Container
+            document.getElementById("toast-container").appendChild(toast);
+
+            // Show Toast (Add .show Class)
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 100);
+
+            // Hide Toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add("hide");
+                setTimeout(() => toast.remove(), 500); // Remove from DOM after animation
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

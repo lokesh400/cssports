@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#4F46E5"
+        data-border-radius='medium'></script>
+</head>
+
+<body>
+  
+    <section>
+        <%- include('../components/sidebar.ejs') %>
+    </section>
+
+
+ 
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 py-12" style="width: calc(100%-254px); margin-left: 254px;">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Edit Product</h3>
+
+                    <section id="toast-cont">
+                        <% if (success_msg && success_msg.length > 0 ) { %>
+                            <div class="flash-message success">
+                                <div class="toast-loader"></div>
+                                <%= success_msg %>
+                            </div>
+                        <% } %>
+                        
+                        <% if (error_msg && error_msg.length > 0) { %>
+                            <div class="flash-message error">
+                                <div class="toast-loader"></div>
+                                <%= error_msg %>
+                            </div>
+                        <% } %>
+                    </section>
+                    
+                    
+
+                    <div class="mt-5">
+                        <form enctype="multipart/form-data" action="/admin/update-image/<%= id %>?_method=PATCH" method="POST">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Product Images</label>
+                                    <div
+                                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed !rounded-button">
+                                        <div class="space-y-1 text-center">
+                                            <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-3"></i>
+                                            <div class="flex text-sm text-gray-600">
+                                                <label
+                                                    class="relative cursor-pointer bg-white !rounded-button font-medium text-custom hover:text-custom-600 focus-within:outline-none">
+                                                    <span>Upload a file</span>
+                                                    <input type="file" name="file" class="sr-only" name="file" id="imageInput" accept="image/*">
+                                                </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden" id="imagePreviewContainer">
+                                    <label class="block text-sm font-medium text-gray-700">Image Preview</label>
+                                    <div class="mt-1 relative">
+                                        <img id="imagePreview" class="max-h-64 rounded-lg object-contain" alt="Preview">
+                                        <button type="button" id="removeImage"
+                                            class="absolute top-2 right-2 bg-red-100 !rounded-button p-1 text-red-600 hover:text-red-500 focus:outline-none">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end space-x-3">
+                                    <button type="button"
+                                        class="bg-white py-2 px-4 border border-gray-300 !rounded-button shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                        class="bg-custom py-2 px-4 border border-transparent !rounded-button shadow-sm text-sm font-medium text-white hover:bg-custom/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom">
+                                        Add Product
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const removeImage = document.getElementById('removeImage');
+
+        imageInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        removeImage.addEventListener('click', function () {
+            imageInput.value = '';
+            imagePreviewContainer.classList.add('hidden');
+        });
+
+        // const form = document.querySelector('form');
+        // form.addEventListener('submit', function (e) {
+        //     e.preventDefault();
+        //     const submitButton = form.querySelector('button[type="submit"]');
+        //     submitButton.disabled = true;
+        //     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Adding Product...';
+        //     setTimeout(() => {
+        //         submitButton.disabled = false;
+        //         submitButton.innerHTML = 'Add Product';
+        //         alert('Product added successfully!');
+        //         form.reset();
+        //         imagePreviewContainer.classList.add('hidden');
+        //     }, 2000);
+        // });
+    </script>
+</body>
+
+</html>

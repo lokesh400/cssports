@@ -1,0 +1,78 @@
+        /* Toast container */
+        #toast-cont {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+        }
+        
+        /* Style for each toast message */
+        .flash-message {
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(-20px); /* Initially hidden */
+            animation: toast-in 0.5s forwards, toast-out 2s 2.5s forwards;
+        }
+        
+        /* Success and error toast styles */
+        .flash-message.success {
+            background-color: #4c78af; /* Green for success */
+        }
+        
+        .flash-message.error {
+            background-color: #f44336; /* Red for error */
+        }
+        
+        /* Loader style */
+        .toast-loader {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Toast animation for sliding in from top-right */
+        @keyframes toast-in {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Toast animation for fading out */
+        @keyframes toast-out {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+        
+        /* Loader spinning animation */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }

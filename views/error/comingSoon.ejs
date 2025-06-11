@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #000;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .coming-soon {
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            opacity: 0;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+            opacity: 0;
+        }
+
+        .subscribe-btn {
+            margin-top: 30px;
+            background: red;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .subscribe-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="coming-soon">Coming Soon...</div>
+
+    <script>
+        // GSAP Animations
+        gsap.to(".coming-soon", { 
+            opacity: 1, 
+            duration: 1, 
+            y: -10, 
+            ease: "power2.out"
+        });
+
+        gsap.to(".coming-soon", {
+            scale: 1.1,
+            repeat: -1,
+            yoyo: true,
+            duration: 1.5,
+            ease: "sine.inOut"
+        });
+
+        gsap.to(".countdown", { 
+            opacity: 1, 
+            duration: 1, 
+            delay: 1 
+        });
+
+        gsap.to(".subscribe-btn", { 
+            opacity: 1, 
+            duration: 1, 
+            delay: 2 
+        });
+
+        // Countdown Timer Logic
+        function startCountdown(duration) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = Math.floor(timer / 3600);
+                minutes = Math.floor((timer % 3600) / 60);
+                seconds = Math.floor(timer % 60);
+                document.getElementById('countdown').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        // Start Countdown from 24 Hours
+        startCountdown(86400);
+    </script>
+
+</body>
+</html>

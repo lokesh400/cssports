@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan QR Code</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    #reader {
+      width: 320px;
+      height: 320px;
+      border: 2px dashed #4f46e5;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none; /* Hidden initially */
+    }
+
+    #start-button {
+      background-color: #4f46e5;
+      color: #fff;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    #start-button:hover {
+      background-color: #4338ca;
+    }
+
+    #error-message {
+      color: #dc2626;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scan QR Code</h1>
+  <button id="start-button">Open Camera</button>
+  <div id="reader"></div>
+  <div id="error-message"></div>
+
+  <script>
+    const startButton = document.getElementById('start-button');
+    const reader = document.getElementById('reader');
+    const errorMessage = document.getElementById('error-message');
+
+    const qrCodeSuccessCallback = (decodedText) => {
+      alert(`QR Code Scanned: ${decodedText}`);
+      // Redirect or process the scanned data
+      console.log(`Scanned QR Code: ${decodedText}`);
+      window.location.href = decodedText; // Optional redirection
+    };
+
+    const qrCodeErrorCallback = (error) => {
+      console.error("QR Code scan error:", error);
+    };
+
+    const startCamera = async () => {
+      errorMessage.textContent = ''; // Clear previous errors
+      try {
+        // Check for camera permission
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream.getTracks().forEach(track => track.stop()); // Immediately stop the stream to release the camera
+        reader.style.display = 'block'; // Show the QR code reader
+
+        // Start the QR code scanner
+        const html5QrCode = new Html5Qrcode("reader");
+        await html5QrCode.start(
+          { facingMode: "environment" }, // Use the back camera
+          { fps: 10, qrbox: 250 }, // Adjust the scanning settings
+          qrCodeSuccessCallback,
+          qrCodeErrorCallback
+        );
+      } catch (err) {
+        // Handle camera permission errors
+        console.error("Camera permission error:", err);
+        if (err.name === "NotAllowedError") {
+          errorMessage.textContent = "Camera access was denied. Please enable it in your browser settings.";
+        } else if (err.name === "NotFoundError") {
+          errorMessage.textContent = "No camera found. Please connect a camera to your device.";
+        } else {
+          errorMessage.textContent = "An error occurred while accessing the camera.";
+        }
+      }
+    };
+
+    // Add event listener to the start button
+    startButton.addEventListener('click', startCamera);
+  </script>
+</body>
+</html>

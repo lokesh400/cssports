@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
+        data-border-radius='medium'></script>
+</head>
+
+<body class="bg-gray-50 font-sans">
+   
+
+    <section class="fixed top-0 left-0 w-full" >
+        <%- include('../components/navbar.ejs') %>
+    </section>
+
+    <main class="max-w-8xl mx-auto py-10 px-4 sm:px-6 lg:px-8 mt-16">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-6 py-8 border-b border-gray-200">
+                <div class="flex items-center"> <img class="h-20 w-20 rounded-full object-cover"
+                        src="https://creatie.ai/ai/api/search-image?query=A professional headshot of a young business professional with a warm smile, wearing business attire, against a neutral background. The lighting is soft and flattering, creating a welcoming and approachable appearance&width=200&height=200&orientation=squarish&flag=83407cc5-f2bf-4a4e-9b2f-1cbbeca6344b"
+                        alt="Profile">
+                    <div class="ml-6">
+                        <h1 class="text-2xl font-semibold text-gray-900">Welcome back, <%= user.name %></h1>
+                        <p class="mt-1 text-sm text-gray-500">Last login: Today at 10:30 AM</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-6">
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-medium text-gray-900">Personal Information</h2>
+                                <button
+                                    class="!rounded-button text-custom border border-custom px-4 py-2 text-sm font-medium">
+                                    <i class="fas fa-edit mr-2"></i>Edit
+                                </button>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <p class="mt-1 text-sm text-gray-900"><%= user.name %></p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Email Address</label>
+                                    <p class="mt-1 text-sm text-gray-900"><%= user.email %></p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                                    <p class="mt-1 text-sm text-gray-900">+91 <%= user.mobile %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="p-6 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-medium text-gray-900">Address Information</h2>
+                                <a href="/edit-address">
+                                    <button
+                                    class="!rounded-button text-custom border border-custom px-4 py-2 text-sm font-medium">
+                                    <i class="fas fa-edit mr-2"></i>Edit Address
+                                </button>
+                                </a>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Street Address</label>
+                                    <p class="mt-1 text-sm text-gray-900"><%= user.address.street %></p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">City</label>
+                                    <p class="mt-1 text-sm text-gray-900"><%= user.address.city %></p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">State</label>
+                                    <p class="mt-1 text-sm text-gray-900"><%= user.address.state %></p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Postal Code</label>
+                                    <p class="mt-1 text-sm text-gray-900"><%= user.address.pincode %></p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Country</label>
+                                    <p class="mt-1 text-sm text-gray-900">India</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-6 rounded-lg">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-medium text-gray-900">Recent Orders</h2>
+                        <a href="/my/orders">
+                            <button class="!rounded-button bg-custom text-white px-6 py-2 text-sm font-medium">
+                                <i class="fas fa-shopping-bag mr-2"></i>View All Orders
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white mt-12">
+        <div class="max-w-8xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">&copy; 2025 Kesh Vibe. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

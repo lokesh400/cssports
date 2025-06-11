@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Orders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.core.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/css/glide.theme.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.6.0/glide.min.js"></script>
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1">
+        </script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
+        data-border-radius="medium">
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <%- include('../components/sidebar.ejs') %>
+
+    <main class="mx-auto px-4 sm:px-6 lg:px-8 py-8" style=" margin-left: 254px; width: calc(100% - 254px);">
+        <h1 class="text-2xl font-semibold text-gray-900 mb-6">All Pending Orders</h1>
+
+        <!-- Filters & Print Button -->
+        <div class="mb-4 flex items-center space-x-3">
+            <button onclick="printPendingOrders()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700">
+                <i class="fas fa-print mr-2"></i> Print Pending Orders
+            </button>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="bg-white shadow rounded-lg overflow-hidden p-6">
+            <table class="w-full border-collapse border border-gray-200">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700">
+                        <th class="border border-gray-300 px-4 py-2">Order ID</th>
+                        <th class="border border-gray-300 px-4 py-2">Customer</th>
+                        <th class="border border-gray-300 px-4 py-2">Total Items</th>
+                        <th class="border border-gray-300 px-4 py-2">Total Price</th>
+                        <th class="border border-gray-300 px-4 py-2">Status</th>
+                        <th class="border border-gray-300 px-4 py-2">QR Code</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTable">
+                    <% orders.forEach(order => { %>
+                        <tr class="border-b order-row" data-status="<%= order.status %>">
+                            <td class="border border-gray-300 px-4 py-2"><%= order._id %></td>
+                            <td class="border border-gray-300 px-4 py-2"><%= order.user.name %></td>
+                            <td class="border border-gray-300 px-4 py-2"><%= order.products.length %></td>
+                            <td class="border border-gray-300 px-4 py-2">₹<%= order.totalAmount %></td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                <span class="px-3 py-1 rounded-full text-sm font-medium 
+                                    <%= order.status === 'delivered' ? 'bg-green-100 text-green-800' : 
+                                    order.status === 'shipped' ? 'bg-blue-100 text-blue-800' : 
+                                    'bg-yellow-100 text-yellow-800' %>">
+                                    <%= order.status %>
+                                </span>
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-center">
+                                <div id="qr-<%= order._id %>" class="qr-code mx-auto"></div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const orders = <%- JSON.stringify(orders) %>;
+
+            // Generate QR codes
+            orders.forEach(order => { 
+                const qrDiv = document.getElementById(`qr-${order._id}`);
+                if (qrDiv) {
+                    new QRCode(qrDiv, {
+                        text: `http://192.168.21.198:666/order-details/${order._id}`,
+                        width: 80,
+                        height: 80
+                    });
+                }
+            });
+
+            // Filter Orders by Status
+            document.getElementById("statusFilter").addEventListener("change", function () {
+                const selectedStatus = this.value;
+                document.querySelectorAll(".order-row").forEach(row => {
+                    row.style.display = (selectedStatus === "all" || row.dataset.status === selectedStatus) ? "" : "none";
+                });
+            });
+        });
+
+        function printPendingOrders() {
+            let pendingOrders = [];
+            let printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print QR Codes</title></head><body>');
+            printWindow.document.write('<h2>Pending Orders QR Codes</h2>');
+
+            document.querySelectorAll(".order-row[data-status='pending']").forEach(row => {
+                let orderId = row.cells[0].innerText;
+                let customer = row.cells[1].innerText;
+                let qrCanvas = row.querySelector(".qr-code canvas");
+
+                pendingOrders.push(orderId);
+
+                printWindow.document.write(`<p><b>Order ID:</b> ${orderId} | <b>Customer:</b> ${customer}</p>`);
+                if (qrCanvas) {
+                    let qrImg = qrCanvas.toDataURL("image/png");
+                    printWindow.document.write(`<img src="${qrImg}" style="width:100px; height:100px;">`);
+                }
+                printWindow.document.write(`<hr>`);
+            });
+
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.onload = function () {
+                printWindow.print();
+                printWindow.onafterprint = function () {
+                    if (pendingOrders.length > 0) {
+                        fetch("/admin/orders/mark-printed", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ orderIds: pendingOrders })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("Orders marked as printed successfully.");
+                                location.reload();
+                            } else {
+                                alert("Error updating orders: " + data.message);
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                    } else {
+                        alert("No pending orders found for printing.");
+                    }
+                };
+            };
+        }
+    </script>
+</body>
+</html>

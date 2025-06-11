@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progressive Registration Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-roboto min-h-screen flex items-center justify-center">
+    <div id="form-main-div" class="bg-white shadow-md rounded-lg p-8 w-full max-w-md transition-all duration-500">
+        <form id="form" action="/user/signup" method="POST">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Register</h1>
+            <p class="text-gray-600 mb-6">Signup now and get full access to our content.</p>
+
+            <!-- Step 1: Email -->
+            <div id="email-step" class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input required type="email" name="email" id="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your email">
+                <button type="button" id="send-otp" class="w-full bg-blue-600 text-white py-2 rounded-md mt-4 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Send OTP</button>
+            </div>
+
+            <!-- Step 2: OTP -->
+            <div id="otp-step" class="mb-4 hidden opacity-0">
+                <label for="otp" class="block text-sm font-medium text-gray-700">Enter Email OTP</label>
+                <input required type="text" name="otp" id="otp" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter OTP">
+                <button type="button" id="verify-otp" class="w-full bg-blue-600 text-white py-2 rounded-md mt-4 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Verify OTP</button>
+            </div>
+
+            <!-- Step 3: Name -->
+            <div id="name-step" class="mb-4 hidden opacity-0">
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input required type="text" name="name" id="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your name">
+                <button type="button" id="next-name" class="w-full bg-blue-600 text-white py-2 rounded-md mt-4 hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Next</button>
+            </div>
+
+            <!-- Step 4: Password -->
+            <div id="password-step" class="mb-4 hidden opacity-0">
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input required type="password" name="password" id="password" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Enter your password">
+                <label for="confirmpassword" class="block text-sm font-medium text-gray-700 mt-4">Confirm Password</label>
+                <input required type="password" name="confirmpassword" id="confirmpassword" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Confirm your password">
+                <button type="submit" id="submit" class="w-full bg-green-600 text-white py-2 rounded-md mt-4 hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const steps = [
+            { id: "email-step", nextBtnId: "send-otp", nextStepId: "otp-step" },
+            { id: "otp-step", nextBtnId: "verify-otp", nextStepId: "name-step" },
+            { id: "name-step", nextBtnId: "next-name", nextStepId: "password-step" },
+        ];
+
+        function showNextStep(currentStep, nextStep) {
+            const currentDiv = document.getElementById(currentStep);
+            const nextDiv = document.getElementById(nextStep);
+
+            gsap.to(currentDiv, { opacity: 0, duration: 0.5, onComplete: () => {
+                currentDiv.classList.add("hidden");
+                nextDiv.classList.remove("hidden");
+                gsap.to(nextDiv, { opacity: 1, duration: 0.5 });
+            }});
+        }
+
+        // OTP Sending Functionality
+        document.getElementById('send-otp').addEventListener('click', async function () {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert('Please enter your email address.');
+                return;
+            }
+            try {
+                const response = await fetch('/user/new/send-otp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+                const result = await response.json();
+                alert(result.message || 'OTP sent successfully!');
+                showNextStep("email-step", "otp-step");
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                alert('An error occurred while sending OTP.');
+            }
+        });
+
+        steps.forEach(step => {
+            const nextBtn = document.getElementById(step.nextBtnId);
+            nextBtn.addEventListener("click", () => {
+                showNextStep(step.id, step.nextStepId);
+            });
+        });
+    </script>
+</body>
+
+</html>

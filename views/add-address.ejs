@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= isEdit ? "Edit Address" : "Add Address" %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-sm sm:max-w-md bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center"><%= isEdit ? "Edit Address" : "Add Address" %></h2>
+
+        <form action="<%= isEdit ? '/edit-address' : '/add-address' %>" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Street:</label>
+                <input 
+                    type="text" 
+                    name="street" 
+                    value="<%= currUser.address ? currUser.address.street : '' %>" 
+                    placeholder="Enter your street address"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">City:</label>
+                <input 
+                    type="text" 
+                    name="city" 
+                    value="<%= currUser.address ? currUser.address.city : '' %>" 
+                    placeholder="Enter your city"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">State:</label>
+                <input 
+                    type="text" 
+                    name="state" 
+                    value="<%= currUser.address ? currUser.address.state : '' %>" 
+                    placeholder="Enter your state"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Pincode:</label>
+                <input 
+                    type="text" 
+                    name="pincode" 
+                    value="<%= currUser.address ? currUser.address.pincode : '' %>" 
+                    placeholder="Enter your pincode"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Mobile:</label>
+                <input 
+                    type="text" 
+                    name="mobile" 
+                    value="<%= currUser.mobile ? currUser.mobile : '' %>" 
+                    placeholder="Enter your mobile number"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition">
+                Save Address
+            </button>
+        </form>
+    </div>
+    <script src="/js/security.js" ></script>
+</body>
+</html>

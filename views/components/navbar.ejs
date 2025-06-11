@@ -1,0 +1,38 @@
+<nav class="w-100 mx-auto px-4 sm:px-6 lg:px-8 bg-white/80 backdrop-blur-md shadow-md border-b border-gray-200">
+    <div class="flex items-center justify-between h-16">
+        <div class="flex items-center">
+            <a href="/" class="flex-shrink-0">
+                <img class="h-10 w-auto transition-transform hover:scale-110"
+                    src="/images/logo.png" alt="Store Logo" />
+            </a>
+        </div>
+        <div class="flex-1 max-w-lg mx-4 relative">
+            <form action="/search/products" method="GET" class="flex">
+                <div class="relative w-full">
+                    <input type="text" name="query"
+                        class="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-full focus:ring-custom focus:border-custom shadow-sm bg-gray-50 hover:bg-white transition-all"
+                        placeholder="Search products..." />
+                    <div class="absolute inset-y-0 left-3 flex items-center">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+                <button type="submit"
+                    class="absolute right-1 top-1 bottom-1 bg-custom text-white px-4 rounded-full text-sm font-medium hover:bg-custom/90 transition-all">
+                    Search
+                </button>
+            </form>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="/user/details">
+                <button class="text-gray-700 hover:text-custom transition-all relative">
+                    <i class="far fa-user text-xl"></i>
+                </button>
+            </a>
+            <a href="/my/cart">
+                <button class="text-gray-700 hover:text-custom transition-all relative">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                </button>
+            </a>
+        </div>
+    </div>
+</nav>

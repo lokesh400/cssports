@@ -1,0 +1,69 @@
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <a href="/admin/all/todays/orders">
+            <div
+            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <div class="h-12 w-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+                    <i class="fas fa-shopping-cart text-custom text-xl"></i>
+                </div>
+            </div>
+            <h3 class="text-3xl font-semibold text-gray-900 mb-1">
+                <%= todayOrders.length %>
+            </h3>
+            <p class="text-gray-600 text-sm">Today&#39;s Orders</p>
+        </div>
+        </a>
+
+        <div
+            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <div class="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
+                    <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+                </div>
+            </div>
+            <h3 class="text-3xl font-semibold text-gray-900 mb-1">₹ <%= todaySales %>
+            </h3>
+            <p class="text-gray-600 text-sm">Today&#39;s Sales</p>
+        </div>
+
+        <div
+            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <div class="h-12 w-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                    <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+                </div>
+            </div>
+            <h3 class="text-3xl font-semibold text-gray-900 mb-1">₹ <%= totalSales %>
+            </h3>
+            <p class="text-gray-600 text-sm">Total Sales</p>
+        </div>
+
+        <a href="/admin/all/pending/orders">
+            <div
+            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <div class="h-12 w-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                    <i class="fas fa-clock text-orange-600 text-xl"></i>
+                </div>
+            </div>
+            <h3 class="text-3xl font-semibold text-gray-900 mb-1">
+                <%= pending %>
+            </h3>
+            <p class="text-gray-600 text-sm">Pending Orders</p>
+        </div>
+        </a>
+
+        <div
+            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <div class="h-12 w-12 rounded-lg bg-blue-100 flex items-center justify-center"><i
+                        class="fas fa-boxes text-blue-600 text-xl"></i></div>
+            </div>
+            <h3 class="text-3xl font-semibold text-gray-900 mb-1">
+                <%= totalOrders %>
+            </h3>
+            <p class="text-gray-600 text-sm">Total Orders</p>
+        </div>
+    </div>
+</div>

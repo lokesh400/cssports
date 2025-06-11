@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
+        data-border-radius="medium"></script>
+</head>
+
+<body
+    class="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center font-[&#39;Poppins&#39;] overflow-hidden">
+    <div class="relative w-full h-screen">
+        <div class="absolute inset-0">
+            <div id="particles"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
+            <div id="loginContainer"
+                class="bg-white/90 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-2xl opacity-0 transform scale-95 w-full max-w-md">
+                <div class="text-center mb-8">
+                    <img src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Logo"
+                        class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6" />
+                    <h2 id="loginText"
+                        class="text-3xl md:text-4xl font-semibold text-gray-800 opacity-0 transform scale-50">Please
+                        Login</h2>
+                    <p class="text-gray-600 mt-3 opacity-0" id="subText">Welcome back! Please login to continue.</p>
+                </div>
+
+                <a href="/user/login">
+                <button id="loginButton"
+                    class="!rounded-button bg-custom hover:bg-indigo-600 text-white font-medium px-6 md:px-8 py-3 rounded-lg w-full transform translate-y-10 opacity-0 transition duration-300 ease-in-out hover:shadow-lg hover:scale-105">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Login Now
+                </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const particles = [];
+            const particleCount = 50;
+            const container = document.getElementById('particles');
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'absolute w-2 h-2 bg-white/20 rounded-full';
+                container.appendChild(particle);
+                particles.push({
+                    element: particle,
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    speedX: (Math.random() - 0.5) * 2,
+                    speedY: (Math.random() - 0.5) * 2
+                });
+            }
+            function animateParticles() {
+                particles.forEach(particle => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+                    if (particle.x < 0 || particle.x > window.innerWidth) particle.speedX *= -1;
+                    if (particle.y < 0 || particle.y > window.innerHeight) particle.speedY *= -1;
+                    particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px)`;
+                });
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+            const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+            tl.to("#loginContainer", {
+                opacity: 1,
+                scale: 1,
+                duration: 1
+            })
+                .to("#loginText", {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "elastic.out(1, 0.5)"
+                }, "-=0.5")
+                .to("#subText", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8
+                }, "-=0.3")
+                .to("#loginButton", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8
+                }, "-=0.5");
+        });
+    </script>
+    <script src="/js/security.js" ></script>
+    </body>
+    </html>

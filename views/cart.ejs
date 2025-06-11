@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000"
+        data-border-radius="medium"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body class="bg-gray-50 font-[&#39;Inter&#39;]">
+    <header class="fixed top-0 left-0 w-full z-50">
+        <%- include('components/navbar.ejs') %>
+    </header>
+
+    <% if(cart) {%>
+        <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-10">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
+                <div class="lg:col-span-7">
+                    <div class="flex items-center justify-between">
+                        <h1 class="text-2xl font-semibold text-gray-900">Your Cart (<%= cart.items.length %>)</h1>
+                    </div>
+
+                    <div class="mt-8 space-y-6">
+
+
+                        <% cart.items.forEach(item=> { %>
+
+                            <div class="flex items-center justify-between bg-white p-6 rounded-lg shadow-sm">
+                                <div class="flex items-center space-x-4">
+                                    <img src="<%= item.product.coverPhoto %>" alt="Wireless Headphones"
+                                        class="w-24 h-24 rounded-md object-cover" />
+                                    <div>
+                                        <h3 class="text-base font-medium text-gray-900">
+                                            <%= item.product.name %>
+                                        </h3>
+                                        <p class="mt-1 text-sm text-gray-500">
+                                            <%= item.product.color || 'N/A' %>
+                                        </p>
+                                        <div class="mt-4 flex items-center space-x-4">
+                                            <button class="px-3 py-1 text-gray-500"
+                                                onclick="updateQuantity('<%= cart.user %>', '<%= item.product._id %>', -1)"><i
+                                                    class="fas fa-minus text-xs"></i></button>
+                                            <span class="px-3 py-1 border-x">
+                                                <%= item.quantity %>
+                                            </span>
+                                            <button class="px-3 py-1 text-gray-500"
+                                                onclick="updateQuantity('<%= cart.user %>', '<%= item.product._id %>', 1)"><i
+                                                    class="fas fa-plus text-xs"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-end space-y-3">
+                                    <p class="font-medium">₹<%= item.product.price * item.quantity %>
+                                    </p>
+                                    <button class="text-sm text-red-600 hover:text-red-500"
+                                        onclick="deleteProduct('<%= item.product._id %>')">
+                                        <i class="far fa-trash-alt mr-1"></i>
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 mt-12 lg:mt-0">
+
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-md mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h2 class="text-sm font-semibold text-gray-900">Shipping Address</h2>
+                            <a href="/edit-address">
+                                <button
+                                    class="text-custom border border-custom px-3 py-1 text-xs font-medium rounded hover:bg-custom hover:text-white transition">
+                                    <i class="fas fa-edit mr-1"></i>Edit
+                                </button>
+                            </a>
+                        </div>
+                        <p class="text-sm text-gray-800">
+                            <%= currUser.address.street %>, <%= currUser.address.city %>, <%= currUser.address.state %> - <%= currUser.address.pincode %>
+                        </p>
+                        <p class="text-sm text-gray-800 mt-1">
+                            India
+                        </p>
+                    </div>
+                    
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm sticky top-4">
+                        <h2 class="text-lg font-medium text-gray-900">Order Summary</h2>
+
+                        <div class="mt-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-600">Subtotal</p>
+                                <p class="text-sm font-medium text-gray-900">₹<%= totalAmount %>
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-600">Shipping</p>
+                                <p class="text-sm font-medium text-gray-900" id="deliveryChargeMessage">₹</p>
+                            </div>
+                            <div class="border-t border-gray-200 pt-4">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-base font-medium text-gray-900">Total</p>
+                                    <p class="text-xl font-semibold text-gray-900">₹ <%= totalAmount %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8">
+                            <p class="text-sm text-gray-600 mb-4">Estimated delivery: 3-7 business days</p>
+                            <div class="flex flex-col space-y-4">
+                                <button onclick="initiatePayment('<%= cart.user %>', <%= totalAmount * 100 %>)"
+                                    class="!rounded-button w-full bg-custom text-white py-3 hover:bg-custom-dark">
+                                    Proceed to Checkout
+                                </button>
+                                <a href="/">
+                                    <button
+                                        class="!rounded-button w-full bg-white text-custom border border-custom py-3 hover:bg-gray-50">
+                                        Continue Shopping
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <%} else{%>
+
+            <div class="flex h-screen items-center justify-center">
+                <div class="max-w-md text-center bg-white p-6 rounded-2xl shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M6 9v11a1 1 0 001 1h10a1 1 0 001-1V9" />
+                        <path d="M9 22V6a1 1 0 011-1h4a1 1 0 011 1v16" />
+                        <path d="M15 6V4a1 1 0 00-1-1H10a1 1 0 00-1 1v2" />
+                        <path d="M22 10H2" />
+                    </svg>
+                    <h1 class="mt-4 text-2xl font-semibold text-gray-800">
+                        Your Bag is Empty!
+                    </h1>
+                    <p class="mt-2 text-gray-600">
+                        Please add something to your bag to get started.
+                    </p>
+                    <a href="/">
+                        <button
+                            class="mt-6 px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            Shop Now
+                        </button>
+                    </a>
+                </div>
+            </div>
+        <%}%>
+        <script>
+            const RAZORPAY_KEY_ID = "<%= keyId %>";
+            const CURRENT_USER = {
+                email: "<%= currUser.email %>",
+                mobile: "<%= currUser.mobile %>",
+                userId: "<%= currUser._id %>"
+            };
+        </script>
+        <script src="/js/cart.js"></script>
+        <script src="/js/razorpay.js"></script>
+        <script src="/js/security.js"></script>
+</body>
+
+</html>

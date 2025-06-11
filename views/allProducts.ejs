@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products</title>
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="medium"></script>
+</head>
+<body>
+   
+    <section class="fixed top-0 left-0 w-full z-50" >
+        <%- include('components/navbar.ejs') %>
+    </section>
+
+    <div class="w-full mx-auto p-6 mt-14">
+        <div class="bg-white p-4 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:flex md:justify-between md:items-center">
+            <div class="w-full md:w-auto">
+                <label class="font-semibold block mb-1">Categories</label>
+                <select id="categorySelect" class="border p-2 rounded w-full md:w-auto">
+                    <option value="">All Categories</option>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat %>"><%= cat %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="w-full md:w-auto">
+                <label class="font-semibold block mb-1">Made For</label>
+                <select id="madeForSelect" class="border p-2 rounded w-full md:w-auto">
+                    <option value="">All</option>
+                    <% madeForValues.forEach(made => { %>
+                        <option value="<%= made %>"><%= made %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="w-full md:w-auto">
+                <label class="font-semibold block mb-1">Sort By</label>
+                <select id="sortSelect" class="border p-2 rounded w-full md:w-auto">
+                    <option value="default">None</option>
+                    <option value="priceLow">Price (Low to High)</option>
+                    <option value="priceHigh">Price (High to Low)</option>
+                    <option value="newest">Newest First</option>
+                </select>
+            </div>
+        </div>
+
+        <p class="mt-4 text-gray-600" id="productCount">Showing all products</p>
+
+        <div id="productContainer" class="mt-6 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+            <% products.forEach(product => { %>
+                <div class="product-card bg-white p-4 rounded-lg shadow-md relative" 
+                     data-category="<%= product.category %>" 
+                     data-madefor="<%= product.madeFor %>" 
+                     data-price="<%= product.price %>" 
+                     data-date="<%= product.createdAt.getTime() %>">
+                    <span class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs rounded">50% OFF</span>
+                    <a href="/this/product/<%= product._id %>" >
+                        <img src="<%= product.coverPhoto || 'https://via.placeholder.com/150' %>" class="w-full h-90 object-cover rounded-lg">
+                    </a>
+                    
+                    <h3 class="text-lg font-semibold mt-2"><%= product.name %></h3>
+                    <p class="text-gray-600">₹<%= product.price %></p>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script>
+        const categorySelect = document.getElementById("categorySelect");
+        const madeForSelect = document.getElementById("madeForSelect");
+        const sortSelect = document.getElementById("sortSelect");
+        const productContainer = document.getElementById("productContainer");
+        const productCount = document.getElementById("productCount");
+
+        let products = Array.from(document.querySelectorAll(".product-card"));
+
+        function filterProducts() {
+            const selectedCategory = categorySelect.value;
+            const selectedMadeFor = madeForSelect.value;
+
+            let visibleProducts = products.filter(product => {
+                const category = product.getAttribute("data-category");
+                const madeFor = product.getAttribute("data-madefor");
+                return (!selectedCategory || category === selectedCategory) &&
+                       (!selectedMadeFor || madeFor === selectedMadeFor);
+            });
+
+            productContainer.innerHTML = "";
+            visibleProducts.forEach(product => productContainer.appendChild(product));
+            productCount.textContent = `${visibleProducts.length} products found`;
+        }
+
+        function sortProducts() {
+            const sortBy = sortSelect.value;
+            let sortedProducts = [...productContainer.children];
+
+            if (sortBy === "priceLow") {
+                sortedProducts.sort((a, b) => a.getAttribute("data-price") - b.getAttribute("data-price"));
+            } else if (sortBy === "priceHigh") {
+                sortedProducts.sort((a, b) => b.getAttribute("data-price") - a.getAttribute("data-price"));
+            } else if (sortBy === "newest") {
+                sortedProducts.sort((a, b) => b.getAttribute("data-date") - a.getAttribute("data-date"));
+            }
+
+            productContainer.innerHTML = "";
+            sortedProducts.forEach(product => productContainer.appendChild(product));
+        }
+
+        categorySelect.addEventListener("change", filterProducts);
+        madeForSelect.addEventListener("change", filterProducts);
+        sortSelect.addEventListener("change", sortProducts);
+    </script>
+    <script src="/js/security.js" ></script>
+</body>
+</html>
