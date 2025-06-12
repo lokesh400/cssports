@@ -36,14 +36,14 @@
 
                             <div class="flex items-center justify-between bg-white p-6 rounded-lg shadow-sm">
                                 <div class="flex items-center space-x-4">
-                                    <img src="<%= item.product.coverPhoto %>" alt="Wireless Headphones"
+                                    <img src="<%= item.product.images[0] %>" alt="Wireless Headphones"
                                         class="w-24 h-24 rounded-md object-cover" />
                                     <div>
                                         <h3 class="text-base font-medium text-gray-900">
                                             <%= item.product.name %>
                                         </h3>
                                         <p class="mt-1 text-sm text-gray-500">
-                                            <%= item.product.color || 'N/A' %>
+                                            <%= item.price  %>
                                         </p>
                                         <div class="mt-4 flex items-center space-x-4">
                                             <button class="px-3 py-1 text-gray-500"
@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-end space-y-3">
-                                    <p class="font-medium">₹<%= item.product.price * item.quantity %>
+                                    <p class="font-medium">₹<%= item.price * item.quantity %>
                                     </p>
                                     <button class="text-sm text-red-600 hover:text-red-500"
                                         onclick="deleteProduct('<%= item.product._id %>')">
@@ -116,7 +116,7 @@
                         <div class="mt-8">
                             <p class="text-sm text-gray-600 mb-4">Estimated delivery: 3-7 business days</p>
                             <div class="flex flex-col space-y-4">
-                                <button onclick="initiatePayment('<%= cart.user %>', <%= totalAmount * 100 %>)"
+                                <button onclick="initiatePayment(userId,amount)"
                                     class="!rounded-button w-full bg-custom text-white py-3 hover:bg-custom-dark">
                                     Proceed to Checkout
                                 </button>
@@ -160,16 +160,19 @@
             </div>
         <%}%>
         <script>
-            const RAZORPAY_KEY_ID = "<%= keyId %>";
-            const CURRENT_USER = {
-                email: "<%= currUser.email %>",
-                mobile: "<%= currUser.mobile %>",
-                userId: "<%= currUser._id %>"
-            };
-        </script>
-        <script src="/js/cart.js"></script>
-        <script src="/js/razorpay.js"></script>
-        <script src="/js/security.js"></script>
+    const RAZORPAY_KEY_ID = "<%= keyId %>";
+    const amount = <%= cart.subTotal * 100 + cart.deliveryCharges * 100 %>; // Injected as number
+    const userId = "<%= currUser._id %>";
+    const CURRENT_USER = {
+        email: "<%= currUser.email %>",
+        mobile: "<%= currUser.mobile %>",
+        userId: "<%= currUser._id %>"
+    };
+</script>
+<script src="/js/cart.js"></script>
+<script src="/js/razorpay.js"></script>
+
+<!-- <script src="/js/security.js"></script> -->
 </body>
 
 </html>

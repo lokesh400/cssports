@@ -55,7 +55,7 @@
                     <a href="/admin/view/this/product/<%= order._id %>"><%= order._id %></a>
                   </button>  
               </td>
-              <td class="px-6 py-4 text-sm text-gray-700"><%= order.user.name %></td>
+              <td class="px-6 py-4 text-sm text-gray-700"><%= order.user.username %></td>
               <td class="px-6 py-4 text-sm">
                 <span class="px-3 py-1 rounded-full text-white <%= order.status === 'pending' ? 'bg-red-500' : (order.status === 'printed' ? 'bg-green-500' : 'bg-gray-500') %>">
                   <%= order.status %>
@@ -63,7 +63,6 @@
               </td>
               <td class="px-6 py-4 text-sm" id="qr-<%= order._id %>"></td>
             </tr>
-            
             <% }); %>
           </tbody>
         </table>
@@ -77,7 +76,7 @@
     orders.forEach(order => {
       const qrDiv = document.getElementById(`qr-${order._id}`);
       new QRCode(qrDiv, {
-        text: `https://keshvibe.in/order/details/${order.encryptedId}`,
+        text: `https://cssportsnutrition.com/order/details/${order._id}`,
         width: 100,
         height: 100
       });
@@ -91,7 +90,7 @@
       printWindow.document.write("<h1>Pending Orders</h1>");
       pendingOrders.forEach(order => {
         printWindow.document.write(`
-        <div style="width: 90% ; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: Arial, sans-serif; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+        <div style="width: 90% ; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: Arial, sans-serif; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); height:950px">
           <h1 style="text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 10px;">Order Receipt</h1>
           <p style="text-align: center; font-size: 12px; color: #555;">Thank you for your purchase!</p>
           <hr style="margin: 10px 0; border: none; border-top: 1px solid #ccc;">
@@ -103,8 +102,8 @@
           <div style="display:flex; gap:50px" >
           <div style="margin-bottom: 10px;">
             <p style="font-size: 14px; margin: 0; font-weight: bold;">Customer Information</p>
-            <p style="font-size: 12px; margin: 0;">${order.user.name}</p>
-            <p style="font-size: 12px; margin: 0;">${order.user.email}</p>
+            <p style="font-size: 12px; margin: 0;">${order.address.name}</p>
+            <p style="font-size: 12px; margin: 0;">${order.user.username}</p>
             <p style="font-size: 12px; margin: 0;">${order.user.mobile}</p>
           </div>
           <div style="margin-bottom: 10px;">
@@ -130,10 +129,11 @@
                   .map(
                     (item) => `
                   <tr>
-                    <td style="padding: 5px 0;">${item.name}</td>
+                    <td style="padding: 5px 0;">${item.product.name}</td>
                     <td style="text-align: right; padding: 5px 0;">${item.quantity}</td>
                     <td style="text-align: right; padding: 5px 0;">₹${item.price}</td>
-                    <td style="text-align: right; padding: 5px 0;">₹${item.quantity * item.price}</td>
+                    <td style="text-align: right; padding: 5px 0;">₹${item.size}</td>
+                    <td style="text-align: right; padding: 5px 0;">₹${item.price}</td>
                   </tr>
                 `
                   )
@@ -153,31 +153,31 @@
           </div>
         </div> 
         `);
-        const qrDiv = document.createElement("div");
-        new QRCode(qrDiv, {
-          text: `https://keshvibe.in/order/details/${order.encryptedId}`,
-          width: 100,
-          height: 100
-        });
-        qrDiv.style = "margin: auto; display: flex; justify-content: center;";
-        printWindow.document.body.appendChild(qrDiv);
+        // const qrDiv = document.createElement("div");
+        // new QRCode(qrDiv, {
+        //   text: `https://cssportsnutrition.com/order/details/${order._id}`,
+        //   width: 100,
+        //   height: 100
+        // });
+        // qrDiv.style = "margin: auto; display: flex; justify-content: center;";
+        // printWindow.document.body.appendChild(qrDiv);
       });
 
       printWindow.print();
       printWindow.close();
 
-      fetch("/admin/print/orders/mark-printed", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderIds: pendingOrderIds })
-      }).then(response => {
-        if (response.ok) {
-          alert("Orders marked as printed.");
-          location.reload();
-        } else {
-          alert("Failed to update order status.");
-        }
-      });
+      // fetch("/admin/print/orders/mark-printed", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ orderIds: pendingOrderIds })
+      // }).then(response => {
+      //   if (response.ok) {
+      //     alert("Orders marked as printed.");
+      //     location.reload();
+      //   } else {
+      //     alert("Failed to update order status.");
+      //   }
+      // });
     }
   </script>
 </body>

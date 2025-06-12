@@ -123,12 +123,14 @@ router.get("/admin",isLoggedIn,isAdmin, async (req, res) => {
 // Fetch all orders and send encrypted QR codes
 router.get("/admin/orders",isLoggedIn,isAdmin, async (req, res) => {
   try {
-    const orders = await Order.find().populate("user");
-    const encryptedOrders = orders.map((order) => ({
-      ...order.toObject(),
-      encryptedId: encryptOrderId(order._id.toString()),
-    }));
-    res.render("admin/admin-orders", { orders: encryptedOrders });
+    const orders = await Order.find()
+  .populate("user") // populate user
+  .populate("products.product"); // populate nested product reference inside products
+    // const encryptedOrders = orders.map((order) => ({
+    //   ...order.toObject(),
+    //   encryptedId: encryptOrderId(order._id.toString()),
+    // }));
+    res.render("admin/admin-orders", { orders });
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).send("Error fetching orders.");

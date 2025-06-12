@@ -22,42 +22,91 @@ const razorpay = new Razorpay({
   key_secret: process.env.rzp_key_secret,
 });
 
-//pre login route
-router.get("/my/cart", isLoggedIn,hasAddress, (req, res) => {
-  res.redirect(`/cart/${req.user._id}`);
+router.use(express.json());
+ 
+router.get("/my/cart",saveRedirectUrl,isLoggedIn,hasAddress, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const cart = await Cart.findOne({ user: userId }).populate("items.product");
+
+    if (!cart) {
+      return res.render("cart.ejs", {
+        cart: { items: [], deliveryCharges: 0 },
+        subTotal: 0,
+        totalAmount: 0,
+        keyId: process.env.rzp_key_id,
+        currUser: req.user,
+      });
+    }
+
+    cart.deliveryCharges = cart.subTotal > 1000 ? 0 : 80;
+    cart.totalCharges = cart.subTotal + cart.deliveryCharges;
+    await cart.save();
+
+    res.render("cart.ejs", {
+      cart,
+      subTotal: cart.subTotal,
+      totalAmount: cart.totalCharges,
+      keyId: process.env.rzp_key_id,
+      currUser: req.user,
+    });
+
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
-// 📦 Get Cart Items
-router.get("/cart/:userId", isLoggedIn, async (req, res) => {
-    try {
-      const cart = await Cart.findOne({ user: req.params.userId }).populate(
-        "items.product"
-      );
-      if (!cart) {
-        // Render empty cart if no cart is found
-        return res.render("cart.ejs", {
-          cart: { items: [] },
-          totalAmount: 0,
-          keyId: process.env.rzp_key_id,
-        });
+
+
+  // add to cart
+  router.post("/add/to/my/cart/:id", async (req, res) => {
+    const userId = req.user.id;
+    const productId = req.body.id
+    const quantity = req.body.qty
+      const product = await Product.findById({_id: req.params.id,"sizes.size": `${req.body.product}`})
+      if(!product){
+        res.status(201).json({message:"Something Went Wrong"})
       }
-      if (cart.subTotal > 1000) {
-        cart.deliveryCharges = 0; // Set delivery charges to 0
-      } else {
-        cart.deliveryCharges = 80; // Default delivery charges
-      }
-      cart.totalCharges = cart.subTotal + cart.deliveryCharges;
-      await cart.save();
-      const totalAmount = cart.totalCharges;
-      res.render("cart.ejs", {
-        cart,
-        totalAmount,
-        keyId: process.env.rzp_key_id,
+      const selectedSize = product.sizes.find(s => s.size === `${req.body.product}`);
+      const price = selectedSize.price;
+      const size = selectedSize.size
+     try {
+    let cart = await Cart.findOne({ user: userId });
+    const newItem = {
+      product: productId,
+      price: price,
+      size: size,
+      quantity,
+    };
+    if (!cart) {
+      // Create a new cart for user
+      cart = new Cart({
+        user: userId,
+        items: [newItem],
+        deliveryCharges: 50, // or some default value
       });
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-      res.status(500).json({ message: error });
+    } else {
+      // Check if item with same product + size already exists
+      const existingItemIndex = cart.items.findIndex(
+        (item) =>
+          item.product === productId &&
+          item.size === size
+      );
+      if (existingItemIndex > -1) {
+        // Update quantity if exists
+        cart.items[existingItemIndex].quantity += quantity;
+      } else {
+        // Add new item
+        cart.items.push(newItem);
+      }
     }
+    await cart.save(); // triggers .pre('save') to update totals
+    res.status(200).json({ success: true, cart });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
   });
 
 
@@ -98,46 +147,6 @@ router.get("/this/product/:id", isLoggedIn, async (req, res) => {
   } catch (err) {
     console.error("Error fetching product: ", err);
     res.status(500).send("Server error");
-  }
-});
-
-// Add to Cart Route
-router.post("/add-to-cart", isLoggedIn, async (req, res) => {
-  try {
-    const { userId, productId, quantity, size } = req.body;
-    if (!userId || !productId || !quantity || !size) {
-      return res
-        .status(400)
-        .json({
-          message: "User ID, Product ID, Quantity, and Size are required.",
-        });
-    }
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found." });
-    }
-    let cart = await Cart.findOne({ user: userId });
-    if (!cart) {
-      cart = new Cart({ user: userId, items: [] });
-    }
-    const itemIndex = cart.items.findIndex(
-      (item) => item.product.toString() === productId && item.size === size
-    );
-    if (itemIndex > -1) {
-      cart.items[itemIndex].quantity += parseInt(quantity);
-    } else {
-      cart.items.push({
-        product: productId,
-        price: product.price,
-        quantity: parseInt(quantity),
-        size,
-      });
-    }
-    await cart.save();
-    res.status(200).json({ message: "Item added to cart", cart });
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    res.status(500).json({ message: "Failed to add to cart", error });
   }
 });
 
@@ -190,12 +199,8 @@ router.post("/cart/create-order", isLoggedIn, async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
     if (!cart || cart.items.length === 0)
-      return res.status(400).json({ message: "Cart is empty" });
-    const totalAmount =
-      cart.items.reduce(
-        (acc, item) => acc + item.product.price * item.quantity,
-        0
-      ) + cart.deliveryCharges;
+    return res.status(400).json({ message: "Cart is empty" });
+    const totalAmount = cart.deliveryCharges + cart.subTotal
     const options = {
       amount: totalAmount * 100, // Razorpay requires amount in paise
       currency: "INR",
@@ -205,6 +210,7 @@ router.post("/cart/create-order", isLoggedIn, async (req, res) => {
     const order = await razorpay.orders.create(options);
     res.json({ orderId: order.id, amount: totalAmount });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Error creating order", error });
   }
 });
@@ -248,7 +254,8 @@ router.post("/cart/verify-payment", isLoggedIn, async (req, res) => {
       products: cart.items.map((item) => ({
         product: item.product._id,
         quantity: item.quantity,
-        price: item.product.price,
+        size:item.size,
+        price: item.price,
       })),
       subTotal: cart.subTotal,
       deliveryCharges: cart.deliveryCharges,

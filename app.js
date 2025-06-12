@@ -132,20 +132,17 @@ app.get("/add-address",isLoggedIn, (req, res) => {
   });
 });
 
-app.post('/add-address', isLoggedIn, saveRedirectUrl, async (req, res) => {
-  console.log('Redirect URL from locals:', res.locals.RedirectUrl);
-  const { street, city, state, pincode, mobile } = req.body;
+app.post('/add-address', isLoggedIn, async (req, res) => {
+  const { street, city, state, pincode, mobile,name } = req.body;
   console.log(req.body);
   try {
       await User.findByIdAndUpdate(req.user._id, {
-          address: { street, city, state, pincode },
+          address: { street, city, state, pincode,name },
           mobile
       });
 
       // Redirect to the saved URL or the home page
-      const redirectUrl = res.locals.RedirectUrl || "/";
-      console.log('Redirecting to:', redirectUrl);
-      res.redirect(redirectUrl);
+      res.redirect('/my/cart');
   } catch (err) {
       console.error('Error while adding address:', err);
       res.redirect('/add-address');
@@ -166,13 +163,13 @@ app.get("/edit-address",isLoggedIn, (req, res) => {
 
 // Handle Address Update
 app.post('/edit-address',isLoggedIn, async (req, res) => {
-  const { street, city, state, pincode, mobile } = req.body;
+  const { street, city, state, pincode, mobile,name } = req.body;
   try {
       await User.findByIdAndUpdate(req.user._id, {
-          address: { street, city, state, pincode },
+          address: { street, city, state, pincode,name },
           mobile
       });
-      res.redirect(`/cart/${req.user._id}`);
+      res.redirect(`my/cart`);
   } catch (err) {
       console.error(err);
       res.redirect('/edit-address');
