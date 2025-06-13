@@ -12,6 +12,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.tailwindcss.com/3.4.16">
 </script>
+<style>
+@keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee {
+  display: inline-block;
+  min-width: 100%;
+  animation: marquee 20s linear infinite;
+}
+.text-goldenrod {
+  color: goldenrod;
+}
+</style>
 <script>
 tailwind.config = {
   theme: {
@@ -45,9 +59,17 @@ tailwind.config = {
 
 <%- include('components/navbar.ejs') %>
 
+<div class="overflow-hidden bg-black whitespace-nowrap">
+  <div class="inline-block animate-marquee text-goldenrod text-xl font-semibold py-2">
+    🔥 Best Quality Supplements • 100% Genuine Products • Free Shipping on Orders Above ₹999 • Join Our Fitness Revolution Today! 🔥
+  </div>
+</div>
+
 <%- include('components/carousel.ejs') %>
 
 <%- include('components/categories.ejs') %>
+
+<%- include('components/gymAccessories.ejs') %>
 
 <%- include('components/featured.ejs') %>
 
