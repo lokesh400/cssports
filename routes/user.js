@@ -38,14 +38,14 @@ router.post("/signup", async (req, res) => {
         secure: false,
         port: 587,
         auth: {
-          user: "official.keshvibe@gmail.com",
+          user: "official.csnutrition@gmail.com",
           pass: process.env.mailpass,
         },
       });
 
       try {
         const mailOptions = await transporter.sendMail({
-          from: "official.keshvibe@gmail.com",
+          from: "official.csnutrition@gmail.com",
           to: `${email}`,
           subject: "Welcome to keshvibe.in",
           html: `
@@ -55,7 +55,7 @@ router.post("/signup", async (req, res) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to KeshVibe</title>
+    <title>Welcome to CS Sports & Nutrition</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -153,20 +153,19 @@ router.post("/signup", async (req, res) => {
         <!-- Body -->
         <div class="body">
             <h2>Hi ${name} ,</h2>
-            <p>Thank you for signing up with KeshVibe! We're thrilled to have you on board. Explore the latest trends, exclusive collections, and more, all tailored to elevate your style.</p>
+            <p>Thank you for signing up with CS Sports & Nutrition! We're thrilled to have you on board. Explore the latest trends, exclusive collections, and more, all tailored to elevate your style.</p>
             <p>As a member, you’ll be the first to know about:</p>
             <ul>
                 <li>New arrivals and collections</li>
                 <li>Exclusive offers and discounts</li>
-                <li>Fashion inspiration and styling tips</li>
             </ul>
             <p>Ready to shop? Click the button below to start your journey with KeshVibe:</p>
-            <a href="https://keshvibe.in" class="cta-button">Shop Now</a>
+            <a href="https://cssportsandnutrition.com" class="cta-button">Shop Now</a>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            <p>&copy; 2025 KeshVibe. All rights reserved.</p>
+            <p>&copy; 2025 CS Sports & Nutrition. All rights reserved.</p>
         </div>
     </div>
 </body>
@@ -263,13 +262,13 @@ router.post("/add/new/query", async (req, res) => {
       secure: false,
       port: 587,
       auth: {
-        user: "official.keshvibe@gmail.com",
+        user: "official.csnutrition@gmail.com",
         pass: process.env.mailpass, // Ensure this is set correctly in environment variables
       },
     });
     // Define email options
     const mailOptions = {
-      from: "official.keshvibe@gmail.com",
+      from: "official.csnutrition@gmail.com",
       to: `${email}`, // Replace with actual recipient email
       subject: "New Query Recieved",
       html: `
@@ -330,18 +329,18 @@ router.post("/subscribe/to/newsletter", async (req, res) => {
       secure: false,
       port: 587,
       auth: {
-        user: "official.keshvibe@gmail.com",
+        user: "official.csnutrition@gmail.com",
         pass: process.env.mailpass, // Ensure this is set in your environment variables
       },
     });
     const mailOptions = {
-      from: "official.keshvibe@gmail.com",
+      from: "official.csnutrition@gmail.com",
       to: email, // Pass the email from the request body here
       subject: "Welcome to KeshVibe Newsletter!",
       html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                     <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                        <h1 style="color: #007bff; text-align: center;">Welcome to KeshVibe!</h1>
+                        <h1 style="color: #007bff; text-align: center;">Welcome to CS Sports & Nutrition!</h1>
                         <p style="font-size: 16px; color: #333;">Hi there,</p>
                         <p style="font-size: 16px; color: #333;">Thank you for subscribing to the KeshVibe newsletter! We're excited to have you join our community.</p>
                         <p style="font-size: 16px; color: #333;">Stay tuned for exclusive updates, the latest fashion trends, and special offers just for you.</p>
@@ -356,7 +355,7 @@ router.post("/subscribe/to/newsletter", async (req, res) => {
                                 font-size: 16px;
                             ">Visit Our Store</a>
                         </div>
-                        <p style="font-size: 16px; color: #333;">If you have any questions, feel free to reach out to us anytime at <a href="mailto:official.keshvibe@gmail.com" style="color: #007bff; text-decoration: none;">official.keshvibe@gmail.com</a>.</p>
+                        <p style="font-size: 16px; color: #333;">If you have any questions, feel free to reach out to us anytime at <a href="mailto:official.csnutrition@gmail.com" style="color: #007bff; text-decoration: none;">official.csnutrition@gmail.com</a>.</p>
                         <p style="font-size: 16px; color: #333;">Cheers,<br>The KeshVibe Team</p>
                         <hr style="border: none; border-top: 1px solid #ddd;">
                         <p style="font-size: 12px; color: #999; text-align: center;">You received this email because you subscribed to the KeshVibe newsletter.</p>

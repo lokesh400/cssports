@@ -144,7 +144,7 @@ router.get("/product/management",isLoggedIn, async (req, res) => {
 });
 
 //render particular product
-router.get("/show/this/product/:id", async(req,res)=>{
+router.get("/show/this/product/:id",saveRedirectUrl,isLoggedIn, async(req,res)=>{
   const product = await Product.findById(req.params.id);
   res.render('thisProduct.ejs',{product});
 })

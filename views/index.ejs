@@ -1,197 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CS Sports And Nutrition</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
-    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="medium"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.tailwindcss.com/3.4.16">
-</script>
-<style>
-@keyframes marquee {
-  0%   { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-.animate-marquee {
-  display: inline-block;
-  min-width: 100%;
-  animation: marquee 20s linear infinite;
-}
-.text-goldenrod {
-  color: goldenrod;
-}
-</style>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: { primary: "#4f46e5", secondary: "#10b981" },
-      borderRadius: {
-        none: "0px",
-        sm: "4px",
-        DEFAULT: "8px",
-        md: "12px",
-        lg: "16px",
-        xl: "20px",
-        "2xl": "24px",
-        "3xl": "32px",
-        full: "9999px",
-        button: "8px",
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS Sports And Nutrition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+  <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="medium"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.16">
+  </script>
+  <style>
+    .carousel::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari */
+    }
+
+    .carousel {
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(100%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .animate-marquee {
+      display: inline-block;
+      min-width: 100%;
+      animation: marquee 20s linear infinite;
+    }
+
+    .text-goldenrod {
+      color: goldenrod;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#4f46e5",
+            secondary: "#10b981"
+          },
+          borderRadius: {
+            none: "0px",
+            sm: "4px",
+            DEFAULT: "8px",
+            md: "12px",
+            lg: "16px",
+            xl: "20px",
+            "2xl": "24px",
+            "3xl": "32px",
+            full: "9999px",
+            button: "8px",
+          },
+        },
       },
-    },
-  },
-};
-</script>
-<link rel="stylesheet" href="/styles/index.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    };
+  </script>
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
 </head>
+
 <body class="bg-white">
-<!-- Header -->
+  <!-- Header -->
 
-<%- include('components/navbar.ejs') %>
+  <%- include('components/navbar.ejs') %>
 
-<div class="overflow-hidden bg-black whitespace-nowrap">
-  <div class="inline-block animate-marquee text-goldenrod text-xl font-semibold py-2">
-    🔥 Best Quality Supplements • 100% Genuine Products • Free Shipping on Orders Above ₹999 • Join Our Fitness Revolution Today! 🔥
+  <div class="overflow-hidden bg-black whitespace-nowrap">
+    <div class="inline-block animate-marquee text-goldenrod text-xl font-semibold py-2">
+      🔥 Best Quality Supplements • 100% Genuine Products • Free Shipping on Orders Above ₹999 • Join Our Fitness Revolution Today! 🔥
+    </div>
   </div>
-</div>
 
-<%- include('components/carousel.ejs') %>
+  <%- include('components/carousel.ejs') %>
 
-<%- include('components/categories.ejs') %>
+  <%- include('components/categories.ejs') %>
 
-<%- include('components/gymAccessories.ejs') %>
+  <div style=" width: 95%; margin:auto">
+    <img style="width: 100%;" src="/images/m1.webp" alt="">
+  </div>
 
-<%- include('components/featured.ejs') %>
+  <%- include('components/gymAccessories.ejs') %>
 
-<%- include('components/brands.ejs') %>
+  <%- include('components/featured.ejs') %>
 
-<%- include('components/whyUs.ejs') %>
+  <div style=" width: 95%; margin:auto">
+    <img style="width: 100%; border-radius: 10px;" src="/images/m2.webp" alt="">
+  </div>
 
-<%- include('components/reviews.ejs') %>
+  <%- include('components/featuredProtein.ejs') %>
 
-<%- include('components/newsletter.ejs') %>
+  <%- include('components/featuredGainer.ejs') %>
 
-<%- include('components/footer.ejs') %>
+  <%- include('components/brands.ejs') %>
 
-<button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
-<i class="ri-arrow-up-line ri-lg"></i>
-</button>
+  <%- include('components/whyUs.ejs') %>
 
-<script id="carousel-navigation">
-document.addEventListener("DOMContentLoaded", function () {
-  const carousels = document.querySelectorAll(".carousel");
-  const prevButtons = document.querySelectorAll(
-    ".carousel + button:first-of-type",
-  );
-  const nextButtons = document.querySelectorAll(".carousel + button + button");
-  carousels.forEach((carousel, index) => {
-    const items = carousel.querySelectorAll(".carousel-item");
-    const itemWidth = items[0].offsetWidth + 24; // width + gap
-    if (prevButtons[index] && nextButtons[index]) {
-      prevButtons[index].addEventListener("click", () => {
-        carousel.scrollBy({ left: -itemWidth, behavior: "smooth" });
-      });
-      nextButtons[index].addEventListener("click", () => {
-        carousel.scrollBy({ left: itemWidth, behavior: "smooth" });
-      });
-    }
-  });
-});
-</script>
-<script id="back-to-top">
-document.addEventListener("DOMContentLoaded", function () {
-  const backToTopButton = document.getElementById("backToTop");
-  window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 300) {
-      backToTopButton.classList.remove("opacity-0", "invisible");
-      backToTopButton.classList.add("opacity-100", "visible");
-    } else {
-      backToTopButton.classList.remove("opacity-100", "visible");
-      backToTopButton.classList.add("opacity-0", "invisible");
-    }
-  });
-  backToTopButton.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-});
-</script>
-<script id="hero-carousel">
-document.addEventListener("DOMContentLoaded", function () {
-  const track = document.querySelector(".carousel-track");
-  const slides = document.querySelectorAll(".carousel-slide");
-  const dots = document.querySelectorAll("[data-slide]");
-  const prevButton = track.parentElement.querySelector(
-    ".ri-arrow-left-s-line",
-  ).parentElement;
-  const nextButton = track.parentElement.querySelector(
-    ".ri-arrow-right-s-line",
-  ).parentElement;
-  let currentSlide = 0;
-  const slideCount = slides.length;
-  function updateCarousel() {
-    track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    dots.forEach((dot, index) => {
-      dot.classList.toggle("bg-white", index === currentSlide);
-      dot.classList.toggle("bg-white/50", index !== currentSlide);
-    });
-  }
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % slideCount;
-    updateCarousel();
-  }
-  function prevSlide() {
-    currentSlide = (currentSlide - 1 + slideCount) % slideCount;
-    updateCarousel();
-  }
-  nextButton.addEventListener("click", nextSlide);
-  prevButton.addEventListener("click", prevSlide);
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      currentSlide = index;
-      updateCarousel();
-    });
-  });
-  let autoplayInterval = setInterval(nextSlide, 5000);
-  const carouselContainer = track.parentElement;
-  carouselContainer.addEventListener("mouseenter", () => {
-    clearInterval(autoplayInterval);
-  });
-  carouselContainer.addEventListener("mouseleave", () => {
-    autoplayInterval = setInterval(nextSlide, 5000);
-  });
-  updateCarousel();
-});
-</script>
-<script id="scroll-animations">
-document.addEventListener("DOMContentLoaded", function () {
-  const animateElements = document.querySelectorAll(
-    ".benefit-card, .product-card, .category-card, .testimonial-card",
-  );
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("slide-in");
-          observer.unobserve(entry.target);
+  <%- include('components/reviews.ejs') %>
+
+  <%- include('components/newsletter.ejs') %>
+
+  <%- include('components/footer.ejs') %>
+
+  <button id="backToTop" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+    <i class="ri-arrow-up-line ri-lg"></i>
+  </button>
+
+  <script id="carousel-navigation">
+    document.addEventListener("DOMContentLoaded", function() {
+      const carousels = document.querySelectorAll(".carousel");
+      const prevButtons = document.querySelectorAll(
+        ".carousel + button:first-of-type",
+      );
+      const nextButtons = document.querySelectorAll(".carousel + button + button");
+      carousels.forEach((carousel, index) => {
+        const items = carousel.querySelectorAll(".carousel-item");
+        const itemWidth = items[0].offsetWidth + 24; // width + gap
+        if (prevButtons[index] && nextButtons[index]) {
+          prevButtons[index].addEventListener("click", () => {
+            carousel.scrollBy({
+              left: -itemWidth,
+              behavior: "smooth"
+            });
+          });
+          nextButtons[index].addEventListener("click", () => {
+            carousel.scrollBy({
+              left: itemWidth,
+              behavior: "smooth"
+            });
+          });
         }
       });
-    },
-    { threshold: 0.1 },
-  );
-  animateElements.forEach((element) => {
-    observer.observe(element);
-  });
-});
-</script>
+    });
+  </script>
+  <script id="back-to-top">
+    document.addEventListener("DOMContentLoaded", function() {
+      const backToTopButton = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          backToTopButton.classList.remove("opacity-0", "invisible");
+          backToTopButton.classList.add("opacity-100", "visible");
+        } else {
+          backToTopButton.classList.remove("opacity-100", "visible");
+          backToTopButton.classList.add("opacity-0", "invisible");
+        }
+      });
+      backToTopButton.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+    });
+  </script>
+  <script id="hero-carousel">
+    document.addEventListener("DOMContentLoaded", function() {
+      const track = document.querySelector(".carousel-track");
+      const slides = document.querySelectorAll(".carousel-slide");
+      const dots = document.querySelectorAll("[data-slide]");
+      const prevButton = track.parentElement.querySelector(
+        ".ri-arrow-left-s-line",
+      ).parentElement;
+      const nextButton = track.parentElement.querySelector(
+        ".ri-arrow-right-s-line",
+      ).parentElement;
+      let currentSlide = 0;
+      const slideCount = slides.length;
+
+      function updateCarousel() {
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("bg-white", index === currentSlide);
+          dot.classList.toggle("bg-white/50", index !== currentSlide);
+        });
+      }
+
+      function nextSlide() {
+        currentSlide = (currentSlide + 1) % slideCount;
+        updateCarousel();
+      }
+
+      function prevSlide() {
+        currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+        updateCarousel();
+      }
+      nextButton.addEventListener("click", nextSlide);
+      prevButton.addEventListener("click", prevSlide);
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          currentSlide = index;
+          updateCarousel();
+        });
+      });
+      let autoplayInterval = setInterval(nextSlide, 5000);
+      const carouselContainer = track.parentElement;
+      carouselContainer.addEventListener("mouseenter", () => {
+        clearInterval(autoplayInterval);
+      });
+      carouselContainer.addEventListener("mouseleave", () => {
+        autoplayInterval = setInterval(nextSlide, 5000);
+      });
+      updateCarousel();
+    });
+  </script>
+  <script id="scroll-animations">
+    document.addEventListener("DOMContentLoaded", function() {
+      const animateElements = document.querySelectorAll(
+        ".benefit-card, .product-card, .category-card, .testimonial-card",
+      );
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("slide-in");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1
+        },
+      );
+      animateElements.forEach((element) => {
+        observer.observe(element);
+      });
+    });
+  </script>
 </body>
+
 </html>

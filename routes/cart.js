@@ -23,8 +23,8 @@ const razorpay = new Razorpay({
 });
 
 router.use(express.json());
- 
-router.get("/my/cart",saveRedirectUrl,isLoggedIn,hasAddress, async (req, res) => {
+
+router.get("/my/cart", saveRedirectUrl, isLoggedIn, hasAddress, async (req, res) => {
   try {
     const userId = req.user.id;
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
@@ -59,55 +59,57 @@ router.get("/my/cart",saveRedirectUrl,isLoggedIn,hasAddress, async (req, res) =>
 
 
 
-  // add to cart
-  router.post("/add/to/my/cart/:id", async (req, res) => {
+// add to cart
+router.post("/add/to/my/cart/:id", saveRedirectUrl, async (req, res) => {
+  if (req.user) {
     const userId = req.user.id;
-    const productId = req.body.id
-    const quantity = req.body.qty
-      const product = await Product.findById({_id: req.params.id,"sizes.size": `${req.body.product}`})
-      if(!product){
-        res.status(201).json({message:"Something Went Wrong"})
-      }
-      const selectedSize = product.sizes.find(s => s.size === `${req.body.product}`);
-      const price = selectedSize.price;
-      const size = selectedSize.size
-     try {
-    let cart = await Cart.findOne({ user: userId });
-    const newItem = {
-      product: productId,
-      price: price,
-      size: size,
-      quantity,
-    };
-    if (!cart) {
-      // Create a new cart for user
-      cart = new Cart({
-        user: userId,
-        items: [newItem],
-        deliveryCharges: 50, // or some default value
-      });
-    } else {
-      // Check if item with same product + size already exists
-      const existingItemIndex = cart.items.findIndex(
-        (item) =>
-          item.product === productId &&
-          item.size === size
-      );
-      if (existingItemIndex > -1) {
-        // Update quantity if exists
-        cart.items[existingItemIndex].quantity += quantity;
-      } else {
-        // Add new item
-        cart.items.push(newItem);
-      }
+    const productId = req.body.id;
+    const quantity = req.body.qty;
+    const product = await Product.findById({ _id: req.params.id, "sizes.size": `${req.body.product}` })
+    if (!product) {
+      res.status(201).json({ message: "Something Went Wrong" })
     }
-    await cart.save(); // triggers .pre('save') to update totals
-    res.status(200).json({ success: true, cart });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, error: "Internal server error" });
+    const selectedSize = product.sizes.find(s => s.size === `${req.body.product}`);
+    const price = selectedSize.price;
+    const size = selectedSize.size
+    try {
+      let cart = await Cart.findOne({ user: userId });
+      const newItem = {
+        product: productId,
+        price: price,
+        size: size,
+        quantity,
+      };
+      if (!cart) {
+        cart = new Cart({
+          user: userId,
+          items: [newItem],
+          deliveryCharges: 50,
+        });
+      } else {
+        const existingItemIndex = cart.items.findIndex(
+          (item) =>
+            item.product === productId &&
+            item.size === size
+        );
+        if (existingItemIndex > -1) {
+          // Update quantity if exists
+          cart.items[existingItemIndex].quantity += quantity;
+        } else {
+          // Add new item
+          cart.items.push(newItem);
+        }
+      }
+      await cart.save(); // triggers .pre('save') to update totals
+      res.status(200).json({ success: true, cart });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, error: "Internal server error" });
+    }
+  } else {
+    res.render('users/login.ejs')
   }
-  });
+});
 
 
 router.get("/this/product/:id", isLoggedIn, async (req, res) => {
@@ -199,7 +201,7 @@ router.post("/cart/create-order", isLoggedIn, async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
     if (!cart || cart.items.length === 0)
-    return res.status(400).json({ message: "Cart is empty" });
+      return res.status(400).json({ message: "Cart is empty" });
     const totalAmount = cart.deliveryCharges + cart.subTotal
     const options = {
       amount: totalAmount * 100, // Razorpay requires amount in paise
@@ -254,15 +256,15 @@ router.post("/cart/verify-payment", isLoggedIn, async (req, res) => {
       products: cart.items.map((item) => ({
         product: item.product._id,
         quantity: item.quantity,
-        size:item.size,
+        size: item.size,
         price: item.price,
       })),
       subTotal: cart.subTotal,
       deliveryCharges: cart.deliveryCharges,
-      totalAmount: cart.deliveryCharges+cart.subTotal,
+      totalAmount: cart.deliveryCharges + cart.subTotal,
       paymentStatus: "paid",
       status: "pending",
-      address:userAddress
+      address: userAddress
     });
     await newOrder.save();
     await Cart.deleteOne({ user: userObjectId });
