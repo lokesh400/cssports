@@ -177,7 +177,7 @@
         <i class="ri-star-fill ri-sm text-yellow-400"></i>
         <i class="ri-star-half-fill ri-sm text-yellow-400"></i>
       </div>
-      <span class="ml-2 text-sm text-gray-600">4.7 (386 reviews)</span>
+      <span class="ml-2 text-sm text-gray-600">4.7</span>
     </div>
     <div class="mt-6">
       <h2 class="text-lg font-semibold text-gray-900">Select Size</h2>
@@ -530,16 +530,18 @@
       <h2 class="text-2xl font-bold text-gray-900 mb-6">You May Also Like</h2>
       <div class="relative">
         <div class="flex overflow-x-auto pb-4 space-x-4 scrollbar-hide">
-          <div class="flex-shrink-0 w-64">
+
+          <%for(let i=0;i<relatedProducts.length;i++) {%>
+            <div class="flex-shrink-0 w-64">
             <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div class="h-48 relative">
-                <img src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20vitamin%20D3%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20orange%20label%20design.%20The%20image%20shows%20the%20bottle%20at%20an%20angle%20with%20some%20capsules%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=6&orientation=landscape" alt="Vitamin D3 Supplement" class="w-full h-full object-cover object-top" />
+              <div class="h-80 relative">
+                <img src="<%= relatedProducts[i].images[0] %>" class="w-full h-full object-cover object-top" />
                 <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
-                  Bestseller
+                  Bestselling
                 </div>
               </div>
               <div class="p-4">
-                <h3 class="font-medium text-gray-900">Vitamin D3 5000 IU</h3>
+                <h3 class="font-medium text-gray-900"><%= relatedProducts[i].name%></h3>
                 <div class="flex items-center mt-1">
                   <div class="flex">
                     <i class="ri-star-fill ri-xs text-yellow-400"></i>
@@ -551,121 +553,19 @@
                   <span class="ml-1 text-xs text-gray-500">(245)</span>
                 </div>
                 <div class="mt-2 flex justify-between items-center">
-                  <span class="font-bold text-gray-900">$19.99</span>
-                  <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
+                  <span class="font-bold text-gray-900">Rs:- <%= relatedProducts[i].sizes[0].price%> || <%= relatedProducts[i].sizes[0].zise%></span>
+                  <a href="/show/this/product/<%= relatedProducts[i]._id %>">
+                    <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
                     <i class="ri-shopping-cart-line"></i>
                   </button>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex-shrink-0 w-64">
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div class="h-48 relative">
-                <img src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20magnesium%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20purple%20label%20design.%20The%20image%20shows%20the%20bottle%20standing%20upright%20with%20some%20tablets%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=7&orientation=landscape" alt="Magnesium Glycinate" class="w-full h-full object-cover object-top" />
-              </div>
-              <div class="p-4">
-                <h3 class="font-medium text-gray-900">Magnesium Glycinate</h3>
-                <div class="flex items-center mt-1">
-                  <div class="flex">
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-half-fill ri-xs text-yellow-400"></i>
-                  </div>
-                  <span class="ml-1 text-xs text-gray-500">(187)</span>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
-                  <span class="font-bold text-gray-900">$24.99</span>
-                  <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
-                    <i class="ri-shopping-cart-line"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="flex-shrink-0 w-64">
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div class="h-48 relative">
-                <img src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20probiotics%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20green%20label%20design.%20The%20image%20shows%20the%20bottle%20at%20an%20angle%20with%20some%20capsules%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=8&orientation=landscape" alt="Probiotic Complex" class="w-full h-full object-cover object-top" />
-                <div class="absolute top-2 right-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                  New
-                </div>
-              </div>
-              <div class="p-4">
-                <h3 class="font-medium text-gray-900">Probiotic Complex</h3>
-                <div class="flex items-center mt-1">
-                  <div class="flex">
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-line ri-xs text-yellow-400"></i>
-                  </div>
-                  <span class="ml-1 text-xs text-gray-500">(98)</span>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
-                  <span class="font-bold text-gray-900">$29.99</span>
-                  <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
-                    <i class="ri-shopping-cart-line"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="flex-shrink-0 w-64">
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div class="h-48 relative">
-                <img src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20turmeric%20curcumin%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20yellow%2Forange%20label%20design.%20The%20image%20shows%20the%20bottle%20standing%20upright%20with%20some%20capsules%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=9&orientation=landscape" alt="Turmeric Curcumin" class="w-full h-full object-cover object-top" />
-              </div>
-              <div class="p-4">
-                <h3 class="font-medium text-gray-900">Turmeric Curcumin</h3>
-                <div class="flex items-center mt-1">
-                  <div class="flex">
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-half-fill ri-xs text-yellow-400"></i>
-                  </div>
-                  <span class="ml-1 text-xs text-gray-500">(156)</span>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
-                  <span class="font-bold text-gray-900">$21.99</span>
-                  <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
-                    <i class="ri-shopping-cart-line"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="flex-shrink-0 w-64">
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div class="h-48 relative">
-                <img src="https://readdy.ai/api/search-image?query=Professional%20product%20photography%20of%20multivitamin%20supplement%20bottle%20against%20white%20background.%20The%20bottle%20has%20a%20clean%20white%20and%20multicolored%20label%20design.%20The%20image%20shows%20the%20bottle%20at%20an%20angle%20with%20some%20tablets%20visible%20next%20to%20it.%20Bright%2C%20clean%20commercial%20product%20photography%20with%20soft%20shadows.&width=400&height=300&seq=10&orientation=landscape" alt="Daily Multivitamin" class="w-full h-full object-cover object-top" />
-              </div>
-              <div class="p-4">
-                <h3 class="font-medium text-gray-900">Daily Multivitamin</h3>
-                <div class="flex items-center mt-1">
-                  <div class="flex">
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                  </div>
-                  <span class="ml-1 text-xs text-gray-500">(312)</span>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
-                  <span class="font-bold text-gray-900">$26.99</span>
-                  <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
-                    <i class="ri-shopping-cart-line"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <%}%> 
+          
+
         </div>
         <div class="absolute top-1/2 -left-4 transform -translate-y-1/2">
           <button id="prev-product" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap">
@@ -680,99 +580,7 @@
       </div>
     </div>
   </main>
-  <footer class="bg-gray-900 text-white mt-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <a href="#" class="text-2xl font-['Pacifico'] text-white">logo</a>
-          <p class="mt-4 text-gray-400">
-            Premium quality supplements for your health and wellness journey.
-          </p>
-          <div class="mt-6 flex space-x-4">
-            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white">
-              <i class="ri-facebook-fill"></i>
-            </a>
-            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white">
-              <i class="ri-instagram-fill"></i>
-            </a>
-            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white">
-              <i class="ri-twitter-x-fill"></i>
-            </a>
-            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary text-white">
-              <i class="ri-pinterest-fill"></i>
-            </a>
-          </div>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Shop</h3>
-          <ul class="space-y-2">
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">All Products</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Omega-3</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Vitamins</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Minerals</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Probiotics</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Specialty Supplements</a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Company</h3>
-          <ul class="space-y-2">
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">About Us</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Blog</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Careers</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Press</a>
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white">Contact Us</a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Subscribe</h3>
-          <p class="text-gray-400 mb-4">
-            Get 10% off your first order and stay updated on new products and
-            special offers.
-          </p>
-          <form class="flex">
-            <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-l-button focus:outline-none focus:ring-2 focus:ring-primary text-gray-900" />
-            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-r-button hover:bg-primary/90 whitespace-nowrap">
-              Subscribe
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400 text-sm">
-          &copy; 2025 VitaBoost Supplements. All rights reserved.
-        </p>
-        <div class="mt-4 md:mt-0 flex flex-wrap gap-4">
-          <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
-          <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
-          <a href="#" class="text-gray-400 hover:text-white text-sm">Shipping Policy</a>
-          <a href="#" class="text-gray-400 hover:text-white text-sm">Refund Policy</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+ 
   <div id="toast" class="toast flex items-center">
     <i class="ri-checkbox-circle-line text-green-500 ri-lg mr-2"></i>
     <span id="toast-message"></span>

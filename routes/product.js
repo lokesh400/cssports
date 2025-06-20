@@ -146,31 +146,11 @@ router.get("/product/management",isLoggedIn, async (req, res) => {
 //render particular product
 router.get("/show/this/product/:id",saveRedirectUrl,isLoggedIn, async(req,res)=>{
   const product = await Product.findById(req.params.id);
-  res.render('thisProduct.ejs',{product});
-})
-
-//related products 
-router.get("/related/:productId",isLoggedIn, async (req, res) => {
-  try {
-      const productId = req.params.productId;
-
-      // Find the current product
-      const product = await Product.findById(productId);
-      if (!product) {
-          return res.status(404).json({ message: "Product not found" });
-      }
-
-      // Fetch related products (same category, excluding current product)
-      const relatedProducts = await Product.find({
+  const relatedProducts = await Product.find({
           category: product.category,
-          _id: { $ne: productId },
-      }).limit(4); // Limit to 4 related products
-
-      res.json(relatedProducts);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal server error" });
-  }
-});
+          _id: { $ne: req.params.id },
+      }).limit(4);
+  res.render('thisProduct.ejs',{product,relatedProducts});
+})
 
 module.exports = router;

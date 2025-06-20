@@ -4,10 +4,11 @@
     <div class="relative">
       <div class="overflow-x-auto pb-4 carousel flex gap-6 snap-x">
         
-        <div class="carousel-item min-w-[280px] sm:min-w-[320px] flex-shrink-0 mt-5">
-          <div class="product-card bg-white rounded-xl shadow-sm overflow-hidden h-full text-black">
-            <img src="https://readdy.ai/api/search-image?query=premium%20collagen%20supplement%20in%20elegant%20packaging%2C%20beauty%20supplement%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20high-end%20wellness%20supplement&width=400&height=400&seq=12354&orientation=squarish" alt="Collagen Peptides" class="w-full h-64 object-cover object-top">
-            <div class="p-6" >
+        <% for(let i=0;i<gainers.length;i++) {%>
+        <div class="carousel-item min-w-[280px] sm:min-w-[320px] flex-shrink-0">
+          <div class="product-card bg-white rounded-xl shadow-sm overflow-hidden h-full">
+            <img src="<%= gainers[i].images[0] %>" alt="Collagen Peptides" class="w-full h-80 object-cover object-top">
+            <div class="p-6">
               <div class="flex items-center mb-2">
                 <div class="flex">
                   <i class="ri-star-fill text-yellow-400"></i>
@@ -19,20 +20,20 @@
                 <span class="text-gray-500 text-sm ml-2">5</span>
               </div>
 
-              <h3 class="text-lg font-semibold mb-1">Marine Collagen Peptides</h3>
-              <p class="text-gray-500 text-sm mb-3">Unflavored | 10 oz</p>
-              <span class="text-xl font-bold">Rs:- </span>
+              <h3 class="text-lg font-semibold mb-1"><%= gainers[i].name %></h3>
+              <p class="text-gray-500 text-sm mb-3"><%= gainers[i].brand %>></p>
+              <span class="text-xl font-bold">Rs:- <%= gainers[i].sizes[0].price %> || <%= gainers[i].sizes[0].size %> </span>
               <div class="flex justify-between items-center">
-                <a href="" class="w-[100%]">
-                <button class="w-[100%] h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center hover:yellow-400 transition-colors duration-300" style="border-radius: 8px">
-                  Shop Now
-                </button>
+                <a href="/show/this/product/<%= gainers[i]._id %>" class="w-[100%]">
+                  <button class="w-[100%] h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center hover:yellow-400 transition-colors duration-300" style="border-radius: 8px;margin-top: 5px;">
+                    Shop Now
+                  </button>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
+        <%}%>  
         
       </div>
       <button class="absolute top-1/2 -left-4 transform -translate-y-1/2 w-12 h-12 bg-white shadow-md rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-50 z-10 hidden md:flex">
@@ -43,7 +44,7 @@
       </button>
     </div>
     <div class="text-center mt-10">
-      <a href="#" class="inline-block py-3 px-8 bg-white text-primary font-semibold rounded-button border-2 border-primary hover:bg-gray-50 transition-colors duration-300 whitespace-nowrap">View All Products</a>
+      <a href="/search/products?query=gainer" class="inline-block py-3 px-8 bg-white text-primary font-semibold rounded-button border-2 border-primary hover:bg-gray-50 transition-colors duration-300 whitespace-nowrap">View All Products</a>
     </div>
   </div>
 </section>

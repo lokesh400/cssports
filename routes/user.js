@@ -160,7 +160,7 @@ router.post("/signup", async (req, res) => {
                 <li>Exclusive offers and discounts</li>
             </ul>
             <p>Ready to shop? Click the button below to start your journey with KeshVibe:</p>
-            <a href="https://cssportsandnutrition.com" class="cta-button">Shop Now</a>
+            <a href="https://cssportsnutrition.com" class="cta-button">Shop Now</a>
         </div>
 
         <!-- Footer -->
@@ -301,7 +301,7 @@ router.post("/add/new/query", async (req, res) => {
   }
 });
 
-router.get("/details", async (req, res) => {
+router.get("/details",saveRedirectUrl,isLoggedIn, async (req, res) => {
   const user = req.user;
   res.render("users/userDetails.ejs", { user });
 });
@@ -374,6 +374,32 @@ router.post("/subscribe/to/newsletter", async (req, res) => {
     );
     res.redirect("/");
   }
+});
+
+
+//forget password
+router.get("/forget-password", (req, res, next) => {
+    res.render("./users/forgetpassword.ejs")
+});
+
+router.post('/forget/password', async (req, res) => {
+    const { otp,newPassword, confirmNewPassword,email } = req.body;
+    // Validate new passwords match
+    let candidate = await Otp.findOne({ email });
+    if(newPassword==confirmNewPassword&&otp==candidate.otp){
+    try {
+        const student = await User.findOne({email});
+        // Update to new password
+        await student.setPassword(newPassword);
+        await student.save();
+        req.flash('success_msg', 'Password Reset Successfully');
+        req.flash('error_msg', 'Password Reset Successfully');
+        res.render('./users/login.ejs');
+    } catch (error) {
+        console.error("Error updating password:", error);
+        req.flash('error_msg', 'Some error occured');
+        res.render('./users/login.ejs');
+    }}
 });
 
 module.exports = router;

@@ -1,7 +1,6 @@
 <section id="products" class="py-16">
   <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-4">Bestselling Products</h2>
-    <p class="text-gray-600 text-center mb-8 max-w-2xl mx-auto">Our most popular supplements loved by customers worldwide.</p>
+    <h2 class="text-3xl font-bold text-center mb-4">Bestselling Proteins</h2>
     <div class="flex justify-center mb-10">
       <div class="inline-flex bg-gray-100 p-1 rounded-full">
         <button class="py-2 px-6 rounded-full bg-primary text-white font-medium whitespace-nowrap">All Products</button>
@@ -11,10 +10,12 @@
     </div>
     <div class="relative">
       <div class="overflow-x-auto pb-4 carousel flex gap-6 snap-x">
-        
+
+
+        <% for(let i=0;i<proteins.length;i++) {%>
         <div class="carousel-item min-w-[280px] sm:min-w-[320px] flex-shrink-0">
           <div class="product-card bg-white rounded-xl shadow-sm overflow-hidden h-full">
-            <img src="https://readdy.ai/api/search-image?query=premium%20collagen%20supplement%20in%20elegant%20packaging%2C%20beauty%20supplement%2C%20clean%20white%20background%2C%20professional%20product%20photography%2C%20high-end%20wellness%20supplement&width=400&height=400&seq=12354&orientation=squarish" alt="Collagen Peptides" class="w-full h-64 object-cover object-top">
+            <img src="<%= proteins[i].images[0] %>" alt="Collagen Peptides" class="w-full h-80 object-cover object-top">
             <div class="p-6">
               <div class="flex items-center mb-2">
                 <div class="flex">
@@ -27,20 +28,20 @@
                 <span class="text-gray-500 text-sm ml-2">5</span>
               </div>
 
-              <h3 class="text-lg font-semibold mb-1">Marine Collagen Peptides</h3>
-              <p class="text-gray-500 text-sm mb-3">Unflavored | 10 oz</p>
-              <span class="text-xl font-bold">Rs:- </span>
+              <h3 class="text-lg font-semibold mb-1"><%= proteins[i].name %></h3>
+              <p class="text-gray-500 text-sm mb-3"><%= proteins[i].brand %>></p>
+              <span class="text-xl font-bold">Rs:- <%= proteins[i].sizes[0].price %> || <%= proteins[i].sizes[0].size %> </span>
               <div class="flex justify-between items-center">
-                <a href="" class="w-[100%]">
-                <button class="w-[100%] h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center hover:yellow-400 transition-colors duration-300" style="border-radius: 8px;margin-top: 5px;">
-                  Shop Now
-                </button>
+                <a href="/show/this/product/<%= products[i]._id %>" class="w-[100%]">
+                  <button class="w-[100%] h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center hover:yellow-400 transition-colors duration-300" style="border-radius: 8px;margin-top: 5px;">
+                    Shop Now
+                  </button>
                 </a>
               </div>
-
             </div>
           </div>
         </div>
+        <%}%>  
         
       </div>
       <button class="absolute top-1/2 -left-4 transform -translate-y-1/2 w-12 h-12 bg-white shadow-md rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-50 z-10 hidden md:flex">
@@ -51,7 +52,7 @@
       </button>
     </div>
     <div class="text-center mt-10">
-      <a href="#" class="inline-block py-3 px-8 bg-white text-primary font-semibold rounded-button border-2 border-primary hover:bg-gray-50 transition-colors duration-300 whitespace-nowrap">View All Products</a>
+      <a href="/search/products?query=PROTEIN" class="inline-block py-3 px-8 bg-white text-primary font-semibold rounded-button border-2 border-primary hover:bg-gray-50 transition-colors duration-300 whitespace-nowrap">View All Products</a>
     </div>
   </div>
 </section>
