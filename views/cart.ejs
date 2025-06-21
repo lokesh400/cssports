@@ -17,12 +17,12 @@
 </head>
 
 <body class="bg-gray-50 font-[&#39;Inter&#39;]">
-    <header class="fixed top-0 left-0 w-full z-50">
+    <header class="fixed top-0 left-0 w-full z-50 mb-10">
         <%- include('components/navbar.ejs') %>
     </header>
 
     <% if(cart) {%>
-        <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-10">
+        <main class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12" style="margin-top: 70px;">
             <div class="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
                 <div class="lg:col-span-7">
                     <div class="flex items-center justify-between">
@@ -116,10 +116,18 @@
                         <div class="mt-8">
                             <p class="text-sm text-gray-600 mb-4">Estimated delivery: 3-7 business days</p>
                             <div class="flex flex-col space-y-4">
-                                <button onclick="initiatePayment(userId,amount)"
+                                <!-- <button onclick="initiatePayment(userId,amount)"
                                     class="!rounded-button w-full bg-custom text-white py-3 hover:bg-custom-dark">
-                                    Proceed to Checkout
+                                    Place Order Prepaid
+                                </button> -->
+
+                                <a href="/cart/cod">
+                                    <button
+                                    class="!rounded-button w-full bg-custom text-white py-3 hover:bg-custom-dark">
+                                    Place Order Cash On Delivery
                                 </button>
+                                </a>
+
                                 <a href="/">
                                     <button
                                         class="!rounded-button w-full bg-white text-custom border border-custom py-3 hover:bg-gray-50">

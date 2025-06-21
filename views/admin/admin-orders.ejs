@@ -166,18 +166,18 @@
       printWindow.print();
       printWindow.close();
 
-      // fetch("/admin/print/orders/mark-printed", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ orderIds: pendingOrderIds })
-      // }).then(response => {
-      //   if (response.ok) {
-      //     alert("Orders marked as printed.");
-      //     location.reload();
-      //   } else {
-      //     alert("Failed to update order status.");
-      //   }
-      // });
+      fetch("/admin/print/orders/mark-printed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderIds: pendingOrderIds })
+      }).then(response => {
+        if (response.ok) {
+          alert("Orders marked as printed.");
+          location.reload();
+        } else {
+          alert("Failed to update order status.");
+        }
+      });
     }
   </script>
 </body>

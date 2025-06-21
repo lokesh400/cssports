@@ -1,13 +1,64 @@
-<nav class="w-full mx-auto px-4 sm:px-6 lg:px-8 bg-black shadow-md border-b p-2" style="color: goldenrod;">
+<nav id="navbar" class="bg-black shadow-md p-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo and Brand -->
+            <div class="flex items-center space-x-4">
+                <img src="/images/logo.jpeg" alt="Logo" class="h-16 w-16">
+                <span class="font-bold text-lg text-white" style="color: goldenrod;" ><i>CS Sports & Nutrition</i></span>
+            </div>
 
-    <div class="flex items-center justify-between h-16">
-        <div class="flex items-center">
-            <a href="/" class="flex-shrink-0">
-                <img class="h-10 w-auto transition-transform hover:scale-110"
-                    src="/images/logo.jpeg" alt="Store Logo" />
-            </a>
+            <!-- Search Bar (hidden on mobile by default) -->
+            <div id="searchContainer" class="relative hidden md:flex items-center">
+               <form action="/search/products" method="GET" class="flex" >
+                <div class="relative w-full">
+                    <input type="text" name="query"
+                    style="color: goldenrod;"
+                        class="w-full pl-10 pr-12 py-2 border rounded-full focus:ring-custom shadow-sm  hover:bg-white transition-all"
+                        style="background-color: goldenrod;"
+                        placeholder="Search products..." />
+                    <div class="absolute inset-y-0 left-3 flex items-center">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+                <button type="submit"
+                    class="absolute right-1 top-1 bottom-1 bg-black text-white px-4 rounded-full text-sm font-medium hover:bg-custom/90 transition-all" style="color: goldenrod;">
+                    Search
+                </button>
+            </form>
+            </div>
+
+            <!-- Icons and Cart -->
+            <div class="flex items-center space-x-6">
+                <!-- Search Icon (Mobile) -->
+                <button id="searchBtnMobile" class="md:hidden p-2 rounded-full text-white hover:bg-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6" style="color: goldenrod;" >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 3a7 7 0 011.528 13.872l7.742 7.742a1 1 0 11-1.414 1.414l-7.742-7.742A7 7 0 1110 3z" style="color: goldenrod;"></path>
+                    </svg>
+                </button>
+
+                <!-- Cart Icon -->
+                <a href="/my/cart">
+                    <button class="p-2 rounded-full text-white hover:bg-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6" style="color: goldenrod;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l3 12h10l3-12h2M6 18h12M9 21h6" style="color: goldenrod;" ></path>
+                    </svg>
+                </button>
+                </a>
+
+                <!-- User Icon -->
+                <a href="/user/details">
+                    <button class="p-2 rounded-full text-white hover:bg-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6" style="color: goldenrod;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14c4.418 0 8 3.582 8 8H4c0-4.418 3.582-8 8-8zM12 2a5 5 0 100 10 5 5 0 000-10z" style="color: goldenrod;"></path>
+                    </svg>
+                </button>
+                </a>
+            </div>
         </div>
-        <div class="flex-1 max-w-lg mx-4 relative">
+    </nav>
+
+    <!-- Mobile Searchbar (hidden by default) -->
+    <div id="mobileSearch" class="hidden md:hidden fixed top-0 left-0 right-0 bg-black p-4 shadow-lg z-50">
+        <div class="relative">
             <form action="/search/products" method="GET" class="flex" >
                 <div class="relative w-full">
                     <input type="text" name="query"
@@ -25,17 +76,31 @@
                 </button>
             </form>
         </div>
-        <div class="flex items-center space-x-6">
-            <a href="/user/details">
-                <button class="text-gray-700 hover:text-custom transition-all relative">
-                    <i class="far fa-user text-xl" style="color: goldenrod;"></i>
-                </button>
-            </a>
-            <a href="/my/cart">
-                <button class="text-gray-700 hover:text-custom transition-all relative">
-                    <i class="fas fa-shopping-cart text-xl" style="color: goldenrod;"></i>
-                </button>
-            </a>
-        </div>
     </div>
-</nav>
+
+    <script>
+        const searchBtnMobile = document.getElementById('searchBtnMobile');
+        const mobileSearch = document.getElementById('mobileSearch');
+        const navbar = document.getElementById('navbar');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+
+        // Toggle search bar on mobile click
+        searchBtnMobile.addEventListener('click', () => {
+            mobileSearch.classList.toggle('hidden');
+            navbar.classList.toggle('max-w-7xl'); // Increase navbar width on search toggle
+        });
+
+        // Close search when clicking anywhere else (on mobile)
+        window.addEventListener('click', (e) => {
+            if (!e.target.closest('#searchBtnMobile') && !e.target.closest('#mobileSearch') && !e.target.closest('#searchContainer')) {
+                mobileSearch.classList.add('hidden');
+                navbar.classList.remove('max-w-7xl');
+            }
+        });
+
+        // Prevent click from closing search if clicking inside the search bar
+        mobileSearch.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>

@@ -1,4 +1,4 @@
-<section id="products" class="py-10 bg-black opacity-80 text-white mb-10" >
+<section id="products" class="py-10 bg-black opacity-80 text-white mb-10 mt-20" >
   <div class="container mx-auto px-4">
     <h2 class="text-3xl font-bold text-center mb-4">Bestselling Gainers</h2>
     <div class="relative">
@@ -20,9 +20,9 @@
                 <span class="text-gray-500 text-sm ml-2">5</span>
               </div>
 
-              <h3 class="text-lg font-semibold mb-1"><%= gainers[i].name %></h3>
-              <p class="text-gray-500 text-sm mb-3"><%= gainers[i].brand %>></p>
-              <span class="text-xl font-bold">Rs:- <%= gainers[i].sizes[0].price %> || <%= gainers[i].sizes[0].size %> </span>
+              <h3 class="text-lg font-semibold mb-1" style="color: black;"><%= gainers[i].name %></h3>
+              <p class="text-gray-500 text-sm mb-3" style="color: black;"><%= gainers[i].brand %>></p>
+              <span class="text-xl font-bold" style="color: black;">Rs:- <%= gainers[i].sizes[0].price %> || <%= gainers[i].sizes[0].size %> </span>
               <div class="flex justify-between items-center">
                 <a href="/show/this/product/<%= gainers[i]._id %>" class="w-[100%]">
                   <button class="w-[100%] h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center hover:yellow-400 transition-colors duration-300" style="border-radius: 8px;margin-top: 5px;">

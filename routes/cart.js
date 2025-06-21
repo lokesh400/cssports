@@ -60,7 +60,7 @@ router.get("/my/cart", saveRedirectUrl, isLoggedIn, hasAddress, async (req, res)
 
 
 // add to cart
-router.post("/add/to/my/cart/:id", saveRedirectUrl, async (req, res) => {
+router.post("/add/to/my/cart/:id", saveRedirectUrl,isLoggedIn, async (req, res) => {
   if (req.user) {
     const userId = req.user.id;
     const productId = req.body.id;
@@ -112,7 +112,7 @@ router.post("/add/to/my/cart/:id", saveRedirectUrl, async (req, res) => {
 });
 
 
-router.get("/this/product/:id", isLoggedIn, async (req, res) => {
+router.get("/this/product/:id",saveRedirectUrl, isLoggedIn, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     const reviews = await Review.find({ product: req.params.id })
@@ -153,7 +153,7 @@ router.get("/this/product/:id", isLoggedIn, async (req, res) => {
 });
 
 //edit cart
-router.post("/update-quantity", isLoggedIn, async (req, res) => {
+router.post("/update-quantity",saveRedirectUrl, isLoggedIn, async (req, res) => {
   try {
     const { userId, productId, change } = req.body;
     if (!userId || !productId || change === undefined) {
@@ -269,6 +269,44 @@ router.post("/cart/verify-payment", isLoggedIn, async (req, res) => {
     await newOrder.save();
     await Cart.deleteOne({ user: userObjectId });
     res.json({ message: "Payment successful! Order placed.", order: newOrder });
+  } catch (error) {
+    console.error("Error verifying payment:", error);
+    res.status(500).json({ message: "Error verifying payment", error });
+  }
+});
+
+//cash on delivery
+router.get("/cart/cod",saveRedirectUrl, isLoggedIn, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const generatedSignature = crypto
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const cart = await Cart.findOne({ user: userObjectId }).populate(
+      "items.product"
+    );
+    if (!cart || cart.items.length === 0) {
+      return res.status(400).json({ message: "Cart not found or is empty" });
+    }
+    const userAdd = await User.findById(userId);
+    const userAddress = userAdd.address;
+    const newOrder = new Order({
+      user: userObjectId,
+      products: cart.items.map((item) => ({
+        product: item.product._id,
+        quantity: item.quantity,
+        size: item.size,
+        price: item.price,
+      })),
+      subTotal: cart.subTotal,
+      deliveryCharges: cart.deliveryCharges,
+      totalAmount: cart.deliveryCharges + cart.subTotal,
+      paymentStatus: "paid",
+      status: "pending",
+      address: userAddress
+    });
+    await newOrder.save();
+    await Cart.deleteOne({ user: userObjectId });
+    res.redirect('/my/order-success')
   } catch (error) {
     console.error("Error verifying payment:", error);
     res.status(500).json({ message: "Error verifying payment", error });

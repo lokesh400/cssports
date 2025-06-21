@@ -115,7 +115,9 @@ app.get("/", async (req,res)=>{
     const products = await Product.find().limit(12);
     const proteins = await Product.find({category:"protein"}).limit(10);
     const gainers = await Product.find({category:"gainer"}).limit(10)
-    res.render("index.ejs", { products,proteins,gainers });
+    const featured = await Product.find({ category: "protein" }).sort({ createdAt: -1 }).limit(10);
+
+    res.render("index.ejs", { products,proteins,gainers,featured });
 })
 
 app.get("/aboutus",isLoggedIn, (req,res)=>{

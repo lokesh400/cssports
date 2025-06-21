@@ -55,9 +55,8 @@
                 <thead>
                     <tr class="bg-blue-500 text-white">
                         <th class="p-2">Name</th>
-                        <th class="p-2">Price</th>
+                        <th class="p-2">Image</th>
                         <th class="p-2">Category</th>
-                        <th class="p-2">Stock</th>
                         <th class="p-2">Actions</th>
                     </tr>
                 </thead>
@@ -65,9 +64,10 @@
                     <% products.forEach(product => { %>
                         <tr class="border-t">
                             <td class="p-2"><%= product.name %></td>
-                            <td class="p-2">$<%= product.price %></td>
+                            <td class="p-2">
+                                <img src="<%= product.images[0] %>" alt="">
+                            </td>
                             <td class="p-2"><%= product.category %></td>
-                            <td class="p-2"><%= product.stock ? "In Stock" : "Out of Stock" %></td>
                             <td class="p-2">
                                 <a href="/admin/update/product/<%= product._id %>">
                                     <button class="bg-green-500 text-white px-3 py-1 rounded">Edit Product</button>
