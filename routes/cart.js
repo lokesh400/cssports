@@ -5,6 +5,7 @@ const Cart = require("../models/Cart"); // Your Cart model
 const Product = require("../models/Product");
 const Order = require("../models/Order");
 const Review = require("../models/Review");
+const Flavour = require("../models/Flavour");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const User = require("../models/User");
@@ -60,54 +61,68 @@ router.get("/my/cart", saveRedirectUrl, isLoggedIn, hasAddress, async (req, res)
 
 
 // add to cart
-router.post("/add/to/my/cart/:id", saveRedirectUrl,isLoggedIn, async (req, res) => {
-  if (req.user) {
-    const userId = req.user.id;
-    const productId = req.body.id;
-    const quantity = req.body.qty;
-    const product = await Product.findById({ _id: req.params.id, "sizes.size": `${req.body.product}` })
-    if (!product) {
-      res.status(201).json({ message: "Something Went Wrong" })
+router.post("/add/to/cart", saveRedirectUrl, isLoggedIn, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { productId, flavour, size, price, quantity } = req.body;
+
+    // Check if flavour exists for the product
+    const flavourDoc = await Flavour.findOne({ productId, flavour });
+
+    if (!flavourDoc) {
+      return res.status(404).json({ success: false, message: "Flavour not found for this product." });
     }
-    const selectedSize = product.sizes.find(s => s.size === `${req.body.product}`);
-    const price = selectedSize.price;
-    const size = selectedSize.size
-    try {
-      let cart = await Cart.findOne({ user: userId });
-      const newItem = {
-        product: productId,
-        price: price,
-        size: size,
-        quantity,
-      };
-      if (!cart) {
-        cart = new Cart({
-          user: userId,
-          items: [newItem],
-          deliveryCharges: 50,
-        });
+
+    // Validate selected size
+    const selectedSize = flavourDoc.sizes.find(s => s.size === size);
+    if (!selectedSize) {
+      return res.status(400).json({ success: false, message: "Selected size is not available." });
+    }
+
+    // Convert quantity to number
+    const qty = parseInt(quantity);
+
+    if (!qty || qty < 1) {
+      return res.status(400).json({ success: false, message: "Invalid quantity." });
+    }
+
+    let cart = await Cart.findOne({ user: userId });
+
+    const newItem = {
+      product: productId,
+      price: Number(price),
+      size,
+      flavour,
+      quantity: qty
+    };
+
+    if (!cart) {
+      cart = new Cart({
+        user: userId,
+        items: [newItem],
+        deliveryCharges: 50,
+      });
+    } else {
+      const existingItemIndex = cart.items.findIndex(
+        item =>
+          item.product.toString() === productId &&
+          item.size === size &&
+          item.flavour === flavour
+      );
+
+      if (existingItemIndex > -1) {
+        cart.items[existingItemIndex].quantity += qty;
       } else {
-        const existingItemIndex = cart.items.findIndex(
-          (item) =>
-            item.product === productId &&
-            item.size === size
-        );
-        if (existingItemIndex > -1) {
-          // Update quantity if exists
-          cart.items[existingItemIndex].quantity += quantity;
-        } else {
-          // Add new item
-          cart.items.push(newItem);
-        }
+        cart.items.push(newItem);
       }
-      await cart.save(); // triggers .pre('save') to update totals
-      res.status(200).json({ success: true, cart });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ success: false, error: "Internal server error" });
     }
-  } else {
-    res.render('users/login.ejs')
+
+    await cart.save();
+    return res.status(200).json({ success: true, message: "Item added to cart!", cart });
+
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 
@@ -258,6 +273,7 @@ router.post("/cart/verify-payment", isLoggedIn, async (req, res) => {
         quantity: item.quantity,
         size: item.size,
         price: item.price,
+        flavour:item.flavour
       })),
       subTotal: cart.subTotal,
       deliveryCharges: cart.deliveryCharges,
@@ -296,6 +312,7 @@ router.get("/cart/cod",saveRedirectUrl, isLoggedIn, async (req, res) => {
         quantity: item.quantity,
         size: item.size,
         price: item.price,
+        flavour:item.flavour
       })),
       subTotal: cart.subTotal,
       deliveryCharges: cart.deliveryCharges,

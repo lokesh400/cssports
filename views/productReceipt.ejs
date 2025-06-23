@@ -97,17 +97,8 @@
             </button>
         </div>
 
-        <!-- QR Code -->
-        <div class="mt-4 text-center">
-            <p class="text-xs">Scan to View Receipt:</p>
-            <canvas id="qrCodeCanvas" class="mx-auto"></canvas>
-        </div>
     </div>
 
-    <script>
-        const qrCodeData = "https://keshvibe.in/get/receipt/<%= order._id %>"; // Replace with your receipt URL
-        QRCode.toCanvas(document.getElementById("qrCodeCanvas"), qrCodeData, { width: 100 });
-    </script>
     <script src="/js/security.js" ></script>
 </body>
 </html>

@@ -5,15 +5,12 @@ const ProductSchema = new mongoose.Schema({
   description: { type: String },
   brand: String,
   keywords: [String],
+  image:String,
   category: { type: String, required: true },
-  images: [{ type: String }],
-  sizes: [
-    {
-      size: { type: String },
-      price: { type: String }
-    }
-  ],
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  products:{
+
+  }
 });
 
 module.exports = mongoose.model("Product", ProductSchema);

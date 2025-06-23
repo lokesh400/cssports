@@ -125,7 +125,7 @@ router.post('/otp/forget-password', async (req, res) => {
         const mailOptions = {
             from: "official.csnutrition@gmail.com",
             to: email, // Pass the email from the request body here
-            subject: 'OTP to signup on keshvibe',
+            subject: 'OTP to signup on CS Sports & Nutrition',
             html: `
                 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                     <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">

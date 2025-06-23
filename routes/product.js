@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const Product = require("../models/Product");
+const Flavour = require("../models/Flavour");
 
 const multer = require("multer");
 const path = require("path");
@@ -62,11 +63,6 @@ router.get("/all/products", async (req, res) => {
   }
 });
 
-router.get('/debug/products', async (req, res) => {
-  const products = await Product.find();
-  console.log(products);
-  res.json(products);
-});
 
 
 router.get('/search/products', async (req, res) => {
@@ -76,10 +72,9 @@ router.get('/search/products', async (req, res) => {
     if (!query) {
       return res.status(400).json({ message: 'Query is required.' });
     }
-
     const regex = new RegExp(query, 'i'); // case-insensitive
 
-    const products = await Product.find({
+    const feature = await Product.find({
       $or: [
         { name: { $regex: regex } },
         { description: { $regex: regex } },
@@ -88,6 +83,16 @@ router.get('/search/products', async (req, res) => {
         { keywords: { $elemMatch: { $regex: regex } } } // ✅ works with partial matches in arrays
       ]
     });
+
+    const products = await Promise.all(
+      feature.map(async (product) => {
+        const flavour = await Flavour.findOne({ productId: product._id });
+        return {
+          ...product.toObject(),
+          flavour
+        };
+      })
+    );
 
     console.log('Search query:', query);
     console.log('Matched products:', products.length);
@@ -100,11 +105,11 @@ router.get('/search/products', async (req, res) => {
 
 
 //to filter categories
-router.get('/api/category/products', isLoggedIn,async (req,res)=>{
-  try{
+router.get('/api/category/products', isLoggedIn, async (req, res) => {
+  try {
     const products = await Product.find()
     res.json(products)
-  } catch (error){
+  } catch (error) {
     res.send("internal system error")
   }
 })
@@ -133,24 +138,49 @@ router.get("/search/products", async (req, res) => {
 
 
 //searcherror
-router.get("/search-error",isLoggedIn, (req,res)=>{
+router.get("/search-error", isLoggedIn, (req, res) => {
   res.render("searchError.ejs");
 })
 
 //all products
-router.get("/product/management",isLoggedIn, async (req, res) => {
+router.get("/product/management", isLoggedIn, async (req, res) => {
   const products = await Product.find();
   res.render("admin/allProducts.ejs", { products });
 });
 
 //render particular product
-router.get("/show/this/product/:id",saveRedirectUrl,isLoggedIn, async(req,res)=>{
-  const product = await Product.findById(req.params.id);
-  const relatedProducts = await Product.find({
-          category: product.category,
-          _id: { $ne: req.params.id },
+router.get("/show/this/product/:id", saveRedirectUrl, isLoggedIn, async (req, res) => {
+  const product2 = await Product.findById(req.params.id);
+  const feature = await Product.find();
+  const products = await Promise.all(
+    feature.map(async (product) => {
+      const flavour = await Flavour.find({ productId: req.params.id });
+      return {
+        ...product.toObject(),
+        flavour
+      };
+    })
+  );
+
+  const related = await Product.find({
+        category: product2.category,
+        _id: { $ne: req.params.id },
       }).limit(4);
-  res.render('thisProduct.ejs',{product,relatedProducts});
+
+  const relatedProducts = await Promise.all(
+    related.map(async (product) => {
+      const flavour = await Flavour.find({ productId: req.params.id });
+      return {
+        ...product.toObject(),
+        flavour
+      };
+    })
+  );
+
+  const product = products[0]
+  console.log(relatedProducts)
+
+  res.render('thisProduct.ejs', { product: products[0], relatedProducts });
 })
 
 module.exports = router;

@@ -278,53 +278,53 @@ router.get("/admin/all/todays/orders",isLoggedIn,isAdmin, async (req, res) => {
 
 //admin product
 // // Edit a product
-router.get("/admin/update/product/:id",isLoggedIn,isAdmin, async (req, res) => {
-  const {id} = req.params; 
-  const product = await Product.findById(req.params.id);  
-  console.log(id)
-  res.render("admin/thisProduct.ejs",{product,id});
-});
+// router.get("/admin/update/product/:id",isLoggedIn,isAdmin, async (req, res) => {
+//   const {id} = req.params; 
+//   const product = await Product.findById(req.params.id);  
+//   console.log(id)
+//   res.render("admin/thisProduct.ejs",{product,id});
+// });
 
 //edit a product
 // Update product details
-router.put("/admin/update/product/:id",isLoggedIn,isAdmin, async (req, res) => {
-  const { id } = req.params;
-  const {
-    name,
-    description,
-    price,
-    madeFor,
-    keywords,
-    category,
-    stock,
-    sizes,
-    coverPhoto,
-    images,
-  } = req.body;
+// router.put("/admin/update/product/:id",isLoggedIn,isAdmin, async (req, res) => {
+//   const { id } = req.params;
+//   const {
+//     name,
+//     description,
+//     price,
+//     madeFor,
+//     keywords,
+//     category,
+//     stock,
+//     sizes,
+//     coverPhoto,
+//     images,
+//   } = req.body;
 
-  try {
-    const product = await Product.findById(id);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
+//   try {
+//     const product = await Product.findById(id);
+//     if (!product) {
+//       return res.status(404).json({ message: "Product not found" });
+//     }
 
-    product.name = name || product.name;
-    product.description = description || product.description;
-    product.price = price || product.price;
-    product.madeFor = madeFor || product.madeFor;
-    product.keywords = keywords ? keywords.split(",") : product.keywords;
-    product.category = category || product.category;
-    product.stock = stock || product.stock;
-    product.sizes = sizes ? sizes.split(",") : product.sizes;
-    product.coverPhoto = coverPhoto || product.coverPhoto;
-    product.images = images || product.images;
+//     product.name = name || product.name;
+//     product.description = description || product.description;
+//     product.price = price || product.price;
+//     product.madeFor = madeFor || product.madeFor;
+//     product.keywords = keywords ? keywords.split(",") : product.keywords;
+//     product.category = category || product.category;
+//     product.stock = stock || product.stock;
+//     product.sizes = sizes ? sizes.split(",") : product.sizes;
+//     product.coverPhoto = coverPhoto || product.coverPhoto;
+//     product.images = images || product.images;
 
-    const updatedProduct = await product.save();
-    res.status(200).json({ message: "Product updated successfully", updatedProduct });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+//     const updatedProduct = await product.save();
+//     res.status(200).json({ message: "Product updated successfully", updatedProduct });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 //update images 
 // Upload images to a specific product
@@ -340,6 +340,7 @@ router.get("/upload-images/:id",isLoggedIn,isAdmin, upload.array("images", 5), a
     res.status(500).json({ error: error.message });
   }
 });
+
 router.patch("/admin/update-image/:id",isLoggedIn,isAdmin, upload.single("file"), async (req, res) => {
   try {
     const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
@@ -377,7 +378,7 @@ router.get("/add/new/product", (req, res) => {
 
 router.post("/add/new/product", upload.single("file"), async (req, res) => {
   try {
-    const { name, description, brand, keywords, category, sizes } = req.body;
+    const { name, description, brand, keywords, category } = req.body;
     const keywordsArray = keywords ? keywords.split(",").map((keyword) => keyword.trim()) : [];
     const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
     const imageUrl = result.secure_url;
@@ -394,8 +395,7 @@ router.post("/add/new/product", upload.single("file"), async (req, res) => {
       brand,
       keywords: keywordsArray,
       category,
-      images: [imageUrl],
-      sizes: Object.values(sizes)
+      image:imageUrl
     });
     
     await newProduct.save();

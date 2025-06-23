@@ -1,790 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Premium Omega-3 Fish Oil - VitaBoost Supplements</title>
-  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
-  <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#000000" data-border-radius="medium"></script>
+  <title><%= product.name %> | Supplement Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <%- include('components/navbar.ejs') %>
+
+  <div class="max-w-7xl mx-auto p-6">
+    <!-- Product Detail Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 bg-white p-6 rounded-lg shadow-lg">
+
+      <!-- Image Gallery -->
+      <div>
+        <img id="main-image" src="<%= product.flavour[0].images[0] %>" class="w-full h-[450px] object-contain rounded-lg border shadow" />
+        <div id="thumbnail-container" class="flex gap-2 mt-4 overflow-x-auto">
+          <% product.flavour[0].images.forEach((img, i) => { %>
+            <img src="<%= img %>" class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 border-gray-300 hover:border-blue-500 thumbnail" />
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="space-y-5">
+        <h1 class="text-3xl font-bold"><%= product.name %></h1>
+        <p class="text-sm text-gray-500">Brand: <%= product.brand %></p>
+        <p><%= product.description %></p>
+
+        <!-- Flavour Buttons -->
+        <div>
+          <label class="block font-medium mb-1">Choose Flavour:</label>
+          <div id="flavour-buttons" class="flex flex-wrap gap-3">
+            <% product.flavour.forEach((f, i) => { %>
+              <button class="flavour-btn px-4 py-2 rounded-md border hover:bg-blue-100 <%= i === 0 ? 'bg-blue-200 border-blue-500' : '' %>" data-index="<%= i %>"><%= f.flavour %></button>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- Size Selector -->
+        <div>
+          <label class="block font-medium mb-1">Choose Size</label>
+          <div id="size-options" class="flex flex-wrap gap-3 mt-2">
+            <% product.flavour[0].sizes.forEach(size => { %>
+              <div class="size-option border px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-100"
+                   data-size="<%= size.size %>" data-price="<%= size.price %>">
+                <%= size.size %> - ₹<%= size.price %>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- Price + Quantity + Cart -->
+        <div class="flex items-center justify-between gap-4 mt-4">
+          <div>
+            <p class="text-xl font-bold text-green-600">₹<span id="selected-price"><%= product.flavour[0].sizes[0].price %></span></p>
+            <p class="text-sm text-gray-500">Inclusive of all taxes</p>
+          </div>
+          <div class="flex items-center">
+            <button id="decrease" class="text-xl bg-gray-200 px-3 py-1 rounded">-</button>
+            <input type="number" id="quantity" value="1" min="1" class="w-12 text-center border mx-2 p-1 rounded" />
+            <button id="increase" class="text-xl bg-gray-200 px-3 py-1 rounded">+</button>
+          </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button id="add-to-cart-btn" class="w-full py-4 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg text-lg transition">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="bg-white rounded-lg shadow-lg mt-10 p-6">
+      <h2 class="text-xl font-semibold mb-4">Customer Reviews</h2>
+      <div class="space-y-4">
+        <% if (product.reviews && product.reviews.length > 0) { %>
+          <% product.reviews.forEach(review => { %>
+            <div class="border-b pb-3">
+              <p class="text-sm font-semibold text-gray-700"><%= review.name %></p>
+              <p class="text-xs text-gray-500"><%= new Date(review.date).toLocaleDateString() %></p>
+              <p class="mt-1 text-sm text-gray-800"><%= review.comment %></p>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p class="text-sm text-gray-500">No reviews yet.</p>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="bg-white rounded-lg shadow-lg mt-10 p-6">
+      <h2 class="text-xl font-semibold mb-4">Related Products</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <% relatedProducts.forEach(rp => { %>
+          <div class="border p-4 rounded-lg hover:shadow">
+            <img src="<%= rp.image %>" class="w-full h-40 object-cover rounded-md mb-2" />
+            <p class="font-semibold text-sm"><%= rp.name %></p>
+            <p class="text-xs text-gray-500"><%= rp.brand %></p>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+  </div>
+
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#4f46e5",
-            secondary: "#10b981"
-          },
-          borderRadius: {
-            none: "0px",
-            sm: "4px",
-            DEFAULT: "8px",
-            md: "12px",
-            lg: "16px",
-            xl: "20px",
-            "2xl": "24px",
-            "3xl": "32px",
-            full: "9999px",
-            button: "8px",
-          },
-        },
-      },
+    const flavours = <%- JSON.stringify(product.flavour) %>;
+    let selectedFlavour = flavours[0];
+    let selectedSize = selectedFlavour.sizes[0];
+
+    const mainImage = document.getElementById('main-image');
+    const priceDisplay = document.getElementById('selected-price');
+    const qtyInput = document.getElementById('quantity');
+    const sizeOptions = document.getElementById('size-options');
+    const thumbnailContainer = document.getElementById('thumbnail-container');
+
+    function renderSizes(sizes) {
+      sizeOptions.innerHTML = sizes.map(size => `
+        <div class="size-option border px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-100"
+          data-size="${size.size}" data-price="${size.price}">
+          ${size.size} - ₹${size.price}
+        </div>
+      `).join('');
+    }
+
+    function renderThumbnails(images) {
+      thumbnailContainer.innerHTML = images.map((img, i) => `
+        <img src="${img}" class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 border-gray-300 hover:border-blue-500 thumbnail" />
+      `).join('');
+    }
+
+    document.getElementById('flavour-buttons').addEventListener('click', e => {
+      if (e.target.classList.contains('flavour-btn')) {
+        const index = parseInt(e.target.dataset.index);
+        selectedFlavour = flavours[index];
+        selectedSize = selectedFlavour.sizes[0];
+
+        document.querySelectorAll('.flavour-btn').forEach(btn => btn.classList.remove('bg-blue-200', 'border-blue-500'));
+        e.target.classList.add('bg-blue-200', 'border-blue-500');
+
+        mainImage.src = selectedFlavour.images[0];
+        renderSizes(selectedFlavour.sizes);
+        renderThumbnails(selectedFlavour.images);
+        priceDisplay.innerText = selectedSize.price;
+      }
+    });
+
+    sizeOptions.addEventListener('click', e => {
+      if (e.target.classList.contains('size-option')) {
+        document.querySelectorAll('.size-option').forEach(el => el.classList.remove('bg-blue-200'));
+        e.target.classList.add('bg-blue-200');
+
+        selectedSize = {
+          size: e.target.dataset.size,
+          price: e.target.dataset.price
+        };
+        priceDisplay.innerText = selectedSize.price;
+      }
+    });
+
+    thumbnailContainer.addEventListener('click', e => {
+      if (e.target.classList.contains('thumbnail')) {
+        mainImage.src = e.target.src;
+      }
+    });
+
+    document.getElementById('decrease').onclick = () => {
+      if (qtyInput.value > 1) qtyInput.value--;
+    };
+    document.getElementById('increase').onclick = () => {
+      qtyInput.value++;
+    };
+
+    document.getElementById('add-to-cart-btn').onclick = async () => {
+      const payload = {
+        productId: "<%= product._id %>",
+        flavour: selectedFlavour.flavour,
+        size: selectedSize.size,
+        price: selectedSize.price,
+        quantity: qtyInput.value
+      };
+      try {
+        const res = await fetch('/add/to/cart', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result.success) {
+          alert("✅ Added to cart successfully!");
+        } else {
+          alert("❌ Failed to add to cart.");
+        }
+      } catch (err) {
+        alert("❌ Server error adding to cart.");
+      }
     };
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" />
-  <style>
-    :where([class^="ri-"])::before {
-      content: "\f3c2";
-    }
 
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    .toast {
-      visibility: hidden;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      z-index: 9999;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .toast.show {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    input[type="number"] {
-      -moz-appearance: textfield;
-    }
-
-    .size-option:hover {
-      border-color: #4f46e5;
-    }
-
-    .size-option.selected {
-      border-color: #4f46e5;
-      background-color: rgba(79, 70, 229, 0.05);
-    }
-
-    .gallery-thumbnail {
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
-
-    .gallery-thumbnail.active {
-      opacity: 1;
-      border: 2px solid #4f46e5;
-    }
-
-    .product-description h3 {
-      margin-top: 1.5rem;
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-      font-size: 1.125rem;
-    }
-
-    .product-description ul {
-      list-style-type: disc;
-      margin-left: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .product-description p {
-      margin-bottom: 1rem;
-    }
-  </style>
-</head>
-
-<body class="bg-gray-50">
-
-  <%- include('./components/navbar.ejs') %>
-
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Product Image Gallery Section -->
-      <div class="lg:w-1/2">
-        <div class="relative bg-white rounded-lg shadow-sm overflow-hidden">
-          <div id="main-image-container" class="h-[450px] relative">
-            <img id="main-product-image" src="<%= product.images[0] %>" alt="Premium Omega-3 Fish Oil" class="w-full h-full object-cover object-top" />
-            <div class="absolute bottom-4 right-4 bg-white bg-opacity-75 px-3 py-1 rounded-full text-sm text-gray-700">
-              <span id="current-image">1</span>/<span id="total-images">5</span>
-            </div>
-          </div>
-          <div class="absolute top-1/2 left-4 transform -translate-y-1/2">
-            <button id="prev-image" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap">
-              <i class="ri-arrow-left-s-line ri-lg"></i>
-            </button>
-          </div>
-          <div class="absolute top-1/2 right-4 transform -translate-y-1/2">
-            <button id="next-image" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap">
-              <i class="ri-arrow-right-s-line ri-lg"></i>
-            </button>
-          </div>
-        </div>
-        <div class="mt-4 flex space-x-2 overflow-x-auto pb-2">
-
-          <% for(let i =0 ; i< product.images.length; i++) {%>
-          <div class="gallery-thumbnail active h-20 w-20 flex-shrink-0 cursor-pointer rounded-md overflow-hidden">
-            <img src="<%= product.images[i] %>" alt="Product thumbnail 1" class="h-full w-full object-cover object-top" data-index="1" />
-          </div>
-          <%}%>
-
-          </div>
-        </div>
-        <!-- Product Information Section -->
-        <div class="lg:w-1/2">
-          <div class="flex justify-between items-start">
-            <div>
-              <div class="flex items-center">
-                <span class="text-sm text-gray-500">By</span>
-                <h6 href="#" class="ml-1 text-sm font-medium text-primary"
-                  ><%= product.brand %></h6>
-        </div>
-        <h1 class="text-3xl font-bold text-gray-900 mt-1">
-          <%= product.name %>
-        </h1>
-      </div>
-      <button class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-primary !rounded-button whitespace-nowrap">
-        <i class="ri-share-line ri-lg"></i>
-      </button>
-    </div>
-    <div class="flex items-center mt-3">
-      <div class="flex">
-        <i class="ri-star-fill ri-sm text-yellow-400"></i>
-        <i class="ri-star-fill ri-sm text-yellow-400"></i>
-        <i class="ri-star-fill ri-sm text-yellow-400"></i>
-        <i class="ri-star-fill ri-sm text-yellow-400"></i>
-        <i class="ri-star-half-fill ri-sm text-yellow-400"></i>
-      </div>
-      <span class="ml-2 text-sm text-gray-600">4.7</span>
-    </div>
-    <div class="mt-6">
-      <h2 class="text-lg font-semibold text-gray-900">Select Size</h2>
-      <p class="text-sm text-gray-500 mt-1">
-        Choose your preferred bottle size
-      </p>
-      <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        <% for(let i=0 ; i<product.sizes.length; i++) {%>
-        <div class="size-option border rounded-lg p-4 cursor-pointer" data-size="<%= product.sizes[i].size %>" data-price="<%= product.sizes[i].price %>" data-stock="in-stock">
-          <div class="flex justify-between items-start">
-            <div>
-              <h3 class="font-semibold text-gray-900"><%= product.sizes[i].size %></h3>
-            </div>
-            <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-              In Stock
-            </div>
-          </div>
-          <div class="mt-2">
-            <span class="text-xl font-bold text-gray-900">Rs-<%= product.sizes[i].price%></span>
-          </div>
-        </div>
-        <%}%>    
-            </div>
-          </div>
-
-          <div class="mt-8 bg-white rounded-lg p-6 shadow-sm">
-            <h2 class="text-lg font-semibold text-gray-900">Quick Purchase</h2>
-            <div class="mt-4 flex items-center">
-              <div class="mr-4">
-                <label
-                  for="quantity"
-                  class="block text-sm font-medium text-gray-700 mb-1"
-                  >Quantity</label
-                >
-                <div class="flex items-center border rounded-lg">
-                  <button
-                    id="decrease-quantity"
-                    class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-primary !rounded-button whitespace-nowrap"
-                  >
-                    <i class="ri-subtract-line"></i>
-                  </button>
-                  <input
-                    type="number"
-                    id="quantity"
-                    class="w-12 text-center border-none focus:ring-0 text-gray-900"
-                    value="1"
-                    min="1"
-                  />
-                  <button
-                    id="increase-quantity"
-                    class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-primary !rounded-button whitespace-nowrap"
-                  >
-                    <i class="ri-add-line"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="flex-1">
-                <button
-                  id="add-to-cart-main"
-                  onclick="addToCart()"
-                  class="w-full bg-primary text-white py-3 rounded-button font-medium hover:bg-primary/90 whitespace-nowrap"
-                >
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between text-sm">
-              <div class="flex items-center text-gray-500">
-                <i class="ri-truck-line ri-lg mr-2"></i>
-                <span>Free shipping on orders over $50</span>
-              </div>
-              <div class="flex items-center text-gray-500">
-                <i class="ri-shield-check-line ri-lg mr-2"></i>
-                <span>30-day money back guarantee</span>
-              </div>
-            </div>
-          </div>
-          <div class="mt-6 flex flex-wrap gap-2">
-            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
-              <i class="ri-leaf-line ri-sm mr-1 text-green-600"></i>
-              <span class="text-xs text-gray-700">Natural</span>
-            </div>
-            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
-              <i class="ri-test-tube-line ri-sm mr-1 text-blue-600"></i>
-              <span class="text-xs text-gray-700">Lab Tested</span>
-            </div>
-            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
-              <i class="ri-heart-line ri-sm mr-1 text-red-600"></i>
-              <span class="text-xs text-gray-700">Heart Health</span>
-            </div>
-            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
-              <i class="ri-brain-line ri-sm mr-1 text-purple-600"></i>
-              <span class="text-xs text-gray-700">Brain Function</span>
-            </div>
-            <div class="flex items-center px-3 py-1 bg-gray-100 rounded-full">
-              <i class="ri-medicine-bottle-line ri-sm mr-1 text-yellow-600"></i>
-              <span class="text-xs text-gray-700">Non-GMO</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Product Details Section -->
-      <div class="mt-12">
-        <div class="border-b border-gray-200">
-          <div class="flex overflow-x-auto">
-            <button
-              class="tab-button py-4 px-6 border-b-2 border-primary text-primary font-medium whitespace-nowrap"
-              data-tab="description"
-            >
-              Description
-            </button>
-            <button
-              class="tab-button py-4 px-6 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium whitespace-nowrap"
-              data-tab="reviews"
-            >
-              Reviews
-            </button>
-          </div>
-        </div>
-
-        <div class="mt-8">
-          <div id="description-tab" class="tab-content product-description">
-            <p class="text-gray-700">
-             <%= product.description %>
-        </p>
-      </div>
-
-      <div id="reviews-tab" class="tab-content hidden">
-        <div class="flex items-center justify-between mb-6">
-          <h3 class="text-lg font-semibold text-gray-900">
-            Customer Reviews (386)
-          </h3>
-          <button class="bg-primary text-white px-4 py-2 rounded-button text-sm font-medium hover:bg-primary/90 whitespace-nowrap">
-            Write a Review
-          </button>
-        </div>
-        <div class="flex flex-col md:flex-row gap-8 mb-8">
-          <div class="md:w-1/3 bg-white rounded-lg shadow-sm p-6">
-            <div class="text-center">
-              <div class="text-5xl font-bold text-gray-900">4.7</div>
-              <div class="flex justify-center mt-2">
-                <i class="ri-star-fill ri-lg text-yellow-400"></i>
-                <i class="ri-star-fill ri-lg text-yellow-400"></i>
-                <i class="ri-star-fill ri-lg text-yellow-400"></i>
-                <i class="ri-star-fill ri-lg text-yellow-400"></i>
-                <i class="ri-star-half-fill ri-lg text-yellow-400"></i>
-              </div>
-              <p class="text-sm text-gray-500 mt-2">Based on 386 reviews</p>
-            </div>
-            <div class="mt-6 space-y-3">
-              <div class="flex items-center">
-                <div class="w-24 text-sm text-gray-600">5 stars</div>
-                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="bg-yellow-400 h-full rounded-full" style="width: 78%"></div>
-                </div>
-                <div class="w-12 text-right text-sm text-gray-600">78%</div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-24 text-sm text-gray-600">4 stars</div>
-                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="bg-yellow-400 h-full rounded-full" style="width: 15%"></div>
-                </div>
-                <div class="w-12 text-right text-sm text-gray-600">15%</div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-24 text-sm text-gray-600">3 stars</div>
-                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="bg-yellow-400 h-full rounded-full" style="width: 5%"></div>
-                </div>
-                <div class="w-12 text-right text-sm text-gray-600">5%</div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-24 text-sm text-gray-600">2 stars</div>
-                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="bg-yellow-400 h-full rounded-full" style="width: 1%"></div>
-                </div>
-                <div class="w-12 text-right text-sm text-gray-600">1%</div>
-              </div>
-              <div class="flex items-center">
-                <div class="w-24 text-sm text-gray-600">1 star</div>
-                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div class="bg-yellow-400 h-full rounded-full" style="width: 1%"></div>
-                </div>
-                <div class="w-12 text-right text-sm text-gray-600">1%</div>
-              </div>
-            </div>
-          </div>
-          <div class="md:w-2/3">
-            <div class="space-y-6">
-              <div class="bg-white rounded-lg shadow-sm p-6">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <div class="flex items-center">
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                    </div>
-                    <h4 class="font-medium text-gray-900 mt-2">
-                      Noticeable improvement in joint pain
-                    </h4>
-                  </div>
-                  <span class="text-sm text-gray-500">June 2, 2025</span>
-                </div>
-                <p class="text-gray-700 mt-3">
-                  I've been taking this omega-3 supplement for about 3
-                  months now, and I've noticed a significant reduction in my
-                  knee pain. As someone who enjoys hiking on weekends, this
-                  has been a game-changer for me. The capsules are easy to
-                  swallow and don't have that fishy aftertaste that many
-                  other brands do. Highly recommend!
-                </p>
-                <div class="mt-4 flex items-center">
-                  <span class="text-sm font-medium text-gray-900">Rebecca Thompson</span>
-                  <span class="mx-2 text-gray-300">|</span>
-                  <span class="text-sm text-gray-500">Verified Purchaser</span>
-                </div>
-              </div>
-              <div class="bg-white rounded-lg shadow-sm p-6">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <div class="flex items-center">
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-gray-300"></i>
-                    </div>
-                    <h4 class="font-medium text-gray-900 mt-2">
-                      Good quality, but pricey
-                    </h4>
-                  </div>
-                  <span class="text-sm text-gray-500">May 28, 2025</span>
-                </div>
-                <p class="text-gray-700 mt-3">
-                  The quality of this fish oil is excellent - no fishy burps
-                  and my cholesterol numbers have improved since I started
-                  taking it. My only complaint is the price point is a bit
-                  high compared to other brands. I do appreciate the purity
-                  testing and transparency about sourcing, which somewhat
-                  justifies the cost. I'll continue using it but will watch
-                  for sales.
-                </p>
-                <div class="mt-4 flex items-center">
-                  <span class="text-sm font-medium text-gray-900">Michael Rodriguez</span>
-                  <span class="mx-2 text-gray-300">|</span>
-                  <span class="text-sm text-gray-500">Verified Purchaser</span>
-                </div>
-              </div>
-              <div class="bg-white rounded-lg shadow-sm p-6">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <div class="flex items-center">
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                      <i class="ri-star-fill text-yellow-400"></i>
-                    </div>
-                    <h4 class="font-medium text-gray-900 mt-2">
-                      Best fish oil I've tried
-                    </h4>
-                  </div>
-                  <span class="text-sm text-gray-500">May 15, 2025</span>
-                </div>
-                <p class="text-gray-700 mt-3">
-                  After trying several different omega-3 supplements over
-                  the years, this is by far the best. My doctor recommended
-                  increasing my omega-3 intake for heart health, and after 6
-                  months of taking this product, my triglyceride levels have
-                  decreased significantly. The lemon flavor helps prevent
-                  any fishy aftertaste, and I appreciate that they're
-                  sustainably sourced. Will definitely continue purchasing.
-                </p>
-                <div class="mt-4 flex items-center">
-                  <span class="text-sm font-medium text-gray-900">Jennifer Wilson</span>
-                  <span class="mx-2 text-gray-300">|</span>
-                  <span class="text-sm text-gray-500">Verified Purchaser</span>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 text-center">
-              <button class="text-primary font-medium hover:text-primary/80 whitespace-nowrap">
-                Load More Reviews
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-    <!-- Trust Badges Section -->
-    <div class="mt-16 bg-white rounded-lg shadow-sm p-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="flex flex-col items-center text-center">
-          <div class="w-12 h-12 flex items-center justify-center text-primary mb-3">
-            <i class="ri-truck-line ri-2x"></i>
-          </div>
-          <h3 class="font-semibold text-gray-900">Free Shipping</h3>
-          <p class="text-sm text-gray-500 mt-1">On orders over $50</p>
-        </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="w-12 h-12 flex items-center justify-center text-primary mb-3">
-            <i class="ri-shield-check-line ri-2x"></i>
-          </div>
-          <h3 class="font-semibold text-gray-900">Money-Back Guarantee</h3>
-          <p class="text-sm text-gray-500 mt-1">
-            30-day satisfaction guarantee
-          </p>
-        </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="w-12 h-12 flex items-center justify-center text-primary mb-3">
-            <i class="ri-secure-payment-line ri-2x"></i>
-          </div>
-          <h3 class="font-semibold text-gray-900">Secure Payment</h3>
-          <p class="text-sm text-gray-500 mt-1">Your data is protected</p>
-        </div>
-        <div class="flex flex-col items-center text-center">
-          <div class="w-12 h-12 flex items-center justify-center text-primary mb-3">
-            <i class="ri-customer-service-2-line ri-2x"></i>
-          </div>
-          <h3 class="font-semibold text-gray-900">24/7 Support</h3>
-          <p class="text-sm text-gray-500 mt-1">Call or email us anytime</p>
-        </div>
-      </div>
-      <div class="mt-8 pt-6 border-t border-gray-200">
-        <div class="flex flex-wrap justify-center gap-6">
-          <div class="w-12 h-8 flex items-center justify-center text-gray-400">
-            <i class="ri-visa-fill ri-2x"></i>
-          </div>
-          <div class="w-12 h-8 flex items-center justify-center text-gray-400">
-            <i class="ri-mastercard-fill ri-2x"></i>
-          </div>
-          <div class="w-12 h-8 flex items-center justify-center text-gray-400">
-            <i class="ri-paypal-fill ri-2x"></i>
-          </div>
-          <div class="w-12 h-8 flex items-center justify-center text-gray-400">
-            <i class="ri-apple-fill ri-2x"></i>
-          </div>
-          <div class="w-12 h-8 flex items-center justify-center text-gray-400">
-            <i class="ri-amazon-fill ri-2x"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Related Products Section -->
-    <div class="mt-16">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">You May Also Like</h2>
-      <div class="relative">
-        <div class="flex overflow-x-auto pb-4 space-x-4 scrollbar-hide">
-
-          <%for(let i=0;i<relatedProducts.length;i++) {%>
-            <div class="flex-shrink-0 w-64">
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-              <div class="h-80 relative">
-                <img src="<%= relatedProducts[i].images[0] %>" class="w-full h-full object-cover object-top" />
-                <div class="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
-                  Bestselling
-                </div>
-              </div>
-              <div class="p-4">
-                <h3 class="font-medium text-gray-900"><%= relatedProducts[i].name%></h3>
-                <div class="flex items-center mt-1">
-                  <div class="flex">
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                    <i class="ri-star-fill ri-xs text-yellow-400"></i>
-                  </div>
-                  <span class="ml-1 text-xs text-gray-500">(245)</span>
-                </div>
-                <div class="mt-2 flex justify-between items-center">
-                  <span class="font-bold text-gray-900">Rs:- <%= relatedProducts[i].sizes[0].price%> || <%= relatedProducts[i].sizes[0].zise%></span>
-                  <a href="/show/this/product/<%= relatedProducts[i]._id %>">
-                    <button class="bg-primary text-white p-2 rounded-full !rounded-button whitespace-nowrap">
-                    <i class="ri-shopping-cart-line"></i>
-                  </button>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <%}%> 
-          
-
-        </div>
-        <div class="absolute top-1/2 -left-4 transform -translate-y-1/2">
-          <button id="prev-product" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap">
-            <i class="ri-arrow-left-s-line ri-lg"></i>
-          </button>
-        </div>
-        <div class="absolute top-1/2 -right-4 transform -translate-y-1/2">
-          <button id="next-product" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md text-gray-700 hover:text-primary !rounded-button whitespace-nowrap">
-            <i class="ri-arrow-right-s-line ri-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </main>
- 
-  <div id="toast" class="toast flex items-center">
-    <i class="ri-checkbox-circle-line text-green-500 ri-lg mr-2"></i>
-    <span id="toast-message"></span>
-  </div>
-  <script id="toast-script">
-    function showToast(message, duration = 3000) {
-      const toast = document.getElementById("toast");
-      const toastMessage = document.getElementById("toast-message");
-      toastMessage.textContent = message;
-      toast.classList.add("show");
-
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, duration);
-    }
-  </script>
-  <script id="gallery-script">
-    document.addEventListener("DOMContentLoaded", function() {
-      const mainImage = document.getElementById("main-product-image");
-      const currentImageNum = document.getElementById("current-image");
-      const totalImages = document.getElementById("total-images");
-      const thumbnails = document.querySelectorAll(".gallery-thumbnail");
-      const prevButton = document.getElementById("prev-image");
-      const nextButton = document.getElementById("next-image");
-      let currentIndex = 0;
-      const imageCount = thumbnails.length;
-      totalImages.textContent = imageCount;
-
-      function updateMainImage(index) {
-        thumbnails.forEach((thumb) => thumb.classList.remove("active"));
-        thumbnails[index].classList.add("active");
-        const imgSrc = thumbnails[index].querySelector("img").src;
-        mainImage.src = imgSrc;
-        currentImageNum.textContent = index + 1;
-        currentIndex = index;
-      }
-      thumbnails.forEach((thumbnail, index) => {
-        thumbnail.addEventListener("click", () => {
-          updateMainImage(index);
-        });
-      });
-      prevButton.addEventListener("click", () => {
-        let newIndex = currentIndex - 1;
-        if (newIndex < 0) newIndex = imageCount - 1;
-        updateMainImage(newIndex);
-      });
-      nextButton.addEventListener("click", () => {
-        let newIndex = currentIndex + 1;
-        if (newIndex >= imageCount) newIndex = 0;
-        updateMainImage(newIndex);
-      });
-    });
-  </script>
-  <script id="size-selection-script">
-    document.addEventListener("DOMContentLoaded", function() {
-      const sizeOptions = document.querySelectorAll(".size-option");
-      const addToCartMainButton = document.getElementById("add-to-cart-main");
-      const addToCartButtons = document.querySelectorAll(".size-option button");
-      addToCartButtons.forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.stopPropagation();
-          const sizeOption = button.closest(".size-option");
-          const size = sizeOption.getAttribute("data-size");
-          const price = sizeOption.getAttribute("data-price");
-          showToast(`Added ${size} capsules to cart - $${price}`);
-        });
-      });
-      // addToCartMainButton.addEventListener("click", () => {
-      //   const selectedSize = document.querySelector(".size-option.selected");
-      //   const size = selectedSize.getAttribute("data-size");
-      //   const quantity = document.getElementById("quantity").value;
-      //   const price = (
-      //     parseFloat(selectedSize.getAttribute("data-price")) * parseInt(quantity)
-      //   ).toFixed(2);
-      //   showToast(`Added ${quantity} × ${size} capsules to cart - $${price}`);
-      // });
-      sizeOptions.forEach((option) => {
-        option.addEventListener("click", () => {
-          // Remove selected class from all options
-          sizeOptions.forEach((opt) => opt.classList.remove("selected"));
-          // Add selected class to clicked option
-          option.classList.add("selected");
-          // Update main add to cart button price
-          const price = option.getAttribute("data-price");
-          const quantity = document.getElementById("quantity").value;
-          const totalPrice = (parseFloat(price) * parseInt(quantity)).toFixed(2);
-          addToCartMainButton.textContent = `Add to Cart - $${totalPrice}`;
-        });
-      });
-    });
-  </script>
-  <script>
-    async function addToCart() {
-      const selectedSize = document.querySelector(".size-option.selected");
-      const size = selectedSize.getAttribute("data-size");
-      const quantity = document.getElementById("quantity").value;
-      const price = (
-        parseFloat(selectedSize.getAttribute("data-price")) * parseInt(quantity)
-      ).toFixed(2);
-      fetch('/add/to/my/cart/<%= product.id %>', {
-          method: 'POST',
-          headers: {
-    'Content-Type': 'application/json' // <--- This is important!
-  },
-          body:JSON.stringify({
-            product:size,
-            qty:quantity,
-            id:"<%= product._id %>"
-          })
-        })
-        .then(response => {
-          if (!response.ok) {
-            showToast(Error);
-            throw new Error('Network response was not ok');
-          }
-          return response.json(); // Or response.text() if response is plain text
-        })
-        .then(data => {
-          showToast(`Product Added Successfully`);
-        })
-        .catch(error => {
-          showToast(error);
-          console.log('Error:', error);
-        });
-    }
-  </script>
-  <script id="quantity-script">
-    document.addEventListener("DOMContentLoaded", function() {
-      const quantityInput = document.getElementById("quantity");
-      const decreaseButton = document.getElementById("decrease-quantity");
-      const increaseButton = document.getElementById("increase-quantity");
-      const addToCartMainButton = document.getElementById("add-to-cart-main");
-
-      function updateTotalPrice() {
-        const selectedSize = document.querySelector(".size-option.selected");
-        const price = selectedSize.getAttribute("data-price");
-        const quantity = parseInt(quantityInput.value);
-        const totalPrice = (parseFloat(price) * quantity).toFixed(2);
-        addToCartMainButton.textContent = `Add to Cart - $${totalPrice}`;
-      }
-      decreaseButton.addEventListener("click", () => {
-        const currentValue = parseInt(quantityInput.value);
-        if (currentValue > 1) {
-          quantityInput.value = currentValue - 1;
-          updateTotalPrice();
-        }
-      });
-      increaseButton.addEventListener("click", () => {
-        const currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
-        updateTotalPrice();
-      });
-      quantityInput.addEventListener("change", () => {
-        if (parseInt(quantityInput.value) < 1) {
-          quantityInput.value = 1;
-        }
-        updateTotalPrice();
-      });
-    });
-  </script>
-  <script id="tab-script">
-    document.addEventListener("DOMContentLoaded", function() {
-      const tabButtons = document.querySelectorAll(".tab-button");
-      const tabContents = document.querySelectorAll(".tab-content");
-      tabButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          // Remove active class from all buttons
-          tabButtons.forEach((btn) => {
-            btn.classList.remove("border-primary", "text-primary");
-            btn.classList.add("border-transparent", "text-gray-500");
-          });
-          // Add active class to clicked button
-          button.classList.remove("border-transparent", "text-gray-500");
-          button.classList.add("border-primary", "text-primary");
-          // Hide all tab contents
-          tabContents.forEach((content) => {
-            content.classList.add("hidden");
-          });
-          // Show selected tab content
-          const tabId = button.getAttribute("data-tab");
-          document.getElementById(`${tabId}-tab`).classList.remove("hidden");
-        });
-      });
-    });
-  </script>
-  <script id="related-products-script">
-    document.addEventListener("DOMContentLoaded", function() {
-      const productsContainer = document.querySelector(".flex.overflow-x-auto");
-      const prevButton = document.getElementById("prev-product");
-      const nextButton = document.getElementById("next-product");
-      prevButton.addEventListener("click", () => {
-        productsContainer.scrollBy({
-          left: -280,
-          behavior: "smooth"
-        });
-      });
-      nextButton.addEventListener("click", () => {
-        productsContainer.scrollBy({
-          left: 280,
-          behavior: "smooth"
-        });
-      });
-    });
-  </script>
 </body>
-
 </html>

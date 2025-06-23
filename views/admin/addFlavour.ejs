@@ -112,50 +112,45 @@
 
 <body>
   <div class="container">
-    <h2>Upload Product</h2>
-    <form action="/add/new/product" method="POST" enctype="multipart/form-data">
-      <label>Name:</label>
-      <input type="text" name="name" required>
+    <h2>Adding Flavour for product : <%= product._id %> </h2>
+    <form action="/add/new/flavour/product" method="POST" enctype="multipart/form-data">
 
-      <label>Description:</label>
-      <textarea name="description" rows="3"></textarea>
+      <input type="text" name="productId" value="<%= product._id %>" required readonly>
 
-      <label>Brand:</label>
-      <input type="text" name="brand">
-
-      <label>Keywords (comma separated):</label>
-      <input type="text" name="keywords">
-
-      <label for="category">Category:</label>
-      <select name="category" id="category" required>
-        <option value="">-- Select Category --</option>
-        <option value="protein">Protein</option>
-        <option value="gainer">Gainer</option>
-        <option value="fishoil">Fish Oil</option>
-        <option value="creatine">Creatine</option>
-        <option value="bcaa">BCAA</option>
-        <option value="booster">Testosterone Booster</option>
-        <option value="pre">Pre-Workout</option>
-        <option value="fat">Fat Burner</option>
-        <option value="peanut">Peanut Butter</option>
-        <option value="multivitamin">Multivitamin</option>
-        <option value="collagen">Collagen</option>
-        <option value="snacks">Snacks</option>
-        <option value="shaker">Shaker</option>
-        <option value="band">Resistance Band</option>
-        <option value="mat">Yoga Mat</option>
-        <option value="wrist">Wrist Support</option>
-        <option value="tracker">Fitness Tracker</option>
-        <option value="grip">Hand Grip</option>
-      </select>
+      <label>Flavour:</label>
+      <input type="text" name="flavour" required>
 
       <label>Product Image:</label>
       <input type="file" name="file" accept="image/*" required>
 
+      <label>Size & Price:</label>
+      <div id="sizes">
+        <div class="size-group">
+          <input type="text" name="sizes[0][size]" placeholder="Size">
+          <input type="text" name="sizes[0][price]" placeholder="Price">
+        </div>
+      </div>
+      <button type="button" class="add-btn" onclick="addSize()">+ Add Size</button>
+
       <button type="submit" class="submit-btn">Submit Product</button>
     </form>
   </div>
-  
+
+  <script>
+    let sizeIndex = 1;
+
+    function addSize() {
+      const sizes = document.getElementById('sizes');
+      const group = document.createElement('div');
+      group.className = 'size-group';
+      group.innerHTML = `
+        <input type="text" name="sizes[${sizeIndex}][size]" placeholder="Size">
+        <input type="text" name="sizes[${sizeIndex}][price]" placeholder="Price">
+      `;
+      sizes.appendChild(group);
+      sizeIndex++;
+    }
+  </script>
 </body>
 
 </html>

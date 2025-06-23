@@ -1,13 +1,15 @@
-<section id="products" class="py-10 bg-black opacity-80 text-white mb-10 mt-20" >
+<section id="products" class="py-10 bg-black opacity-80 text-white mb-10 mt-20">
   <div class="container mx-auto px-4">
     <h2 class="text-3xl font-bold text-center mb-4">Featured Products</h2>
     <div class="relative">
       <div class="overflow-x-auto pb-4 carousel flex gap-6 snap-x">
-        
-        <% for(let i=0;i<featured.length;i++) {%>
+
+
+        <% featured.forEach(p => { %>
+
         <div class="carousel-item min-w-[280px] sm:min-w-[320px] flex-shrink-0">
           <div class="product-card bg-white rounded-xl shadow-sm overflow-hidden h-full">
-            <img src="<%= featured[i].images[0] %>" alt="Collagen Peptides" class="w-full h-80 object-cover object-top">
+            <img src="<%= p.image %>" alt="Collagen Peptides" class="w-full h-80 object-cover object-top">
             <div class="p-6">
               <div class="flex items-center mb-2">
                 <div class="flex">
@@ -19,12 +21,14 @@
                 </div>
                 <span class="text-gray-500 text-sm ml-2">5</span>
               </div>
-
-              <h3 class="text-lg font-semibold mb-1" style="color: black;"><%= featured[i].name %></h3>
-              <p class="text-gray-500 text-sm mb-3" style="color: black;"><%= featured[i].brand %></p>
-              <span class="text-xl font-bold" style="color: black;">Rs:- <%= featured[i].sizes[0].price %> || <%= featured[i].sizes[0].size %> </span>
+              <h3 class="text-lg font-semibold mb-1" style="color: black;"><%= p.name %></h3>
+              <p class="text-gray-500 text-sm mb-3" style="color: black;"><%= p.brand %></p>
+              <% if (p.flavour) { %>
+              <p style="color: black;">Flavour: <%= p.flavour.flavour %></p>
+              <p style="color: black;">Price: ₹<%= p.flavour.sizes[0].price %></p>
+              <% } %>
               <div class="flex justify-between items-center">
-                <a href="/show/this/product/<%= featured[i]._id %>" class="w-[100%]">
+                <a href="/show/this/product/<%= p._id %>" class="w-[100%]">
                   <button class="w-[100%] h-10 bg-yellow-400 text-white rounded-full flex items-center justify-center hover:yellow-400 transition-colors duration-300" style="border-radius: 8px;margin-top: 5px;">
                     Shop Now
                   </button>
@@ -33,8 +37,10 @@
             </div>
           </div>
         </div>
-        <%}%>  
-        
+
+        <% }) %>
+
+
       </div>
       <button class="absolute top-1/2 -left-4 transform -translate-y-1/2 w-12 h-12 bg-white shadow-md rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-50 z-10 hidden md:flex">
         <i class="ri-arrow-left-s-line ri-lg"></i>
