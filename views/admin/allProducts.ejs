@@ -70,10 +70,13 @@
                             <td class="p-2"><%= product.category %></td>
                             <td class="p-2">
                                 <a href="/admin/update/product/<%= product._id %>">
-                                    <button class="bg-green-500 text-white px-3 py-1 rounded">Edit Product</button>
+                                    <button class="bg-green-500 text-white px-3 py-1 rounded">Add Flavour</button>
+                                </a>
+                                <a href="/admin/update/flavour/<%= product._id %>">
+                                    <button class="bg-green-500 text-white px-3 py-1 rounded">Update Flavour</button>
                                 </a>
                                 <form method="POST" action="/admin/delete/<%= product._id %>" class="inline">
-                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded"></button>
                                 </form>
                             </td>
                         </tr>

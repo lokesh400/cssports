@@ -64,64 +64,28 @@ router.get("/admin/update/product/:id",isLoggedIn,isAdmin, async (req, res) => {
   res.render("admin/addFlavour.ejs",{product});
 });
 
-//edit a product
-// Update product details
-router.put("/admin/update/product/:id",isLoggedIn,isAdmin, async (req, res) => {
-  const { id } = req.params;
-  const {
-    name,
-    description,
-    price,
-    madeFor,
-    keywords,
-    category,
-    stock,
-    sizes,
-    coverPhoto,
-    images,
-  } = req.body;
+//get route to update flavour images
+router.get('/admin/update/flavour/:id', async (req,res) => {
+    const flavours = await Flavour.find({productId:req.params.id});
+    res.render("admin/flavourList.ejs",{flavours});
+})
 
-  try {
-    const product = await Product.findById(id);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    product.name = name || product.name;
-    product.description = description || product.description;
-    product.price = price || product.price;
-    product.madeFor = madeFor || product.madeFor;
-    product.keywords = keywords ? keywords.split(",") : product.keywords;
-    product.category = category || product.category;
-    product.stock = stock || product.stock;
-    product.sizes = sizes ? sizes.split(",") : product.sizes;
-    product.coverPhoto = coverPhoto || product.coverPhoto;
-    product.images = images || product.images;
-
-    const updatedProduct = await product.save();
-    res.status(200).json({ message: "Product updated successfully", updatedProduct });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-//update images 
 // Upload images to a specific product
-router.get("/upload-images/:id",isLoggedIn,isAdmin, upload.array("images", 5), async (req, res) => {
-  const { id } = req.params;
+router.get("/upload/flavour/images/:id",isLoggedIn,isAdmin, upload.array("images", 5), async (req, res) => {
   try {
-    const product = await Product.findById(id);
+    const product = await Flavour.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.render('admin/addProductImages.ejs',{id});
+    res.render('admin/addProductImages.ejs',{id:req.params.id});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.patch("/admin/update-image/:id",isLoggedIn,isAdmin, upload.single("file"), async (req, res) => {
+router.patch("/admin/update/flavour/image/:id",isLoggedIn,isAdmin, upload.single("file"), async (req, res) => {
   try {
+    console.log(req.params.id)
     const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
     const imageUrl = result.secure_url;
     fs.unlink(req.file.path, (err) => {
@@ -131,13 +95,13 @@ router.patch("/admin/update-image/:id",isLoggedIn,isAdmin, upload.single("file")
         console.log("Local file deleted successfully");
       }
     });
-    const product = await Product.findById(req.params.id);
+    const product = await Flavour.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found." });
     }
     product.images.push(imageUrl); // Add the new image to the images array
     await product.save();
-    res.redirect(`/upload-images/${req.params.id}`);
+    res.redirect(`/upload/flavour/images/${req.params.id}`);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Upload failed: " + error.message });

@@ -116,13 +116,12 @@ app.use("/", flavourrouter);
 // const Flavour = require('./models/Flavour');
 
 app.get("/", async (req, res) => {
-  // const products = await Product.find().limit(12);
-  // const proteins = await Product.find({category:"protein"}).limit(10);
-  // const gainers = await Product.find({category:"gainer"}).limit(10)
-  // const featured = await Product.find({ category: "protein" }).sort({ createdAt: -1 }).limit(10);
 
   try {
     const feature = await Product.find().limit(10);
+  const protein = await Product.find({category:"protein"}).limit(10);
+  const gainer = await Product.find({category:"gainer"}).limit(10)
+  const featured = await Product.find({ category: "protein" }).sort({ createdAt: -1 }).limit(10);
     const productsWithFlavours = await Promise.all(
       feature.map(async (product) => {
         const flavour = await Flavour.findOne({ productId: product._id });
@@ -133,7 +132,7 @@ app.get("/", async (req, res) => {
       })
     );
     const gainers = await Promise.all(
-      feature.map(async (product) => {
+      gainer.map(async (product) => {
         const flavour = await Flavour.findOne({ productId: product._id });
         return {
           ...product.toObject(),
@@ -142,7 +141,7 @@ app.get("/", async (req, res) => {
       })
     );
     const proteins = await Promise.all(
-      feature.map(async (product) => {
+      protein.map(async (product) => {
         const flavour = await Flavour.findOne({ productId: product._id });
         return {
           ...product.toObject(),
