@@ -62,5 +62,13 @@
       <img src="/images/onescience.png" alt="OneScience" class="w-full h-20 object-contain mb-2 mx-auto">
     </div>
 
+    <% if(brands && brands.length > 0 ) {%>
+      <% for(let i=0; i<brands.length; i++) {%>
+       <div class="p-4 rounded-xl hover:shadow-lg transition">
+          <img src="<%= brands[i].imageUrl %>" alt="brandlogo" class="w-full h-20 object-contain mb-2 mx-auto">
+       </div>
+      <%}%>  
+    <%}%>  
+
   </div>
 </section>

@@ -102,6 +102,7 @@ const cartrouter = require("./routes/cart.js");
 const adminrouter = require("./routes/admin.js");
 const reviewrouter = require("./routes/review.js");
 const flavourrouter = require("./routes/flavour.js");
+const brandrouter = require("./routes/brand.js");
 
 app.use("/user", userrouter);
 app.use("/user", otprouter);
@@ -112,13 +113,15 @@ app.use("/", cartrouter);
 app.use("/", adminrouter);
 app.use("/", reviewrouter);
 app.use("/", flavourrouter);
+app.use("/", brandrouter);
 
-// const Flavour = require('./models/Flavour');
+const Brand = require('./models/Brand');
 
 app.get("/", async (req, res) => {
 
   try {
-    const feature = await Product.find().limit(10);
+  const brands = await Brand.find();  
+  const feature = await Product.find().limit(10);
   const protein = await Product.find({category:"protein"}).limit(10);
   const gainer = await Product.find({category:"gainer"}).limit(10)
   const featured = await Product.find({ category: "protein" }).sort({ createdAt: -1 }).limit(10);
@@ -150,7 +153,7 @@ app.get("/", async (req, res) => {
       })
     );
     console.log(productsWithFlavours)
-    res.render("index.ejs", { featured: productsWithFlavours, proteins, gainers });
+    res.render("index.ejs", { featured: productsWithFlavours, proteins, gainers,brands });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch featured products" });
   }
