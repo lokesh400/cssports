@@ -151,7 +151,8 @@ router.get("/product/management", isLoggedIn, async (req, res) => {
 //render particular product
 router.get("/show/this/product/:id", saveRedirectUrl, isLoggedIn, async (req, res) => {
   const product2 = await Product.findById(req.params.id);
-  const feature = await Product.find();
+  // const feature = await Product.find();
+  const feature = [product2]
   const products = await Promise.all(
     feature.map(async (product) => {
       const flavour = await Flavour.find({ productId: req.params.id });

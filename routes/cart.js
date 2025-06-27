@@ -66,19 +66,26 @@ router.post("/add/to/cart", saveRedirectUrl, isLoggedIn, async (req, res) => {
     const userId = req.user._id;
     const { productId, flavour, size, price, quantity } = req.body;
 
+    console.log(productId, flavour, size, price, quantity)
+
     // Check if flavour exists for the product
     const flavourDoc = await Flavour.findOne({ productId, flavour });
+    console.log("flavourDoc",flavourDoc)
 
     if (!flavourDoc) {
       return res.status(404).json({ success: false, message: "Flavour not found for this product." });
     }
 
+    console.log("size",size)
     // Validate selected size
     const selectedSize = flavourDoc.sizes.find(s => s.size === size);
+
+    console.log("selected",selectedSize)
+
     if (!selectedSize) {
+      console.log("no size available")
       return res.status(400).json({ success: false, message: "Selected size is not available." });
     }
-
     // Convert quantity to number
     const qty = parseInt(quantity);
 
@@ -121,7 +128,7 @@ router.post("/add/to/cart", saveRedirectUrl, isLoggedIn, async (req, res) => {
     return res.status(200).json({ success: true, message: "Item added to cart!", cart });
 
   } catch (error) {
-    console.error("Error adding to cart:", error);
+    console.log(error);
     return res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });

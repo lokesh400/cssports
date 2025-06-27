@@ -116,6 +116,7 @@ app.use("/", flavourrouter);
 app.use("/", brandrouter);
 
 const Brand = require('./models/Brand');
+const Flavour = require('./models/Flavour')
 
 app.get("/", async (req, res) => {
 
@@ -152,15 +153,11 @@ app.get("/", async (req, res) => {
         };
       })
     );
-    console.log(productsWithFlavours)
     res.render("index.ejs", { featured: productsWithFlavours, proteins, gainers,brands });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch featured products" });
   }
 });
-
-
-const Flavour = require('./models/Flavour')
 
 app.get('/test', async (req, res) => {
   const flavours = await Flavour.find().populate('productId');
