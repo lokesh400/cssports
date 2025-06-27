@@ -176,13 +176,13 @@ router.get("/order/details/:orderId", isLoggedIn, isAdmin, async (req, res) => {
     const orderId = req.params.orderId;
     const order = await Order.findById(orderId)
       .populate("user")
-      .populate("products.product"); // Fetch order details
+      .populate("products.product");
 
+    console.log(order.products)  
     if (!order) {
       return res.status(404).send("Order not found");
     }
-
-    res.render("admin/order-details", { order }); // Render EJS file with order details
+    res.render("admin/thisOrder", { order }); // Render EJS file with order details
   } catch (error) {
     console.error("Error fetching order details:", error);
     res.status(500).send("Internal Server Error");

@@ -278,7 +278,7 @@ router.post("/cart/verify-payment", isLoggedIn, async (req, res) => {
       subTotal: cart.subTotal,
       deliveryCharges: cart.deliveryCharges,
       totalAmount: cart.deliveryCharges + cart.subTotal,
-      paymentStatus: "paid",
+      paymentMode: "Cash On Delivery",
       status: "pending",
       address: userAddress
     });
@@ -317,7 +317,7 @@ router.get("/cart/cod",saveRedirectUrl, isLoggedIn, async (req, res) => {
       subTotal: cart.subTotal,
       deliveryCharges: cart.deliveryCharges,
       totalAmount: cart.deliveryCharges + cart.subTotal,
-      paymentStatus: "paid",
+      paymentMode: "Cash On Delivery",
       status: "pending",
       address: userAddress
     });

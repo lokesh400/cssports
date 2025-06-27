@@ -94,7 +94,7 @@
     <div class="bg-white rounded-lg shadow-lg mt-10 p-6">
       <h2 class="text-xl font-semibold mb-4">Related Products</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <% relatedProducts.forEach(rp => { %>
+        <% proteins.forEach(rp => { %>
           <div class="border p-4 rounded-lg hover:shadow">
             <img src="<%= rp.image %>" class="w-full h-40 object-cover rounded-md mb-2" />
             <p class="font-semibold text-sm"><%= rp.name %></p>

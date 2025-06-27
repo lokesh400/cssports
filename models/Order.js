@@ -22,7 +22,7 @@ const OrderSchema = new mongoose.Schema({
   deliveryCharges: { type: Number },
   totalAmount: { type: Number },
   status: { type: String, enum: ["pending", "packed", "shipped", "delivered","printed"], default: "pending" },
-  paymentStatus: { type: String, enum: ["pending", "paid", "failed"], default: "pending" },
+  paymentMode:String,
   createdAt: { type: Date, default: Date.now }
 });
 

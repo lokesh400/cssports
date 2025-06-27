@@ -177,10 +177,9 @@ router.get("/show/this/product/:id", saveRedirectUrl, isLoggedIn, async (req, re
     })
   );
 
-  const product = products[0]
   console.log(relatedProducts)
 
-  res.render('thisProduct.ejs', { product: products[0], relatedProducts });
+  res.render('thisProduct.ejs', { product: products[0], proteins:relatedProducts });
 })
 
 module.exports = router;

@@ -58,7 +58,7 @@
                         <img src="<%= orders[i].products[j].product.image %>" alt="Product Image" class="w-20 h-20 object-cover rounded-lg shadow-sm">
                       </a>
                       <div>
-                        <h3 class="text-base font-medium text-gray-800"> <%= orders[i].products[j].flavour %> Flavoured <%= orders[i].products[j].product.name %></h3>
+                        <h3 class="text-base font-medium text-gray-800"> <%= orders[i].products[j].size %> <%= orders[i].products[j].flavour %> Flavoured <%= orders[i].products[j].product.name %></h3>
                         <p class="text-sm text-gray-500">Ordered on: <%= new Date(orders[i].createdAt).toLocaleDateString() %></p>
                       </div>
                       <div class="text-right">
@@ -67,42 +67,28 @@
                         <p class="text-sm font-medium text-gray-800">Product Total ₹<%= orders[i].products[j].price*orders[i].products[j].quantity %></p>
                       </div>
                     </div>
+                  <% } %>
 
-                    <div class="mt-4 flex items-start gap-4">
+                   <div class="mt-4 flex items-start gap-4">
                       <div>
                         <p class="text-sm text-gray-500">Subtotal <%= orders[i].subTotal %> </p>
                         <p class="text-sm text-gray-500">Delivery Charges <%= orders[i].deliveryCharges %> </p>
                         <h3 class="text-base font-medium text-gray-800"> Total Amount : <%= orders[i].totalAmount %></h3>
                       </div>
                   </div>
-          
-
-                  <% } %>
 
                   <!-- Buttons -->
                   <div class="mt-6 flex items-center justify-between">
                     <div class="flex gap-4">
-                      <button class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-200">
-                        <i class="fas fa-headset mr-2"></i> Need Help?
-                      </button>
                       <a href="/get/receipt/<%= orders[i]._id %>" target="_blank">
-                        <button class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-200">
+                        <button class="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                           <i class="fas fa-download mr-2"></i> Download Receipt
                         </button>
                       </a>
-                      <% if (orders[i].status === "Shipped") { %>
-                        <button onclick="trackOrder('<%= orders[i]._id %>')"
-                          class="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white">
-                          <i class="fas fa-truck mr-2"></i> Track Order
-                        </button>
-                      <% } %>
-                    </div>
-                    <button onclick="viewOrderDetails('<%= orders[i]._id %>')" 
-                      class="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                      View Details
-                    </button>
                   </div>
                 </div>
+                <br>
+                <hr>
               <% } %>
             <% } %>
           </div>
