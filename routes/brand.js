@@ -61,17 +61,10 @@ router.get('/add/new/brand', (req,res) => {
     res.render('admin/addBrand.ejs')
 })
 
-router.post("/add/new/brand",saveRedirectUrl,isLoggedIn,isAdmin, upload.single("file"), async (req, res) => {
+router.post("/add/new/brand",saveRedirectUrl,isLoggedIn,isAdmin, async (req, res) => {
   try {
-    const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
-    const imageUrl = result.secure_url;
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.error("Error deleting local file:", err);
-      } else {
-        console.log("Local file deleted successfully");
-      }
-    });
+    const {imageUrl} = req.body;
+    
     const newProduct = new Brand({
      imageUrl
     });
