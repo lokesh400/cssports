@@ -4,6 +4,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const User = require("../models/User");
 const Flavour = require('../models/Flavour')
+const Category = require('../models/Category')
 const router = express.Router();
 
 const CryptoJS = require("crypto-js");
@@ -153,5 +154,46 @@ router.post("/add/new/product", upload.single("file"), async (req, res) => {
   }
 });
 
+///////////////////////////////////
+//////////////////////////////////
+///////CATEGORY///////////////////
+//////////////////////////////////
+/////////////////////////////////
+
+router.get('/manage/category', async (req,res) =>{
+ 
+  categories = await Category.find();
+  res.render('admin/manageCategory.ejs', { categories });
+
+})
+
+router.get('/category/edit/:id' , async(req,res)=>{
+  const category = await Category.findById(req.params.id);
+  res.render('admin/updateCategory.ejs',{category})
+
+})
+
+router.put("/manage/this/category/:id", async (req, res) => {
+  try {
+    const { name, imageUrl } = req.body;
+    const updatedCategory = await Category.findByIdAndUpdate(
+      req.params.id,
+      { name, imageUrl },
+      { new: true }
+    );
+    res.redirect('/manage/category')
+  } catch (error) {
+    res.status(500).json({ error: "Update failed" });
+  }
+});
+
+router.delete("/category/:id", async (req, res) => {
+  try {
+    await Category.findByIdAndDelete(req.params.id);
+    res.redirect("/manage/category");
+  } catch (err) {
+    res.status(500).send("Failed to delete category");
+  }
+});
 
 module.exports = router;
