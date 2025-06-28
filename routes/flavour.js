@@ -115,7 +115,7 @@ router.post("/add/new/flavour/product", async (req, res) => {
     });
     await newProduct.save();
     req.flash("succes_msg", "New Product Added Successfully !");
-    res.redirect(`admin/update/product/${productId}`);
+    res.redirect(`/admin/update/product/${productId}`);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Upload failed: " + error.message });
