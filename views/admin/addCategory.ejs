@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://ai-public.creatie.ai/gen_page/tailwind-custom.css" rel="stylesheet">
+    <script
+        src="https://cdn.tailwindcss.com/3.4.5?plugins=forms@0.5.7,typography@0.5.13,aspect-ratio@0.4.2,container-queries@0.1.1"></script>
+    <script src="https://ai-public.creatie.ai/gen_page/tailwind-config.min.js" data-color="#4F46E5"
+        data-border-radius='medium'></script>
+</head>
+
+<body>
+  
+    <section>
+        <%- include('../components/sidebar.ejs') %>
+    </section>
+
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 py-12" style="width: calc(100%-254px); margin-left: 254px;">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-5 sm:p-6">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Edit Product</h3>
+
+                    <section id="toast-cont">
+                        <% if (success_msg && success_msg.length > 0 ) { %>
+                            <div class="flash-message success">
+                                <div class="toast-loader"></div>
+                                <%= success_msg %>
+                            </div>
+                        <% } %>
+                        
+                        <% if (error_msg && error_msg.length > 0) { %>
+                            <div class="flash-message error">
+                                <div class="toast-loader"></div>
+                                <%= error_msg %>
+                            </div>
+                        <% } %>
+                    </section>
+                    
+                    
+
+                    <div class="mt-5">
+                        <form action="/add/new/category" method="POST">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                                    <input type="text" name="name" >
+
+                                    <label class="block text-sm font-medium text-gray-700">Image</label>
+                                    <input type="text" name="imageUrl" >
+
+                                    <button> Submit </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

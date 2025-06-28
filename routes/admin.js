@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 const User = require("../models/User");
+const Category = require("../models/Category");
 const router = express.Router();
 
 const CryptoJS = require("crypto-js");
@@ -372,30 +373,31 @@ router.post("/admin/delete/:id",isLoggedIn,isAdmin, async (req, res) => {
 });
 
 // Route to display product form
-router.get("/add/new/product", (req, res) => {
-  res.render("admin/addProduct.ejs"); // Renders views/index.ejs
+router.get("/add/new/product", async (req, res) => {
+  const categories = await Category.find();  
+  res.render("admin/addProduct.ejs",{categories}); // Renders views/index.ejs
 });
 
-router.post("/add/new/product", upload.single("file"), async (req, res) => {
+router.post("/add/new/product", async (req, res) => {
   try {
-    const { name, description, brand, keywords, category } = req.body;
+    const { name, description, brand, keywords, category,image } = req.body;
     const keywordsArray = keywords ? keywords.split(",").map((keyword) => keyword.trim()) : [];
-    const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
-    const imageUrl = result.secure_url;
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.error("Error deleting local file:", err);
-      } else {
-        console.log("Local file deleted successfully");
-      }
-    });
+    // const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
+    // const imageUrl = result.secure_url;
+    // fs.unlink(req.file.path, (err) => {
+    //   if (err) {
+    //     console.error("Error deleting local file:", err);
+    //   } else {
+    //     console.log("Local file deleted successfully");
+    //   }
+    // });
     const newProduct = new Product({
       name,
       description,
       brand,
       keywords: keywordsArray,
       category,
-      image:imageUrl
+      image
     });
     
     await newProduct.save();

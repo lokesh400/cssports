@@ -113,7 +113,7 @@
 <body>
   <div class="container">
     <h2>Upload Product</h2>
-    <form action="/add/new/product" method="POST" enctype="multipart/form-data">
+    <form action="/add/new/product" method="POST">
       <label>Name:</label>
       <input type="text" name="name" required>
 
@@ -129,28 +129,15 @@
       <label for="category">Category:</label>
       <select name="category" id="category" required>
         <option value="">-- Select Category --</option>
-        <option value="protein">Protein</option>
-        <option value="gainer">Gainer</option>
-        <option value="fishoil">Fish Oil</option>
-        <option value="creatine">Creatine</option>
-        <option value="bcaa">BCAA</option>
-        <option value="booster">Testosterone Booster</option>
-        <option value="pre">Pre-Workout</option>
-        <option value="fat">Fat Burner</option>
-        <option value="peanut">Peanut Butter</option>
-        <option value="multivitamin">Multivitamin</option>
-        <option value="collagen">Collagen</option>
-        <option value="snacks">Snacks</option>
-        <option value="shaker">Shaker</option>
-        <option value="band">Resistance Band</option>
-        <option value="mat">Yoga Mat</option>
-        <option value="wrist">Wrist Support</option>
-        <option value="tracker">Fitness Tracker</option>
-        <option value="grip">Hand Grip</option>
+        
+        <% for(let i=0;i<categories.length;i++) {%>
+            <option value="<%= categories[i].name %>"><%= categories[i].name %></option>
+        <%}%>  
+
       </select>
 
       <label>Product Image:</label>
-      <input type="file" name="file" accept="image/*" required>
+      <input type="text" name="image" required>
 
       <button type="submit" class="submit-btn">Submit Product</button>
     </form>

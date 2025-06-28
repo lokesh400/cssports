@@ -50,31 +50,7 @@
                         <form enctype="multipart/form-data" action="/admin/update/flavour/image/<%= id %>?_method=PATCH" method="POST">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Product Images</label>
-                                    <div
-                                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed !rounded-button">
-                                        <div class="space-y-1 text-center">
-                                            <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-3"></i>
-                                            <div class="flex text-sm text-gray-600">
-                                                <label
-                                                    class="relative cursor-pointer bg-white !rounded-button font-medium text-custom hover:text-custom-600 focus-within:outline-none">
-                                                    <span>Upload a file</span>
-                                                    <input type="file" name="file" class="sr-only" name="file" id="imageInput" accept="image/*">
-                                                </label>
-                                                <p class="pl-1">or drag and drop</p>
-                                            </div>
-                                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="hidden" id="imagePreviewContainer">
-                                    <label class="block text-sm font-medium text-gray-700">Image Preview</label>
-                                    <div class="mt-1 relative">
-                                        <img id="imagePreview" class="max-h-64 rounded-lg object-contain" alt="Preview">
-                                        <button type="button" id="removeImage"
-                                            class="absolute top-2 right-2 bg-red-100 !rounded-button p-1 text-red-600 hover:text-red-500 focus:outline-none">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
+                                    <input type="text" name="image">
                                 </div>
 
                                 <div class="flex justify-end space-x-3">
@@ -96,27 +72,27 @@
     </div>
 
     <script>
-        const imageInput = document.getElementById('imageInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-        const removeImage = document.getElementById('removeImage');
+        // const imageInput = document.getElementById('imageInput');
+        // const imagePreview = document.getElementById('imagePreview');
+        // const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        // const removeImage = document.getElementById('removeImage');
 
-        imageInput.addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreviewContainer.classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+        // imageInput.addEventListener('change', function (e) {
+        //     const file = e.target.files[0];
+        //     if (file) {
+        //         const reader = new FileReader();
+        //         reader.onload = function (e) {
+        //             imagePreview.src = e.target.result;
+        //             imagePreviewContainer.classList.remove('hidden');
+        //         }
+        //         reader.readAsDataURL(file);
+        //     }
+        // });
 
-        removeImage.addEventListener('click', function () {
-            imageInput.value = '';
-            imagePreviewContainer.classList.add('hidden');
-        });
+        // removeImage.addEventListener('click', function () {
+        //     imageInput.value = '';
+        //     imagePreviewContainer.classList.add('hidden');
+        // });
 
         // const form = document.querySelector('form');
         // form.addEventListener('submit', function (e) {

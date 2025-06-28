@@ -5,10 +5,8 @@ const Product = require("../models/Product");
 const User = require("../models/User");
 const Flavour = require('../models/Flavour')
 const Brand = require('../models/Brand')
+const Category = require('../models/Category')
 const router = express.Router();
-
-const CryptoJS = require("crypto-js");
-const QR_SECRET = "my_super_secret_key"; // Use a strong, secure key
 
 const {
   isLoggedIn,
@@ -80,6 +78,22 @@ router.post("/add/new/brand",saveRedirectUrl,isLoggedIn,isAdmin, upload.single("
     await newProduct.save();
     req.flash("succes_msg", "New Product Added Successfully !");
     res.redirect("/add/new/brand");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Upload failed: " + error.message });
+  }
+});
+
+router.get('/add/new/category', (req,res) => {
+    res.render('admin/addCategory.ejs')
+})
+
+router.post("/add/new/category",saveRedirectUrl,isLoggedIn,isAdmin, async (req, res) => {
+  try {
+    const newProduct = new Category(req.body);
+    await newProduct.save();
+    req.flash("succes_msg", "New Product Added Successfully !");
+    res.redirect("/add/new/category");
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Upload failed: " + error.message });

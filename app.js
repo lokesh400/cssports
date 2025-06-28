@@ -116,11 +116,14 @@ app.use("/", flavourrouter);
 app.use("/", brandrouter);
 
 const Brand = require('./models/Brand');
-const Flavour = require('./models/Flavour')
+const Flavour = require('./models/Flavour');
+const Category = require('./models/Category');
 
 app.get("/", async (req, res) => {
 
   try {
+  const categories = await Category.find();  
+  console.log(categories)
   const brands = await Brand.find();  
   const feature = await Product.find().limit(10);
   const protein = await Product.find({category:"protein"}).limit(10);
@@ -153,7 +156,7 @@ app.get("/", async (req, res) => {
         };
       })
     );
-    res.render("index.ejs", { featured: productsWithFlavours, proteins, gainers,brands });
+    res.render("index.ejs", { featured: productsWithFlavours, proteins, gainers,brands,categories });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch featured products" });
   }

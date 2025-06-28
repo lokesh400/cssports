@@ -86,20 +86,12 @@ router.get("/upload/flavour/images/:id",isLoggedIn,isAdmin, upload.array("images
 router.patch("/admin/update/flavour/image/:id",isLoggedIn,isAdmin, upload.single("file"), async (req, res) => {
   try {
     console.log(req.params.id)
-    const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
-    const imageUrl = result.secure_url;
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.error("Error deleting local file:", err);
-      } else {
-        console.log("Local file deleted successfully");
-      }
-    });
+    const {image} = req.body
     const product = await Flavour.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found." });
     }
-    product.images.push(imageUrl); // Add the new image to the images array
+    product.images.push(image); // Add the new image to the images array
     await product.save();
     res.redirect(`/upload/flavour/images/${req.params.id}`);
   } catch (error) {
@@ -108,29 +100,16 @@ router.patch("/admin/update/flavour/image/:id",isLoggedIn,isAdmin, upload.single
   }
 });
 
-// Route to display product form
-// router.get("/add/new/product", (req, res) => {
-//   res.render("admin/addProduct.ejs"); // Renders views/index.ejs
-// });
+//add new flavour
 
-
-router.post("/add/new/flavour/product", upload.single("file"), async (req, res) => {
+router.post("/add/new/flavour/product", async (req, res) => {
   try {
-    const { flavour,sizes,productId } = req.body;
+    const { flavour,sizes,productId,image } = req.body;
 
-    const result = await Upload.uploadFile(req.file.path); // Use the path for Cloudinary upload
-    const imageUrl = result.secure_url;
-    fs.unlink(req.file.path, (err) => {
-      if (err) {
-        console.error("Error deleting local file:", err);
-      } else {
-        console.log("Local file deleted successfully");
-      }
-    });
     const newProduct = new Flavour({
       flavour,
       productId,
-      images: [imageUrl],
+      images: [image],
       sizes: Object.values(sizes)
     });
     await newProduct.save();
