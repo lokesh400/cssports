@@ -123,7 +123,6 @@ app.get("/", async (req, res) => {
 
   try {
   const categories = await Category.find();  
-  console.log(categories)
   const brands = await Brand.find();  
   const feature = await Product.find().limit(10);
   const protein = await Product.find({category:"protein"}).limit(10);
